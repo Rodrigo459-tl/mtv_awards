@@ -136,7 +136,7 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
                     'href' => '#'
                 )
             );
-            echo mostrar_breadcrumb('Dashboard', $breadcrumb);
+            echo mostrar_breadcrumb_art('Dashboard', $breadcrumb);
             ?>
             <!-- Content Header (Page header) -->
 

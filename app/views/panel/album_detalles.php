@@ -2,6 +2,7 @@
 // Importar librerías
 require_once '../../helpers/menu_lateral_artista.php';
 require_once '../../helpers/funciones_globales.php';
+require_once '../../models/Tabla_albumes.php';
 require_once '../../models/Tabla_generos.php';
 
 // Reinstancias la variable
@@ -9,10 +10,34 @@ session_start();
 
 if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
     header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
-    exit;
+    exit();
 }
 
-// Instanciar el modelo de géneros
+if (!isset($_GET["id"])) {
+    $_SESSION['message'] = array(
+        "type" => "warning",
+        "description" => "El álbum que intentas encontrar no existe en la Base de Datos.",
+        "title" => "¡Advertencia!"
+    );
+    header("location: ./albumes.php");
+    exit();
+}
+
+// Instanciar el modelo
+$tabla_album = new Tabla_albumes();
+$album = $tabla_album->readGetAlbum($_GET["id"]);
+
+if (empty($album)) {
+    $_SESSION['message'] = array(
+        "type" => "error",
+        "description" => "El álbum que intentas editar no existe en la Base de Datos.",
+        "title" => "¡ERROR!"
+    );
+    header("location: ./albumes.php");
+    exit();
+}
+
+// Obtener los géneros
 $tabla_generos = new Tabla_generos();
 $generos = $tabla_generos->readAllGeneros();
 ?>
@@ -23,7 +48,7 @@ $generos = $tabla_generos->readAllGeneros();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Nuevo Álbum</title>
+    <title>AdminLTE 3 | Detalles del Álbum</title>
 
     <!-- Icon -->
     <link rel="icon" href="../../../recursos/img/system/mtv-logo.jpg" type="image/x-icon">
@@ -127,8 +152,10 @@ $generos = $tabla_generos->readAllGeneros();
                 <!-- /.sidebar -->
             </aside>
 
-            <!-- Content Wrapper. Contains page content -->
+
+            <!-- Content Wrapper -->
             <div class="content-wrapper">
+                <!-- Content Header -->
                 <?php
                 $breadcrumb = array(
                     array(
@@ -136,61 +163,65 @@ $generos = $tabla_generos->readAllGeneros();
                         'href' => './albumes.php'
                     ),
                     array(
-                        'tarea' => 'Álbum Nuevo',
+                        'tarea' => 'Detalles del Álbum',
                         'href' => '#'
                     ),
                 );
-                echo mostrar_breadcrumb_art('Álbum Nuevo', $breadcrumb);
+                echo mostrar_breadcrumb_art('Detalles del Álbum', $breadcrumb);
                 ?>
+                <!-- Content Header -->
 
-                <!-- Main content -->
+                <!-- Main Content -->
                 <section class="content">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card card-info">
                                     <div class="card-header">
-                                        <h3 class="card-title">Formulario de Álbum Nuevo</h3>
+                                        <h3 class="card-title">Detalles del Álbum</h3>
                                     </div>
-                                    <!-- form start -->
-                                    <form id="form-album" action="../../backend/panel/albumes/create_album.php"
+                                    <!-- Formulario -->
+                                    <form id="form-album" action="../../backend/panel/albumes/update_album.php"
                                         method="post" enctype="multipart/form-data">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="titulo_album">Título del Álbum</label>
-                                                        <input type="text" name="titulo_album" class="form-control"
-                                                            id="titulo_album" placeholder="Título del Álbum" required>
-                                                    </div>
+                                                <div class="col-md-12 text-center">
+                                                    <img src="../../../recursos/img/albums/<?= ($album->imagen_album == '') ? 'default.png' : $album->imagen_album; ?>"
+                                                        class="img-rounded" alt="" id="img-preview" width="20%">
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="fecha_lanzamiento">Fecha de Lanzamiento</label>
-                                                        <input type="date" name="fecha_lanzamiento_album"
-                                                            class="form-control" id="fecha_lanzamiento" required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="id_genero">Género</label>
-                                                        <select class="form-control" name="id_genero" id="id_genero"
-                                                            required>
-                                                            <option value="">Seleccionar un género</option>
-                                                            <?php foreach ($generos as $genero): ?>
-                                                                <option value="<?= $genero->id_genero ?>">
-                                                                    <?= $genero->nombre_genero ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                            </div>
+                                            <input type="hidden" name="id_album" value="<?= $album->id_album ?>">
+                                            <input type="hidden" name="imagen_anterior"
+                                                value="<?= $album->imagen_album ?>">
+
+                                            <div class="form-group">
+                                                <label for="titulo_album">Título del Álbum</label>
+                                                <input type="text" name="titulo_album" class="form-control"
+                                                    id="titulo_album" value="<?= $album->titulo_album ?>" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="fecha_lanzamiento_album">Fecha de Lanzamiento</label>
+                                                <input type="date" name="fecha_lanzamiento_album" class="form-control"
+                                                    id="fecha_lanzamiento_album"
+                                                    value="<?= $album->fecha_lanzamiento_album ?>" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="id_genero">Género</label>
+                                                <select class="form-control" name="id_genero" id="id_genero" required>
+                                                    <option value="">Seleccionar un género</option>
+                                                    <?php foreach ($generos as $genero): ?>
+                                                        <option value="<?= $genero->id_genero ?>"
+                                                            <?= $album->id_genero == $genero->id_genero ? 'selected' : '' ?>>
+                                                            <?= $genero->nombre_genero ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="descripcion_album">Descripción</label>
                                                 <textarea name="descripcion_album" class="form-control"
-                                                    id="descripcion_album" rows="3"
-                                                    placeholder="Descripción del Álbum"></textarea>
+                                                    id="descripcion_album"
+                                                    rows="3"><?= $album->descripcion_album ?></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label for="imagen_album">Imagen del Álbum</label>
@@ -199,7 +230,7 @@ $generos = $tabla_generos->readAllGeneros();
                                             </div>
                                         </div>
                                         <div class="card-footer">
-                                            <button type="submit" class="btn btn-info">Registrar</button>
+                                            <button type="submit" class="btn btn-info">Actualizar</button>
                                             <a href="./albumes.php" class="btn btn-danger">Cancelar</a>
                                         </div>
                                     </form>

@@ -1,5 +1,5 @@
 <?php
-//Importar librerías
+// Importar librerías
 require_once '../../helpers/menu_lateral_artista.php';
 require_once '../../helpers/funciones_globales.php';
 require_once '../../models/Tabla_albumes.php';
@@ -15,7 +15,6 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
 $tabla_albumes = new Tabla_albumes();
 $albumes = $tabla_albumes->readAllAlbums($_SESSION["id_usuario"]);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -87,6 +86,19 @@ $albumes = $tabla_albumes->readAllAlbums($_SESSION["id_usuario"]);
                     </div>
                 </div>
 
+                <!-- SidebarSearch Form -->
+                <div class="form-inline">
+                    <div class="input-group" data-widget="sidebar-search">
+                        <input class="form-control form-control-sidebar" type="search" placeholder="¿Qué deseas buscar?"
+                            aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-sidebar">
+                                <i class="fas fa-search fa-fw"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
@@ -96,6 +108,7 @@ $albumes = $tabla_albumes->readAllAlbums($_SESSION["id_usuario"]);
             </div>
         </aside>
 
+        <!-- Content Wrapper -->
         <div class="content-wrapper">
             <?php
             $breadcrumb = array(
@@ -104,7 +117,7 @@ $albumes = $tabla_albumes->readAllAlbums($_SESSION["id_usuario"]);
                     'href' => '#'
                 )
             );
-            echo mostrar_breadcrumb('Álbumes', $breadcrumb);
+            echo mostrar_breadcrumb_art('Álbumes', $breadcrumb);
             ?>
             <section class="content">
                 <div class="card">

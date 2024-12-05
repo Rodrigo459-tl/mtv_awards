@@ -13,13 +13,21 @@ function configuracion_menu($pagina = '')
     $menu_item['submenu'] = array();
     $menu['dashboard'] = $menu_item;
 
-    //Opcion Usuarios
+    //Opcion albumes
     $menu_item['is_active'] = (($pagina == 'ALBUMES') ? true : false);
     $menu_item['href'] = './albumes.php';
     $menu_item['icon'] = 'fas fa-user';
     $menu_item['text'] = 'Albumes';
     $menu_item['submenu'] = array();
-    $menu['Albumes'] = $menu_item;
+    $menu['albumes'] = $menu_item;
+
+    //Opcion canciones
+    $menu_item['is_active'] = (($pagina == 'CANCIONES') ? true : false);
+    $menu_item['href'] = './canciones.php';
+    $menu_item['icon'] = 'fas fa-user';
+    $menu_item['text'] = 'Canciones';
+    $menu_item['submenu'] = array();
+    $menu['aanciones'] = $menu_item;
 
     // //Opcion MultiLevel
     // $menu_item['is_active'] = ($pagina == 'OPCIONPRINCIPAL') ? true : false ;

@@ -1,16 +1,16 @@
 <?php
-    //Importar librerias
-    require_once '../../helpers/menu_lateral.php';
-    require_once '../../helpers/funciones_globales.php';
+//Importar librerias
+require_once '../../helpers/menu_lateral.php';
+require_once '../../helpers/funciones_globales.php';
 
-    //Reintancias la variable
-    session_start();
+//Reintancias la variable
+session_start();
 
-    if(!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)){
-        header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
-    }//end if 
+if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
+    header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
+}//end if 
 
-    // echo print("<pre>".print_r($_SESSION,true)."</pre>");
+// echo print("<pre>".print_r($_SESSION,true)."</pre>");
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +20,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AdminLTE 3 | Blank Page</title>
-    
+
     <!-- Icon -->
     <link rel="icon" href="../../../recursos/img/system/mtv-logo.jpg" type="image/x-icon">
 
@@ -66,8 +66,8 @@
                 </li>
                 <!-- Cerrar Sesión -->
                 <li class="nav-item">
-                    <a class="nav-link" href="../../backend/panel/liberate_user.php" role="button" 
-                        data-toggle="tooltip" data-placement="top" title="Cerrar Sesión" >
+                    <a class="nav-link" href="../../backend/panel/liberate_user.php" role="button" data-toggle="tooltip"
+                        data-placement="top" title="Cerrar Sesión">
                         <i class="fa fa-window-close"></i>
                     </a>
                 </li>
@@ -79,8 +79,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="../../index3.html" class="brand-link">
-                <img src="../../../recursos/img/system/mtv-logo.jpg" alt="AdminLTE Logo"
-                    class="brand-image elevation-3" style="opacity: .8">
+                <img src="../../../recursos/img/system/mtv-logo.jpg" alt="AdminLTE Logo" class="brand-image elevation-3"
+                    style="opacity: .8">
                 <span class="brand-text font-weight-light">MTV Awards</span>
             </a>
             <!-- Sidebar -->
@@ -88,7 +88,8 @@
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="../../../recursos/img/users/<?= $_SESSION["img"] ?>" class="img-circle elevation-2" alt="User Image">
+                        <img src="../../../recursos/img/users/<?= $_SESSION["img"] ?>" class="img-circle elevation-2"
+                            alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block"><?= $_SESSION["nickname"] ?></a>
@@ -123,21 +124,21 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-                <?php
-                    $breadcrumb = array(
-                        array(
-                            'tarea' => 'Usuarios',   
-                            'href' => './usuarios.php'
-                        ),
-                        array(
-                            'tarea' => 'Usuario Nuevo',   
-                            'href' => '#'
-                        ),
-                    );    
-                    echo mostrar_breadcrumb('Usuario Nuevo', $breadcrumb); 
-                ?>
+            <?php
+            $breadcrumb = array(
+                array(
+                    'tarea' => 'Usuarios',
+                    'href' => './usuarios.php'
+                ),
+                array(
+                    'tarea' => 'Usuario Nuevo',
+                    'href' => '#'
+                ),
+            );
+            echo mostrar_breadcrumb('Usuario Nuevo', $breadcrumb);
+            ?>
             <!-- Content Header (Page header) -->
-            
+
 
             <!-- Main content -->
             <section class="content">
@@ -146,125 +147,137 @@
                         <div class="col-md-12">
                             <!-- jquery validation -->
                             <div class="card card-info">
-                            <div class="card-header">
-                                <h3 class="card-title">Formulario de usuario nuevo</h3>
-                            </div>
-                            <!-- /.card-header -->
-                            <!-- form start -->
-                            <form id="form-usuario" action="../../backend/panel/create_user.php" method="post" enctype="multipart/form-data">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <center>
-                                                <img src="../../../recursos/img/users/user.png" class="img-rounded" alt="" id="img-preview" width="20%">
-                                            </center>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Nombre(s)</label>
-                                                <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre(s)">
+                                <div class="card-header">
+                                    <h3 class="card-title">Formulario de usuario nuevo</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <!-- form start -->
+                                <form id="form-usuario" action="../../backend/panel/create_user.php" method="post"
+                                    enctype="multipart/form-data">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <center>
+                                                    <img src="../../../recursos/img/users/user.png" class="img-rounded"
+                                                        alt="" id="img-preview" width="20%">
+                                                </center>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Apellido Paterno</label>
-                                                <input type="text" name="apellido_paterno" class="form-control" id="apellido_paterno" placeholder="Apelldio Paterno">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Apellido Materno</label>
-                                                <input type="text" name="apellido_materno" class="form-control" id="apellido_materno" placeholder="Apelldio Paterno">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Sexo</label>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="sexo" value="2">
-                                                    <label class="form-check-label">Femenino</label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Nombre(s)</label>
+                                                    <input type="text" name="nombre" class="form-control" id="nombre"
+                                                        placeholder="Nombre(s)">
                                                 </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="sexo" value="1">
-                                                    <label class="form-check-label">Masculino</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Apellido Paterno</label>
+                                                    <input type="text" name="apellido_paterno" class="form-control"
+                                                        id="apellido_paterno" placeholder="Apelldio Paterno">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Apellido Materno</label>
+                                                    <input type="text" name="apellido_materno" class="form-control"
+                                                        id="apellido_materno" placeholder="Apelldio Paterno">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Rol</label>
-                                                <select class="form-control" name="rol">
-                                                    <option value="">Seleccionar un rol</option>
-                                                    <option value="128">Administrador</option>
-                                                    <option value="18">Operador</option>
-                                                </select>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Sexo</label>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="sexo"
+                                                            value="2">
+                                                        <label class="form-check-label">Femenino</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="sexo"
+                                                            value="1">
+                                                        <label class="form-check-label">Masculino</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Rol</label>
+                                                    <select class="form-control" name="rol">
+                                                        <option value="">Seleccionar un rol</option>
+                                                        <option value="8">Operador</option>
+                                                        <option value="85">Artista</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Correo electrónico</label>
+                                                    <input type="email" name="email" class="form-control" id="email"
+                                                        placeholder="Correo electrónico">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Contraseña</label>
+                                                    <input type="password" name="password" class="form-control"
+                                                        id="password" placeholder="***********">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Repetir Contraseña</label>
+                                                    <input type="password" name="repassword" class="form-control"
+                                                        id="repassword" placeholder="***********">
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Correo electrónico</label>
-                                                <input type="email" name="email" class="form-control" id="email" placeholder="Correo electrónico">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="exampleInputEmail1">Foto perfil</label>
+                                                <input type="file" name="foto_perfil"
+                                                    onchange="previsualizar_imagen('previsualizar_imagen','foto-input')"
+                                                    class="form-control" id="foto-input">
                                             </div>
                                         </div>
-                                        
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Contraseña</label>
-                                                <input type="password" name="password" class="form-control" id="password" placeholder="***********">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Repetir Contraseña</label>
-                                                <input type="password" name="repassword" class="form-control" id="repassword" placeholder="***********">
-                                            </div>
-                                        </div>
                                     </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label for="exampleInputEmail1">Foto perfil</label>
-                                            <input type="file" name="foto_perfil" onchange="previsualizar_imagen('previsualizar_imagen','foto-input')" class="form-control" id="foto-input">
-                                        </div>
+                                    <!-- /.card-body -->
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-info">Registrar</button>
+                                        <a href="./usuarios.php" class="btn btn-danger">Cancelar</a>
                                     </div>
-                                
-                                </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer">
-                                <button type="submit" class="btn btn-info">Registrar</button>
-                                <a href="./usuarios.php" class="btn btn-danger">Cancelar</a>
-                                </div>
-                            </form>
+                                </form>
                             </div>
                             <!-- /.card -->
-                            </div>
-
                         </div>
-                    </div>
-                    <!-- /.row -->
-                </div>
-                <!-- /.container-fluid -->
-            </section>
-        </div>
-        <!-- /.content-wrapper -->
 
-        <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Version</b> 3.2.0
-            </div>
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-            reserved.
-        </footer>
+                    </div>
+                </div>
+                <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+
+    <footer class="main-footer">
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.2.0
+        </div>
+        <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+        reserved.
+    </footer>
 
     </div>
     <!-- ./wrapper -->
@@ -282,12 +295,12 @@
     <!-- Mensaje Notificación -->
     <!-- Mensaje Notificación -->
     <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
-            <?php 
-                if(isset($_SESSION['message'])){
-                    echo mostrar_alerta_mensaje($_SESSION['message']["type"], $_SESSION['message']["description"],$_SESSION['message']["title"]);
-                    unset($_SESSION['message']);         
-                }
+        document.addEventListener("DOMContentLoaded", function (event) {
+            <?php
+            if (isset($_SESSION['message'])) {
+                echo mostrar_alerta_mensaje($_SESSION['message']["type"], $_SESSION['message']["description"], $_SESSION['message']["title"]);
+                unset($_SESSION['message']);
+            }
             ?>
         });
     </script>

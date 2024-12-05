@@ -170,17 +170,16 @@ $generos = $tabla_generos->readAllGeneros();
                                         </div>
                                         <div class="form-group">
                                             <label for="mp3_cancion">Archivo MP3</label>
-                                            <input type="file" name="mp3_cancion" class="form-control" id="mp3_cancion"
-                                                required>
+                                            <input type="file" name="mp3_cancion" class="form-control" id="mp3_cancion">
                                         </div>
                                         <div class="form-group">
                                             <label for="url_cancion">URL de la Canción</label>
-                                            <input type="url" name="url_cancion" class="form-control" id="url_cancion"
+                                            <input type="text" name="url_cancion" class="form-control" id="url_cancion"
                                                 placeholder="URL de la Canción">
                                         </div>
                                         <div class="form-group">
                                             <label for="url_video_cancion">URL del Video</label>
-                                            <input type="url" name="url_video_cancion" class="form-control"
+                                            <input type="text" name="url_video_cancion" class="form-control"
                                                 id="url_video_cancion" placeholder="URL del Video">
                                         </div>
                                     </div>

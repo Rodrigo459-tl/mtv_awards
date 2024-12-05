@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         print_r($data);
         if (!empty($data)) {
             $_SESSION["is_logged"] = true;
-            $_SESSION["id_usuario"] = true;
+            $_SESSION["id_usuario"] = $data->id_usuario;
             $_SESSION["rol"] = $data->id_rol;
             $_SESSION["name"] = $data->id_usuario;
             $_SESSION["email"] = $data->email_usuario;

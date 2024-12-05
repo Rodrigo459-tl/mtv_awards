@@ -1,5 +1,4 @@
 <?php
-//tupu
 echo 'Validating...';
 
 //Importar libreria modelo

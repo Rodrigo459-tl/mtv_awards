@@ -1,14 +1,11 @@
 DROP DATABASE IF EXISTS mtv_awards;
 CREATE DATABASE IF NOT EXISTS mtv_awards DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE mtv_awards;
+--Creacion de tablas
 CREATE TABLE roles (
     id_rol int(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
     rol varchar(50) NOT NULL
 ) ENGINE = InnoDB;
-INSERT INTO roles (id_rol, rol)
-VALUES (128, 'Administrador'),
-    (85, 'Artista'),
-    (8, 'Operador');
 CREATE TABLE usuarios (
     estatus_usuario tinyint(2) NULL DEFAULT 0 COMMENT '0: Deshabilitado, 1: Habilitado',
     id_usuario int(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -22,54 +19,6 @@ CREATE TABLE usuarios (
     id_rol int(3) NOT NULL,
     FOREIGN KEY (id_rol) REFERENCES roles (id_rol) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB;
-INSERT INTO usuarios (
-        estatus_usuario,
-        id_usuario,
-        nombre_usuario,
-        ap_usuario,
-        am_usuario,
-        sexo_usuario,
-        correo_usuario,
-        password_usuario,
-        imagen_usuario,
-        id_rol
-    )
-VALUES (
-        NULL,
-        NULL,
-        'Admon',
-        'Admon',
-        NULL,
-        0,
-        'admon@mtvawards.com',
-        SHA2("admon123", 0),
-        NULL,
-        128
-    ),
-    (
-        NULL,
-        NULL,
-        'Artista',
-        'Artista',
-        NULL,
-        0,
-        'artista@mtvawards.com',
-        SHA2("artista", 0),
-        NULL,
-        85
-    ),
-    (
-        NULL,
-        NULL,
-        'Operador',
-        'Operador',
-        NULL,
-        0,
-        'operador@mtvawards.com',
-        SHA2("operador", 0),
-        NULL,
-        8
-    );
 CREATE TABLE generos (
     estatus_genero tinyint(2) NULL DEFAULT 0 COMMENT '0: Deshabilitado, 1: Habilitado',
     id_genero int(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -124,3 +73,64 @@ CREATE TABLE votaciones (
     FOREIGN KEY (id_album) REFERENCES albumes (id_album) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB;
+--
+--Insert de datos:
+--
+INSERT INTO roles (id_rol, rol)
+VALUES (128, 'Administrador'),
+    (85, 'Artista'),
+    (8, 'Operador');
+-------------------------------
+INSERT INTO usuarios (
+        estatus_usuario,
+        id_usuario,
+        nombre_usuario,
+        ap_usuario,
+        am_usuario,
+        sexo_usuario,
+        correo_usuario,
+        password_usuario,
+        imagen_usuario,
+        id_rol
+    )
+VALUES (
+        NULL,
+        NULL,
+        'Admon',
+        'Admon',
+        NULL,
+        0,
+        'admon@mtvawards.com',
+        SHA2("admon123", 0),
+        NULL,
+        128
+    ),
+    (
+        NULL,
+        NULL,
+        'Artista',
+        'Artista',
+        NULL,
+        0,
+        'artista@mtvawards.com',
+        SHA2("artista", 0),
+        NULL,
+        85
+    ),
+    (
+        NULL,
+        NULL,
+        'Operador',
+        'Operador',
+        NULL,
+        0,
+        'operador@mtvawards.com',
+        SHA2("operador", 0),
+        NULL,
+        8
+    );
+-------------------------------
+INSERT INTO generos (estatus_genero, nombre_genero)
+VALUES (1, 'Rock Alternativo'),
+    (1, 'Pop Latino'),
+    (0, 'Cumbia');

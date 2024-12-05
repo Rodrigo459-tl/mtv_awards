@@ -20,6 +20,14 @@
         $menu_item['submenu'] = array();
         $menu['usuarios'] = $menu_item;
 
+        // Opción Géneros
+        $menu_item['is_active'] = (($pagina == 'GENEROS') ? true : false );
+        $menu_item['href'] = './generos/generos.php'; 
+        $menu_item['icon'] = 'fas fa-music'; // Usa un ícono apropiado
+        $menu_item['text'] = 'Géneros';
+        $menu_item['submenu'] = array();
+        $menu['generos'] = $menu_item;
+
         // //Opcion MultiLevel
         // $menu_item['is_active'] = ($pagina == 'OPCIONPRINCIPAL') ? true : false ;
         // $menu_item['href'] = '#';

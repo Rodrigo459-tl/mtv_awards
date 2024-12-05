@@ -55,12 +55,13 @@ $canciones = $tabla_canciones->readAllCanciones();
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="./dashboard.php" class="nav-link">Inicio</a>
+                    <a href="./dashboard_artista.php" class="nav-link">Inicio</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="../../backend/panel/liberate_user.php" class="nav-link">Cerrar Sesión</a>
@@ -71,16 +72,13 @@ $canciones = $tabla_canciones->readAllCanciones();
 
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <!-- Brand Logo -->
             <a href="../../index3.html" class="brand-link">
                 <img src="../../../recursos/img/system/mtv-logo.jpg" alt="AdminLTE Logo" class="brand-image elevation-3"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">MTV Awards</span>
             </a>
 
-            <!-- Sidebar -->
             <div class="sidebar">
-                <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
                         <img src="../../../recursos/img/users/<?= $_SESSION["img"] ?>" class="img-circle elevation-2"
@@ -104,16 +102,13 @@ $canciones = $tabla_canciones->readAllCanciones();
                     </div>
                 </div>
 
-                <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
-                        <?= mostrar_menu_lateral("DASHBOARD") ?>
+                        <?= mostrar_menu_lateral("CANCIONES") ?>
                     </ul>
                 </nav>
-                <!-- /.sidebar-menu -->
             </div>
-            <!-- /.sidebar -->
         </aside>
 
         <div class="content-wrapper">

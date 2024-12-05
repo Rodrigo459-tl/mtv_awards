@@ -1,23 +1,23 @@
 <?php
-    //Importar librerias
-    require_once '../../helpers/menu_lateral.php';
-    require_once '../../helpers/funciones_globales.php';
+//Importar librerias
+require_once '../../helpers/menu_lateral.php';
+require_once '../../helpers/funciones_globales.php';
 
-    //Importar Modelo
-    require_once '../../models/Tabla_usuarios.php';
+//Importar Modelo
+require_once '../../models/Tabla_usuarios.php';
 
-    //Reintancias la variable
-    session_start();
+//Reintancias la variable
+session_start();
 
-    if(!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)){
-        header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
-    }//end if 
+if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
+    header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
+}//end if 
 
-    //Instancia del Objeto
-    $tabla_usuarios = new Tabla_usuarios();
-    $usuarios = $tabla_usuarios->readAllUsers();
+//Instancia del Objeto
+$tabla_usuarios = new Tabla_usuarios();
+$usuarios = $tabla_usuarios->readAllUsers();
 
-    // echo print("<pre>".print_r($usuarios,true)."</pre>");
+// echo print("<pre>".print_r($usuarios,true)."</pre>");
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +29,7 @@
     <title>AdminLTE 3 | Blank Page</title>
     <!-- Icon -->
     <link rel="icon" href="../../../recursos/img/system/mtv-logo.jpg" type="image/x-icon">
-    
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -40,11 +40,14 @@
 
     <!-- Toastr -->
     <link rel="stylesheet" href="../../../recursos/recursos_panel/plugins/toastr/toastr.min.css">
-    
+
     <!-- DataTables -->
-    <link rel="stylesheet" href="../../../recursos/recursos_panel/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="../../../recursos/recursos_panel/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="../../../recursos/recursos_panel/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet"
+        href="../../../recursos/recursos_panel/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet"
+        href="../../../recursos/recursos_panel/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet"
+        href="../../../recursos/recursos_panel/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
 </head>
 
@@ -77,8 +80,8 @@
                 </li>
                 <!-- Cerrar Sesión -->
                 <li class="nav-item">
-                    <a class="nav-link" href="../../backend/panel/liberate_user.php" role="button" 
-                        data-toggle="tooltip" data-placement="top" title="Cerrar Sesión" >
+                    <a class="nav-link" href="../../backend/panel/liberate_user.php" role="button" data-toggle="tooltip"
+                        data-placement="top" title="Cerrar Sesión">
                         <i class="fa fa-window-close"></i>
                     </a>
                 </li>
@@ -90,8 +93,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="../../index3.html" class="brand-link">
-                <img src="../../../recursos/img/system/mtv-logo.jpg" alt="AdminLTE Logo"
-                    class="brand-image elevation-3" style="opacity: .8">
+                <img src="../../../recursos/img/system/mtv-logo.jpg" alt="AdminLTE Logo" class="brand-image elevation-3"
+                    style="opacity: .8">
                 <span class="brand-text font-weight-light">MTV Awards</span>
             </a>
 
@@ -100,7 +103,8 @@
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="../../../recursos/img/users/<?= $_SESSION["img"] ?>" class="img-circle elevation-2" alt="User Image">
+                        <img src="../../../recursos/img/users/<?= $_SESSION["img"] ?>" class="img-circle elevation-2"
+                            alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block"><?= $_SESSION["nickname"] ?></a>
@@ -128,6 +132,7 @@
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
+
             </div>
             <!-- /.sidebar -->
         </aside>
@@ -135,17 +140,17 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-                <?php
-                    $breadcrumb = array(
-                        array(
-                            'tarea' => 'Usuarios',   
-                            'href' => '#'   
-                        )
-                    );    
-                    echo mostrar_breadcrumb('Usuarios', $breadcrumb); 
-                ?>
+            <?php
+            $breadcrumb = array(
+                array(
+                    'tarea' => 'Usuarios',
+                    'href' => '#'
+                )
+            );
+            echo mostrar_breadcrumb('Usuarios', $breadcrumb);
+            ?>
             <!-- Content Header (Page header) -->
-            
+
 
             <!-- Main content -->
             <section class="content">
@@ -176,70 +181,69 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $html = '';
-                                            if(!empty($usuarios)){
-                                                $count = 0;
-                                                foreach ($usuarios as $usuario) {
-                                                    if($usuario->imagen_usuario != null){
-                                                        if (file_exists('../../../recursos/img/users/'.$usuario->imagen_usuario)) {
-                                                            $img = '../../../recursos/img/users/'.$usuario->imagen_usuario;
-                                                        }//end if
-                                                        else{
-                                                            $img = '../../../recursos/img/users/user.png';
-                                                        }//end else
-                                                    }//end
-                                                    else{
+                                        $html = '';
+                                        if (!empty($usuarios)) {
+                                            $count = 0;
+                                            foreach ($usuarios as $usuario) {
+                                                if ($usuario->imagen_usuario != null) {
+                                                    if (file_exists('../../../recursos/img/users/' . $usuario->imagen_usuario)) {
+                                                        $img = '../../../recursos/img/users/' . $usuario->imagen_usuario;
+                                                    }//end if
+                                                    else {
                                                         $img = '../../../recursos/img/users/user.png';
                                                     }//end else
-                                                    $html.= '
+                                                }//end
+                                                else {
+                                                    $img = '../../../recursos/img/users/user.png';
+                                                }//end else
+                                                $html .= '
                                                         <tr>
-                                                            <td>'.++$count.'</td>
+                                                            <td>' . ++$count . '</td>
                                                             <td>
-                                                                <img src="'.$img.'" class="img-rounded" alt="img-perfil" id="img-preview" width="10%">
-                                                                '.$usuario->nombre_usuario.' '.$usuario->ap_usuario.' '.$usuario->am_usuario.'
+                                                                <img src="' . $img . '" class="img-rounded" alt="img-perfil" id="img-preview" width="10%">
+                                                                ' . $usuario->nombre_usuario . ' ' . $usuario->ap_usuario . ' ' . $usuario->am_usuario . '
                                                             </td>
-                                                            <td>'.$usuario->rol.'</td>';
-                                                            if($usuario->estatus_usuario == 0){
-                                                                $html.= '<td><a href="../../backend/panel/estatus_user.php?id='.$usuario->id_usuario.'&estatus=1" type="button" class="btn btn-block btn-info">Habilitar</a></td>';
-                                                            }
-                                                            else{
-                                                                $html.= ' <td><a href="../../backend/panel/estatus_user.php?id='.$usuario->id_usuario.'&estatus=0" type="button" class="btn btn-block btn-outline-success">Deshabilitar</a></td>';
-                                                            }
-                                                            $html.='<td>
-                                                                <a href="../../backend/panel/delete_user.php?id='.$usuario->id_usuario.'" type="button" class="btn btn-block btn-xs bg-gradient-danger">
+                                                            <td>' . $usuario->rol . '</td>';
+                                                if ($usuario->estatus_usuario == 0) {
+                                                    $html .= '<td><a href="../../backend/panel/estatus_user.php?id=' . $usuario->id_usuario . '&estatus=1" type="button" class="btn btn-block btn-info">Habilitar</a></td>';
+                                                } else {
+                                                    $html .= ' <td><a href="../../backend/panel/estatus_user.php?id=' . $usuario->id_usuario . '&estatus=0" type="button" class="btn btn-block btn-outline-success">Deshabilitar</a></td>';
+                                                }
+                                                $html .= '<td>
+                                                                <a href="../../backend/panel/delete_user.php?id=' . $usuario->id_usuario . '" type="button" class="btn btn-block btn-xs bg-gradient-danger">
                                                                     <i class="fa fa-trash"></i>
                                                                 </a>
-                                                                <a href="./usuario_detalles.php?id='.$usuario->id_usuario.'" type="button" class="btn btn-block btn-xs text-white bg-gradient-warning">
+                                                                <a href="./usuario_detalles.php?id=' . $usuario->id_usuario . '" type="button" class="btn btn-block btn-xs text-white bg-gradient-warning">
                                                                     <i class="fa fa-edit"></i>
                                                                 </a>
                                                             </td>
                                                         </tr>
                                                     ';
-                                                }//end foreach
-                                            }//end if 
-                                            echo $html;
+                                            }//end foreach
+                                        }//end if 
+                                        echo $html;
                                         ?>
                                     </tbody>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Usuario</th>
-                                            <th>Rol</th>
-                                            <th>Estatus</th>
-                                            <th>Acciones</th>
-                                        </tr>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Usuario</th>
+                                        <th>Rol</th>
+                                        <th>Estatus</th>
+                                        <th>Acciones</th>
+                                    </tr>
                                     </tfoot>
                                 </table>
                             </div>
                             <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
                         </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            Footer
-                        </div>
-                        <!-- /.card-footer-->
+                        <!-- /.card -->
                     </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        Footer
+                    </div>
+                    <!-- /.card-footer-->
+                </div>
                 <!-- /.card -->
 
             </section>
@@ -266,29 +270,31 @@
     <script src="../../../recursos/recursos_panel/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="../../../recursos/recursos_panel/js/demo.js"></script>
-    
+
     <!-- Toastr -->
     <script src="../../../recursos/recursos_panel/plugins/toastr/toastr.min.js"></script>
 
-     <!-- DataTables  & Plugins -->
+    <!-- DataTables  & Plugins -->
     <script src="../../../recursos/recursos_panel/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="../../../recursos/recursos_panel/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../../../recursos/recursos_panel/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../../../recursos/recursos_panel/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script
+        src="../../../recursos/recursos_panel/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script
+        src="../../../recursos/recursos_panel/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <script src="../../../recursos/recursos_panel/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
     <script src="../../../recursos/recursos_panel/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    
+
     <!-- JS VIEW -->
     <script src="../../../recursos/js/views/usuarios.js"></script>
 
     <!-- Mensaje Notificación -->
     <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
-            <?php 
-                if(isset($_SESSION['message'])){
-                    echo mostrar_alerta_mensaje($_SESSION['message']["type"], $_SESSION['message']["description"],$_SESSION['message']["title"]);
-                    unset($_SESSION['message']);         
-                }
+        document.addEventListener("DOMContentLoaded", function (event) {
+            <?php
+            if (isset($_SESSION['message'])) {
+                echo mostrar_alerta_mensaje($_SESSION['message']["type"], $_SESSION['message']["description"], $_SESSION['message']["title"]);
+                unset($_SESSION['message']);
+            }
             ?>
         });
     </script>

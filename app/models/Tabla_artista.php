@@ -151,10 +151,7 @@ class Tabla_artista
 
     /**
      * Obtener un artista por el ID del usuario
-     * 
-     * @param int $id_usuario ID del usuario
-     * @return object Información del artista o null
-     */
+     * @param int $id_usuario ID del usuario     */
     public function getArtistaByUsuario($id_usuario)
     {
         $sql = "SELECT * FROM " . $this->table . " WHERE id_usuario = :id_usuario LIMIT 1;";

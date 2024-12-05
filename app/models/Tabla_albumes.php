@@ -47,12 +47,15 @@ class Tabla_albumes
     // Leer todos los álbumes de un usuario específico
     public function readAllAlbums($id_usuario)
     {
-        $sql = "SELECT albumes.*, usuarios.nombre_usuario, generos.nombre_genero
-                FROM " . $this->table .
-            " LEFT JOIN usuarios ON " . $this->table . ".id_artista = usuarios.id_usuario" .
-            " LEFT JOIN generos ON " . $this->table . ".id_genero = generos.id_genero" .
-            " WHERE " . $this->table . ".id_artista = :id_usuario
-                 ORDER BY fecha_lanzamiento_album;";
+        $sql = "SELECT " . $this->table . ".id_album, 
+                       " . $this->table . ".titulo_album, 
+                       " . $this->table . ".imagen_album, 
+                       " . $this->table . ".estatus_album
+                FROM " . $this->table . "
+                INNER JOIN artistas ON " . $this->table . ".id_artista = artistas.id_artista
+                INNER JOIN usuarios ON artistas.id_usuario = usuarios.id_usuario
+                WHERE usuarios.id_usuario = :id_usuario
+                ORDER BY " . $this->table . ".fecha_lanzamiento_album;";
         try {
             $stmt = $this->connect->prepare($sql);
             $stmt->bindValue(":id_usuario", $id_usuario, PDO::PARAM_INT);
@@ -62,8 +65,10 @@ class Tabla_albumes
             return (!empty($albums)) ? $albums : array();
         } catch (PDOException $e) {
             echo "Error en la consulta: " . $e->getMessage();
+            return array();
         }
     }
+
 
     // Leer un álbum específico por su ID
     public function readGetAlbum($id_album = 0)

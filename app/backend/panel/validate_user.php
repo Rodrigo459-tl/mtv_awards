@@ -17,23 +17,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST["email"]) && !empty($_POST["password"])) {
         $email = $_POST["email"];
         $pass = $_POST["password"];
-        
+
         //Executo la petición
         $data = $tabla_usuario->validateUser($email, $pass);
 
-        // print_r($data);
+        print_r($data);
         if (!empty($data)) {
             $_SESSION["is_logged"] = true;
-            $_SESSION["id_usuario"] = $data->id_usuario;
+            $_SESSION["id_usuario"] = true;
+            $_SESSION["rol"] = $data->id_rol;
             $_SESSION["name"] = $data->id_usuario;
             $_SESSION["email"] = $data->email_usuario;
             $_SESSION["nickname"] = $data->nombre_usuario;
             $_SESSION["img"] = (is_null($data->imagen_usuario)) ? (($data->sexo_usuario == 0) ? 'woman.png' : 'man.png') : $data->imagen_usuario;
 
-            $_SESSION['message'] = array("type" => "info", "description" => "Bienvenido al sistema", "title" => "Inicio de sesión éxitoso");
 
-            header('Location: ../../views/panel/dashboard.php');
-            exit();
+            // Verificar el rol del usuario
+            if ($data->id_rol == 128) { // administrador
+                $_SESSION['message'] = array("type" => "info", "description" => "Bienvenido al sistema", "title" => "Inicio de sesión éxitoso");
+                header('Location: ../../views/panel/dashboard.php');
+                exit();
+            } elseif ($data->id_rol == 8) {
+                $_SESSION['message'] = array("type" => "info", "description" => "Bienvenido al sistema", "title" => "Inicio de sesión éxitoso");
+                header('Location: ../../views/portal/index.php');
+                exit();
+            } else {
+                $_SESSION['message'] = array("type" => "info", "description" => "Bienvenido al sistema", "title" => "Inicio de sesión éxitoso");
+                header('Location: ../../views/portal/index.php');
+                exit();
+            }
 
         }//end if
         else {

@@ -1,16 +1,16 @@
 <?php
-    //Importar librerias
-    require_once '../../helpers/menu_lateral.php';
-    require_once '../../helpers/funciones_globales.php';
+//Importar librerias
+require_once '../../helpers/menu_lateral.php';
+require_once '../../helpers/funciones_globales.php';
 
-    //Reintancias la variable
-    session_start();
+//Reintancias la variable
+session_start();
 
-    if(!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)){
-        header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
-    }//end if 
+if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
+    header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
+}//end if 
 
-    // echo print("<pre>".print_r($_SESSION,true)."</pre>");
+// echo print ("<pre>" . print_r($_SESSION, true) . "</pre>");
 ?>
 
 <!DOCTYPE html>
@@ -66,8 +66,8 @@
                 </li>
                 <!-- Cerrar Sesión -->
                 <li class="nav-item">
-                    <a class="nav-link" href="../../backend/panel/liberate_user.php" role="button" 
-                        data-toggle="tooltip" data-placement="top" title="Cerrar Sesión" >
+                    <a class="nav-link" href="../../backend/panel/liberate_user.php" role="button" data-toggle="tooltip"
+                        data-placement="top" title="Cerrar Sesión">
                         <i class="fa fa-window-close"></i>
                     </a>
                 </li>
@@ -79,8 +79,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="../../index3.html" class="brand-link">
-                <img src="../../../recursos/img/system/mtv-logo.jpg" alt="AdminLTE Logo"
-                    class="brand-image elevation-3" style="opacity: .8">
+                <img src="../../../recursos/img/system/mtv-logo.jpg" alt="AdminLTE Logo" class="brand-image elevation-3"
+                    style="opacity: .8">
                 <span class="brand-text font-weight-light">MTV Awards</span>
             </a>
 
@@ -89,7 +89,8 @@
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="../../../recursos/img/users/<?= $_SESSION["img"] ?>" class="img-circle elevation-2" alt="User Image">
+                        <img src="../../../recursos/img/users/<?= $_SESSION["img"] ?>" class="img-circle elevation-2"
+                            alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block"><?= $_SESSION["nickname"] ?></a>
@@ -124,21 +125,21 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-                <?php
-                    $breadcrumb = array(
-                        // array(
-                        //     'tarea' => 'Usuarios',   
-                        //     'href' => './usuarios.php' //Nombre Archivo   
-                        // ),
-                        array(
-                            'tarea' => 'Dashboard',   
-                            'href' => '#'   
-                        )
-                    );    
-                    echo mostrar_breadcrumb('Dashboard', $breadcrumb); 
-                ?>
+            <?php
+            $breadcrumb = array(
+                // array(
+                //     'tarea' => 'Usuarios',   
+                //     'href' => './usuarios.php' //Nombre Archivo   
+                // ),
+                array(
+                    'tarea' => 'Dashboard',
+                    'href' => '#'
+                )
+            );
+            echo mostrar_breadcrumb('Dashboard', $breadcrumb);
+            ?>
             <!-- Content Header (Page header) -->
-            
+
 
             <!-- Main content -->
             <section class="content">
@@ -196,12 +197,12 @@
     <script src="../../../recursos/recursos_panel/plugins/toastr/toastr.min.js"></script>
     <!-- Mensaje Notificación -->
     <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
-            <?php 
-                if(isset($_SESSION['message'])){
-                    echo mostrar_alerta_mensaje($_SESSION['message']["type"], $_SESSION['message']["description"],$_SESSION['message']["title"]);
-                    unset($_SESSION['message']);         
-                }
+        document.addEventListener("DOMContentLoaded", function (event) {
+            <?php
+            if (isset($_SESSION['message'])) {
+                echo mostrar_alerta_mensaje($_SESSION['message']["type"], $_SESSION['message']["description"], $_SESSION['message']["title"]);
+                unset($_SESSION['message']);
+            }
             ?>
         });
     </script>

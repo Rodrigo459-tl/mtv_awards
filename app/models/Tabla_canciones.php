@@ -122,8 +122,6 @@ class Tabla_canciones
         }
     }
 
-
-
     public function getIdArtistaByUsuario($id_usuario)
     {
         $sql = "SELECT id_artista FROM artistas WHERE id_usuario = :id_usuario";
@@ -138,5 +136,4 @@ class Tabla_canciones
             return null;
         }
     }
-
 }

@@ -102,15 +102,27 @@ class Tabla_canciones
     public function deleteCancion($id_cancion = 0)
     {
         try {
+            // Verificar si el ID es válido
+            if (empty($id_cancion) || !is_numeric($id_cancion)) {
+                throw new InvalidArgumentException("El ID de la canción no es válido.");
+            }
+
+            // Preparar y ejecutar la consulta de eliminación
             $sql = 'DELETE FROM ' . $this->table . ' WHERE ' . $this->primary_key . ' = :id';
             $stmt = $this->connect->prepare($sql);
-            $stmt->bindValue(":id", $id_cancion);
+            $stmt->bindValue(":id", $id_cancion, PDO::PARAM_INT);
+
             return $stmt->execute();
         } catch (PDOException $e) {
             echo 'Error in query: ' . $e->getMessage();
             return false;
+        } catch (InvalidArgumentException $e) {
+            echo 'Validation error: ' . $e->getMessage();
+            return false;
         }
     }
+
+
 
     public function getIdArtistaByUsuario($id_usuario)
     {

@@ -13,11 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tabla_cancion = new Tabla_canciones();
     $tabla_artista = new Tabla_artista();
 
-    // Obtener el id_artista
+    // Obtener el id_artista relacionado con el usuario actual
     $id_usuario = $_SESSION['id_usuario'];
-    $id_artista = $tabla_artista->getArtistaByUsuario($id_usuario);
+    $artista = $tabla_artista->getArtistaByUsuario($id_usuario);
 
-    if (!$id_artista) {
+    if (!$artista || empty($artista->id_artista)) {
         $_SESSION['message'] = array(
             "type" => "error",
             "description" => "El usuario no está vinculado a un artista válido.",
@@ -26,6 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header('Location: ../../../views/panel/canciones.php');
         exit();
     }
+
+    $id_artista = $artista->id_artista;
 
     // Validar los campos requeridos
     if (isset($_POST["id_cancion"], $_POST["nombre_cancion"], $_POST["duracion_cancion"], $_POST["id_genero"], $_POST["id_album"])) {
@@ -36,9 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id_genero = $_POST["id_genero"];
         $id_album = $_POST["id_album"];
 
-        // Procesar archivo MP3
+        // Manejar el archivo MP3
         $mp3 = $_FILES["mp3_cancion"];
-        $file_name = $_POST["mp3_cancion_anterior"]; // Usar el archivo anterior como predeterminado
+        $file_name = null;
 
         if (!empty($mp3["name"])) {
             $temp = explode(".", $mp3["name"]);
@@ -76,13 +78,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "nombre_cancion" => $nombre_cancion,
             "fecha_lanzamiento_cancion" => $fecha_lanzamiento,
             "duracion_cancion" => $duracion_cancion,
-            "mp3_cancion" => $file_name,
+            "mp3_cancion" => $file_name, // Si no se seleccionó archivo, será null
             "url_cancion" => $url_cancion,
             "url_video_cancion" => $url_video_cancion,
             "id_artista" => $id_artista,
             "id_genero" => $id_genero,
             "id_album" => $id_album,
         );
+
+        // Filtrar campos vacíos para evitar sobreescritura con valores NULL no deseados
+        $data = array_filter($data, fn($value) => $value !== null);
 
         // Intentar actualizar la canción
         if ($tabla_cancion->updateCancion($id_cancion, $data)) {
@@ -120,3 +125,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Location: ../../../views/panel/canciones.php');
     exit();
 }
+?>

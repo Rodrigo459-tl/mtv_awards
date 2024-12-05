@@ -1,9 +1,9 @@
 <?php
 echo 'Validating...';
 
-// Importar librería modelo
+// Importar librerías
 require_once '../../../models/Tabla_canciones.php';
-require_once '../../../models/Tabla_artista.php'; // Nuevo: Para manejar la relación usuarios-artistas
+require_once '../../../models/Tabla_artista.php'; // Para manejar la relación usuarios-artistas
 
 // Iniciar la sesión
 session_start();
@@ -23,7 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "description" => "El usuario no está vinculado a un artista válido.",
             "title" => "¡ERROR!"
         );
-
         header('Location: ../../../views/panel/cancion_nueva.php');
         exit();
     }
@@ -40,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Manejar el archivo MP3
         $mp3 = $_FILES["mp3_cancion"];
-        $file_name = null;
+        $file_name = null; // Por defecto, será null si no se selecciona un archivo
 
         if (!empty($mp3["name"])) {
             // Validar la extensión del archivo
@@ -53,7 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     "description" => "El archivo debe tener una extensión válida (mp3).",
                     "title" => "¡ERROR!"
                 );
-
                 header('Location: ../../../views/panel/cancion_nueva.php');
                 exit();
             }
@@ -67,13 +65,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     "description" => "Error al guardar el archivo MP3.",
                     "title" => "¡ERROR!"
                 );
-
                 header('Location: ../../../views/panel/cancion_nueva.php');
                 exit();
             }
-        } else {
-            // Asignar un valor predeterminado si no se proporciona archivo
-            $file_name = "default.mp3"; // Ruta o nombre simbólico que exista en el sistema
         }
 
         // Manejar las URL opcionales
@@ -85,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "nombre_cancion" => $nombre_cancion,
             "fecha_lanzamiento_cancion" => $fecha_lanzamiento,
             "duracion_cancion" => $duracion_cancion,
-            "mp3_cancion" => $file_name,
+            "mp3_cancion" => $file_name, // Si no se seleccionó archivo, será null
             "url_cancion" => $url_cancion,
             "url_video_cancion" => $url_video_cancion,
             "id_artista" => $id_artista,
@@ -93,10 +87,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "id_album" => $id_album,
         );
 
-        // Depurar los datos preparados antes de la inserción
-        echo "<pre>";
-        print_r($data);
-        echo "</pre>";
         // Intentar registrar la canción
         if ($tabla_cancion->createCancion($data)) {
             $_SESSION['message'] = array(
@@ -112,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "description" => "Ocurrió un error al registrar la canción.",
                 "title" => "¡ERROR!"
             );
-            //header('Location: ../../../views/panel/cancion_nueva.php');
+            header('Location: ../../../views/panel/cancion_nueva.php');
             exit();
         }
     } else {
@@ -121,7 +111,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "description" => "Faltan datos requeridos para registrar la canción.",
             "title" => "¡ERROR!"
         );
-
         header('Location: ../../../views/panel/cancion_nueva.php');
         exit();
     }
@@ -131,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "description" => "Método no permitido.",
         "title" => "¡ERROR!"
     );
-
     header('Location: ../../../views/panel/cancion_nueva.php');
     exit();
 }
+?>

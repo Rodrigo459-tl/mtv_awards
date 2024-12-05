@@ -9,7 +9,7 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Instancia del modelo
-    $tabla_artista = new Tabla_artistas();
+    $tabla_artista = new Tabla_artista();
 
     if (
         isset($_POST["pseudonimo_artista"]) && isset($_POST["nacionalidad_artista"]) &&

@@ -50,7 +50,6 @@ if (empty($cancion)) {
     exit();
 }
 
-
 // Instanciar modelos para álbumes y géneros
 $tabla_albumes = new Tabla_albumes();
 $tabla_generos = new Tabla_generos();
@@ -153,7 +152,7 @@ $generos = $tabla_generos->readAllGeneros();
                                 <form id="form-cancion" action="../../backend/panel/canciones/update_cancion.php"
                                     method="post" enctype="multipart/form-data">
                                     <div class="card-body">
-                                        <input type="hidden" name="id_cancion" value="<?= $cancion->id_cancion ?>">
+                                        <input type="hidden" name="id_cancion" value="<?= $cancion->id_acancion ?>">
 
                                         <div class="form-group">
                                             <label for="nombre_cancion">Nombre de la Canción</label>

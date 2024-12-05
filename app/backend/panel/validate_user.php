@@ -31,11 +31,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["nickname"] = $data->nombre_usuario;
             $_SESSION["img"] = (is_null($data->imagen_usuario)) ? (($data->sexo_usuario == 0) ? 'woman.png' : 'man.png') : $data->imagen_usuario;
 
-
             // Verificar el rol del usuario
             if ($data->id_rol == 128) { // administrador
                 $_SESSION['message'] = array("type" => "info", "description" => "Bienvenido al sistema", "title" => "Inicio de sesión éxitoso");
                 header('Location: ../../views/panel/dashboard.php');
+                exit();
+            } elseif ($data->id_rol == 85) { // artista
+                $_SESSION['message'] = array("type" => "info", "description" => "Bienvenido al sistema", "title" => "Inicio de sesión éxitoso");
+                header('Location: ../../views/panel/dashboard_artista.php');
                 exit();
             } elseif ($data->id_rol == 8) {
                 $_SESSION['message'] = array("type" => "info", "description" => "Bienvenido al sistema", "title" => "Inicio de sesión éxitoso");

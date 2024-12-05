@@ -1,6 +1,6 @@
 <?php
 //Importar librerias
-require_once '../../helpers/menu_lateral.php';
+require_once '../../helpers/menu_lateral_artista.php';
 require_once '../../helpers/funciones_globales.php';
 
 //Reintancias la variable
@@ -10,12 +10,7 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
     header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
 }//end if 
 
-
-
-//Debbugear an array
-// print("<pre>".print_r($_SESSION)."</pre>");
-
-
+// echo print ("<pre>" . print_r($_SESSION, true) . "</pre>");
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +20,9 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AdminLTE 3 | Blank Page</title>
+
+    <!-- Icon -->
+    <link rel="icon" href="../../../recursos/img/system/mtv-logo.jpg" type="image/x-icon">
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -81,9 +79,9 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="../../index3.html" class="brand-link">
-                <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
+                <img src="../../../recursos/img/system/mtv-logo.jpg" alt="AdminLTE Logo" class="brand-image elevation-3"
+                    style="opacity: .8">
+                <span class="brand-text font-weight-light">MTV Awards</span>
             </a>
 
             <!-- Sidebar -->
@@ -127,21 +125,21 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>Blank Page</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Blank Page</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div><!-- /.container-fluid -->
-            </section>
+            <?php
+            $breadcrumb = array(
+                // array(
+                //     'tarea' => 'Usuarios',   
+                //     'href' => './usuarios.php' //Nombre Archivo   
+                // ),
+                array(
+                    'tarea' => 'Dashboard',
+                    'href' => '#'
+                )
+            );
+            echo mostrar_breadcrumb('Dashboard', $breadcrumb);
+            ?>
+            <!-- Content Header (Page header) -->
+
 
             <!-- Main content -->
             <section class="content">
@@ -203,9 +201,8 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
             <?php
             if (isset($_SESSION['message'])) {
                 echo mostrar_alerta_mensaje($_SESSION['message']["type"], $_SESSION['message']["description"], $_SESSION['message']["title"]);
-                session_unset($_SESSION['message']);
+                unset($_SESSION['message']);
             }
-
             ?>
         });
     </script>

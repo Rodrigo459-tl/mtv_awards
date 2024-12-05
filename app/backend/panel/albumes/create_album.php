@@ -1,100 +1,105 @@
 <?php
+// Mensaje de validación
 echo 'Validating...';
 
-//Importar libreria modelo
+// Importar el modelo
 require_once '../../../models/Tabla_albumes.php';
 
-//Inciar la sesion
+// Iniciar la sesión
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //Instancia del modelo
+    // Instancia del modelo
     $tabla_album = new Tabla_albumes();
-    if (
-        isset($_POST["titulo"]) && isset($_POST["fecha_lanzamiento"]) && isset($_POST["id_artista"]) &&
-        isset($_POST["id_genero"])
-    ) {
-        $titulo = $_POST["titulo"];
-        $fecha_lanzamiento = $_POST["fecha_lanzamiento"];
-        $descripcion = isset($_POST["descripcion"]) ? $_POST["descripcion"] : null;
-        $id_artista = $_POST["id_artista"];
+
+    // Verificar que los datos requeridos estén presentes
+    if (isset($_POST["titulo_album"], $_POST["fecha_lanzamiento_album"], $_POST["id_genero"])) {
+        $titulo = $_POST["titulo_album"];
+        $fecha_lanzamiento = $_POST["fecha_lanzamiento_album"];
+        $descripcion = isset($_POST["descripcion_album"]) ? $_POST["descripcion_album"] : null;
+        $id_artista = $_SESSION['id_usuario']; // Usar la ID del usuario autenticado como ID del artista
         $id_genero = $_POST["id_genero"];
 
-        //Declarate a variable to FILE
+        // Manejar la imagen del álbum
         $img = $_FILES["imagen_album"];
         $file_name = null;
 
         if (!empty($img["name"])) {
-            //Validate the extension
+            // Validar la extensión del archivo
             $temp = explode(".", $img["name"]);
-            $exten = end($temp);
+            $exten = strtolower(end($temp));
 
-            if (($exten != "jpg") && ($exten != "png")) {
+            if (!in_array($exten, ["jpg", "png"])) {
                 $_SESSION['message'] = array(
                     "type" => "error",
-                    "description" => "La imagen que desea capturar no corresponde a la extensión establecida (jpg o png)...",
+                    "description" => "La imagen debe tener una extensión válida (jpg o png).",
                     "title" => "¡ERROR!"
                 );
 
-                header('Location: ../../views/panel/albumes.php');
+                header('Location: ../../views/panel/album_nuevo.php');
                 exit();
-            }//end 
+            }
 
+            // Mover el archivo cargado
             if (move_uploaded_file($img['tmp_name'], "../../../recursos/img/albums/" . $img['name'])) {
                 $file_name = $img['name'];
-            }//end move_uploaded_file
-        }//end if
+            } else {
+                $_SESSION['message'] = array(
+                    "type" => "error",
+                    "description" => "Error al guardar la imagen del álbum.",
+                    "title" => "¡ERROR!"
+                );
 
+                header('Location: ../../views/panel/album_nuevo.php');
+                exit();
+            }
+        }
+
+        // Preparar los datos para el registro
         $data = array(
-            // "field" => "value",
             "titulo_album" => $titulo,
             "fecha_lanzamiento_album" => $fecha_lanzamiento,
             "descripcion_album" => $descripcion,
-            "imagen_album" => ($file_name == null) ? null : $file_name,
+            "imagen_album" => $file_name,
             "id_artista" => $id_artista,
             "id_genero" => $id_genero,
         );
 
-        echo print ("<pre>" . print_r($data, true) . "</pre>");
-
-        //STAMENT QUERY - INSERT
+        // Intentar registrar el álbum
         if ($tabla_album->createAlbum($data)) {
             $_SESSION['message'] = array(
                 "type" => "success",
-                "description" => "El álbum ha sido registrado de manera correcta...",
-                "title" => "¡Registro Éxitoso!"
+                "description" => "El álbum se ha registrado correctamente.",
+                "title" => "¡Registro Exitoso!"
             );
-            header('Location: ../../views/panel/albumes.php');
+            header('Location: ../../../views/panel/albumes.php');
             exit();
-        }//end if
-        else {
+        } else {
             $_SESSION['message'] = array(
-                "type" => "warning",
-                "description" => "Error al intentar registrar el álbum...",
-                "title" => "¡Ocurrió Error!"
+                "type" => "error",
+                "description" => "Ocurrió un error al registrar el álbum.",
+                "title" => "¡ERROR!"
             );
-            header('Location: ../../views/panel/album_nuevo.php');
+            header('Location: ../../../views/panel/album_nuevo.php');
             exit();
-        }//end else
-    }//end if 
-    else {
+        }
+    } else {
         $_SESSION['message'] = array(
             "type" => "error",
-            "description" => "Ocurrió un error al procesar la información...",
+            "description" => "Faltan datos requeridos para registrar el álbum.",
             "title" => "¡ERROR!"
         );
 
-        header('Location: ../../views/panel/albumes.php');
+        header('Location: ../../../views/panel/album_nuevo.php');
         exit();
-    }//end else
-}//end REQUEST_METHOD
-else {
+    }
+} else {
     $_SESSION['message'] = array(
         "type" => "error",
-        "description" => "Ocurrió un error al procesar la información...",
+        "description" => "Método no permitido.",
         "title" => "¡ERROR!"
     );
 
-    header('Location: ../../views/panel/album_nuevo.php');
+    header('Location: ../../../views/panel/album_nuevo.php');
     exit();
-}//end else
+}

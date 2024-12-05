@@ -1,23 +1,21 @@
 <?php
-//Importar librerias
+//Importar librerías
 require_once '../../helpers/menu_lateral_artista.php';
 require_once '../../helpers/funciones_globales.php';
-
-//Importar Modelo
 require_once '../../models/Tabla_albumes.php';
 
-//Reintancias la variable
 session_start();
 
 if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
     header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
-}//end if 
+    exit;
+}
 
-//Instancia del Objeto
+// Instancia del Objeto
 $tabla_albumes = new Tabla_albumes();
-$albumes = $tabla_albumes->readAllAlbums();
-
+$albumes = $tabla_albumes->readAllAlbums($_SESSION["id_usuario"]);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +59,7 @@ $albumes = $tabla_albumes->readAllAlbums();
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="./dashboard.php" class="nav-link">Inicio</a>
+                    <a href="./dashboard_artista.php" class="nav-link">Inicio</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="../../backend/panel/liberate_user.php" class="nav-link">Cerrar Sesión</a>
@@ -133,34 +131,34 @@ $albumes = $tabla_albumes->readAllAlbums();
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $html = '';
-                                        if (!empty($albumes)) {
+                                        if (empty($albumes)) {
+                                            echo '<tr><td colspan="5" class="text-center">No hay álbumes disponibles para este artista.</td></tr>';
+                                        } else {
                                             $count = 0;
                                             foreach ($albumes as $album) {
                                                 $img = (!empty($album->imagen_album) && file_exists('../../../recursos/img/albums/' . $album->imagen_album))
                                                     ? '../../../recursos/img/albums/' . $album->imagen_album
                                                     : '../../../recursos/img/albums/default.png';
 
-                                                $html .= '
+                                                echo '
                                                     <tr>
                                                         <td>' . ++$count . '</td>
                                                         <td><img src="' . $img . '" alt="Imagen Álbum" class="img-rounded" width="10%"></td>
                                                         <td>' . $album->titulo_album . '</td>';
-                                                $html .= ($album->estatus_album == 0)
-                                                    ? '<td><a href="../../backend/panel/estatus_album.php?id=' . $album->id_album . '&estatus=1" class="btn btn-block btn-info">Habilitar</a></td>'
-                                                    : '<td><a href="../../backend/panel/estatus_album.php?id=' . $album->id_album . '&estatus=0" class="btn btn-block btn-outline-success">Deshabilitar</a></td>';
-                                                $html .= '<td>
-                                                            <a href="../../backend/panel/delete_album.php?id=' . $album->id_album . '" class="btn btn-block btn-xs bg-gradient-danger">
-                                                                <i class="fa fa-trash"></i>
-                                                            </a>
-                                                            <a href="./album_detalles.php?id=' . $album->id_album . '" class="btn btn-block btn-xs text-white bg-gradient-warning">
-                                                                <i class="fa fa-edit"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>';
-                                            }//end foreach
-                                        }//end if
-                                        echo $html;
+                                                echo ($album->estatus_album == 0)
+                                                    ? '<td><a href="../../backend/panel/albumes/estatus_album.php?id=' . $album->id_album . '&estatus=1" class="btn btn-block btn-info">Habilitar</a></td>'
+                                                    : '<td><a href="../../backend/panel/albumes/estatus_album.php?id=' . $album->id_album . '&estatus=0" class="btn btn-block btn-outline-success">Deshabilitar</a></td>';
+                                                echo '<td>
+                                                        <a href="../../backend/panel/albumes/delete_album.php?id=' . $album->id_album . '" class="btn btn-block btn-xs bg-gradient-danger">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                        <a href="./album_detalles.php?id=' . $album->id_album . '" class="btn btn-block btn-xs text-white bg-gradient-warning">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>';
+                                            }
+                                        }
                                         ?>
                                     </tbody>
                                 </table>

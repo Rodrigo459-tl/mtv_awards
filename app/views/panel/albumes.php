@@ -13,7 +13,7 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
 
 // Instancia del Objeto
 $tabla_albumes = new Tabla_albumes();
-$albumes = $tabla_albumes->readAllAlbums($_SESSION["id_usuario"]);
+$albumes = $tabla_albumes->readAllAlbumsGeneral($_SESSION["id_usuario"]);
 ?>
 
 <!DOCTYPE html>

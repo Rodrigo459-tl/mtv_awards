@@ -119,7 +119,7 @@ $canciones = $tabla_canciones->readAllCanciones($_SESSION["id_usuario"]);
                                         <tr>
                                             <th>#</th>
                                             <th>Nombre</th>
-                                            <th>URL</th>
+                                            <th>URL Cancion</th>
                                             <th>Estatus</th>
                                             <th>Acciones</th>
                                         </tr>

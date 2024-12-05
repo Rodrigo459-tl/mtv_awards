@@ -2,22 +2,59 @@
 // Importar librerías
 require_once '../../helpers/menu_lateral_artista.php';
 require_once '../../helpers/funciones_globales.php';
+require_once '../../models/Tabla_canciones.php';
 require_once '../../models/Tabla_albumes.php';
 require_once '../../models/Tabla_generos.php';
 
-// Reinstancias la variable
+// Iniciar la sesión
 session_start();
 
 if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
     header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
-    exit;
+    exit();
 }
 
-// Instanciar los modelos
+if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
+    $_SESSION['message'] = array(
+        "type" => "warning",
+        "description" => "La canción que intentas encontrar no es válida.",
+        "title" => "¡Advertencia!"
+    );
+    header("location: ./canciones.php");
+    exit();
+}
+
+// Instanciar el modelo
+$tabla_canciones = new Tabla_canciones();
+$id_artista = $tabla_canciones->getIdArtistaByUsuario($_SESSION["id_usuario"]);
+
+if (!$id_artista) {
+    $_SESSION['message'] = array(
+        "type" => "error",
+        "description" => "No se pudo encontrar el artista correspondiente al usuario.",
+        "title" => "¡ERROR!"
+    );
+    header("location: ./canciones.php");
+    exit();
+}
+
+$cancion = $tabla_canciones->readGetCancion((int) $_GET["id"], $id_artista);
+
+if (empty($cancion)) {
+    $_SESSION['message'] = array(
+        "type" => "error",
+        "description" => "No tienes acceso a esta canción.",
+        "title" => "¡ERROR!"
+    );
+    header("location: ./canciones.php");
+    exit();
+}
+
+
+// Instanciar modelos para álbumes y géneros
 $tabla_albumes = new Tabla_albumes();
 $tabla_generos = new Tabla_generos();
 
-// Leer álbumes y géneros
 $albumes = $tabla_albumes->readAllAlbums($_SESSION["id_usuario"]);
 $generos = $tabla_generos->readAllGeneros();
 ?>
@@ -28,7 +65,7 @@ $generos = $tabla_generos->readAllGeneros();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Nueva Canción</title>
+    <title>AdminLTE 3 | Detalles de la Canción</title>
 
     <!-- Icon -->
     <link rel="icon" href="../../../recursos/img/system/mtv-logo.jpg" type="image/x-icon">
@@ -40,7 +77,6 @@ $generos = $tabla_generos->readAllGeneros();
     <link rel="stylesheet" href="../../../recursos/recursos_panel/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../../recursos/recursos_panel/css/adminlte.min.css">
-
     <!-- Toastr -->
     <link rel="stylesheet" href="../../../recursos/recursos_panel/plugins/toastr/toastr.min.css">
 </head>
@@ -90,6 +126,7 @@ $generos = $tabla_generos->readAllGeneros();
 
         <!-- Content Wrapper -->
         <div class="content-wrapper">
+            <!-- Breadcrumb -->
             <?php
             $breadcrumb = array(
                 array(
@@ -97,13 +134,12 @@ $generos = $tabla_generos->readAllGeneros();
                     'href' => './canciones.php'
                 ),
                 array(
-                    'tarea' => 'Canción Nueva',
+                    'tarea' => 'Detalles de la Canción',
                     'href' => '#'
                 ),
             );
-            echo mostrar_breadcrumb_art('Canción Nueva', $breadcrumb);
+            echo mostrar_breadcrumb_art('Detalles de la Canción', $breadcrumb);
             ?>
-
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
@@ -111,82 +147,74 @@ $generos = $tabla_generos->readAllGeneros();
                         <div class="col-md-12">
                             <div class="card card-info">
                                 <div class="card-header">
-                                    <h3 class="card-title">Formulario de Canción Nueva</h3>
+                                    <h3 class="card-title">Detalles de la Canción</h3>
                                 </div>
-                                <form id="form-cancion" action="../../backend/panel/canciones/create_cancion.php"
+                                <!-- Formulario -->
+                                <form id="form-cancion" action="../../backend/panel/canciones/update_cancion.php"
                                     method="post" enctype="multipart/form-data">
                                     <div class="card-body">
-                                        <div class="row">
-                                            <input type="hidden" name="id_artista"
-                                                value="<?= $_SESSION['id_usuario'] ?>">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="nombre_cancion">Nombre de la Canción</label>
-                                                    <input type="text" name="nombre_cancion" class="form-control"
-                                                        id="nombre_cancion" placeholder="Nombre de la Canción" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="fecha_lanzamiento_cancion">Fecha de Lanzamiento</label>
-                                                    <input type="date" name="fecha_lanzamiento_cancion"
-                                                        class="form-control" id="fecha_lanzamiento_cancion" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="duracion_cancion">Duración</label>
-                                                    <input type="time" name="duracion_cancion" class="form-control"
-                                                        id="duracion_cancion" required>
-                                                </div>
-                                            </div>
+                                        <input type="hidden" name="id_cancion" value="<?= $cancion->id_cancion ?>">
+
+                                        <div class="form-group">
+                                            <label for="nombre_cancion">Nombre de la Canción</label>
+                                            <input type="text" name="nombre_cancion" class="form-control"
+                                                id="nombre_cancion" value="<?= $cancion->nombre_cancion ?>" required>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="id_album">Álbum</label>
-                                                    <select class="form-control" name="id_album" id="id_album" required>
-                                                        <option value="">Seleccionar un álbum</option>
-                                                        <?php foreach ($albumes as $album): ?>
-                                                            <option value="<?= $album->id_album ?>">
-                                                                <?= $album->titulo_album ?>
-                                                            </option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="id_genero">Género</label>
-                                                    <select class="form-control" name="id_genero" id="id_genero"
-                                                        required>
-                                                        <option value="">Seleccionar un género</option>
-                                                        <?php foreach ($generos as $genero): ?>
-                                                            <option value="<?= $genero->id_genero ?>">
-                                                                <?= $genero->nombre_genero ?>
-                                                            </option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="fecha_lanzamiento_cancion">Fecha de Lanzamiento</label>
+                                            <input type="date" name="fecha_lanzamiento_cancion" class="form-control"
+                                                id="fecha_lanzamiento_cancion"
+                                                value="<?= $cancion->fecha_lanzamiento_cancion ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="duracion_cancion">Duración</label>
+                                            <input type="time" name="duracion_cancion" class="form-control"
+                                                id="duracion_cancion" value="<?= $cancion->duracion_cancion ?>"
+                                                required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_album">Álbum</label>
+                                            <select class="form-control" name="id_album" id="id_album" required>
+                                                <option value="">Seleccionar un álbum</option>
+                                                <?php foreach ($albumes as $album): ?>
+                                                    <option value="<?= $album->id_album ?>"
+                                                        <?= $cancion->id_album == $album->id_album ? 'selected' : '' ?>>
+                                                        <?= $album->titulo_album ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_genero">Género</label>
+                                            <select class="form-control" name="id_genero" id="id_genero" required>
+                                                <option value="">Seleccionar un género</option>
+                                                <?php foreach ($generos as $genero): ?>
+                                                    <option value="<?= $genero->id_genero ?>"
+                                                        <?= $cancion->id_genero == $genero->id_genero ? 'selected' : '' ?>>
+                                                        <?= $genero->nombre_genero ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="mp3_cancion">Archivo MP3</label>
                                             <input type="file" name="mp3_cancion" class="form-control" id="mp3_cancion">
+                                            <small>Deja vacío si no deseas cambiar el archivo actual.</small>
                                         </div>
                                         <div class="form-group">
                                             <label for="url_cancion">URL de la Canción</label>
                                             <input type="text" name="url_cancion" class="form-control" id="url_cancion"
-                                                placeholder="URL de la Canción">
+                                                value="<?= $cancion->url_cancion ?>" placeholder="URL de la Canción">
                                         </div>
                                         <div class="form-group">
                                             <label for="url_video_cancion">URL del Video</label>
                                             <input type="text" name="url_video_cancion" class="form-control"
-                                                id="url_video_cancion" placeholder="URL del Video">
+                                                id="url_video_cancion" value="<?= $cancion->url_video_cancion ?>"
+                                                placeholder="URL del Video">
                                         </div>
                                     </div>
                                     <div class="card-footer">
-                                        <button type="submit" class="btn btn-info">Registrar</button>
+                                        <button type="submit" class="btn btn-info">Actualizar</button>
                                         <a href="./canciones.php" class="btn btn-danger">Cancelar</a>
                                     </div>
                                 </form>

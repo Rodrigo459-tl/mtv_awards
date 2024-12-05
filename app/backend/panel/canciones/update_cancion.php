@@ -1,113 +1,103 @@
 <?php
 echo 'Validating...';
 
-// Importar librería modelo
+// Importar librerías
 require_once '../../../models/Tabla_canciones.php';
+require_once '../../../models/Tabla_artista.php';
 
 // Iniciar la sesión
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // Instancia del modelo
+    // Instancia de los modelos
     $tabla_cancion = new Tabla_canciones();
+    $tabla_artista = new Tabla_artista();
 
-    if (
-        isset($_POST["nombre_cancion"]) && isset($_POST["fecha_lanzamiento_cancion"]) &&
-        isset($_POST["duracion_cancion"]) && isset($_POST["mp3_cancion"]) &&
-        isset($_POST["id_artista"]) && isset($_POST["id_genero"]) && isset($_POST["id_album"])
-    ) {
-        $id_cancion = $_POST["id_acancion"];
-        $nombre = $_POST["nombre_cancion"];
-        $fecha_lanzamiento = $_POST["fecha_lanzamiento_cancion"];
-        $duracion = $_POST["duracion_cancion"];
-        $mp3 = $_POST["mp3_cancion"];
-        $url_cancion = (empty($_POST["url_cancion"])) ? null : $_POST["url_cancion"];
-        $url_video = (empty($_POST["url_video_cancion"])) ? null : $_POST["url_video"];
-        $id_artista = $_POST["id_artista"];
+    // Obtener el id_artista
+    $id_usuario = $_SESSION['id_usuario'];
+    $id_artista = $tabla_artista->getArtistaByUsuario($id_usuario);
+
+    if (!$id_artista) {
+        $_SESSION['message'] = array(
+            "type" => "error",
+            "description" => "El usuario no está vinculado a un artista válido.",
+            "title" => "¡ERROR!"
+        );
+        header('Location: ../../../views/panel/canciones.php');
+        exit();
+    }
+
+    // Validar los campos requeridos
+    if (isset($_POST["id_cancion"], $_POST["nombre_cancion"], $_POST["duracion_cancion"], $_POST["id_genero"], $_POST["id_album"])) {
+        $id_cancion = $_POST["id_cancion"];
+        $nombre_cancion = $_POST["nombre_cancion"];
+        $fecha_lanzamiento = !empty($_POST["fecha_lanzamiento_cancion"]) ? $_POST["fecha_lanzamiento_cancion"] : null;
+        $duracion_cancion = $_POST["duracion_cancion"];
         $id_genero = $_POST["id_genero"];
         $id_album = $_POST["id_album"];
 
+        // Procesar archivo MP3
+        $mp3 = $_FILES["mp3_cancion"];
+        $file_name = $_POST["mp3_cancion_anterior"]; // Usar el archivo anterior como predeterminado
+
+        if (!empty($mp3["name"])) {
+            $temp = explode(".", $mp3["name"]);
+            $exten = strtolower(end($temp));
+
+            if ($exten !== "mp3") {
+                $_SESSION['message'] = array(
+                    "type" => "error",
+                    "description" => "El archivo debe tener una extensión válida (mp3).",
+                    "title" => "¡ERROR!"
+                );
+                header('Location: ../../../views/panel/cancion_detalles.php?id=' . $id_cancion);
+                exit();
+            }
+
+            if (move_uploaded_file($mp3['tmp_name'], "../../../recursos/audio/canciones/" . $mp3['name'])) {
+                $file_name = $mp3['name'];
+            } else {
+                $_SESSION['message'] = array(
+                    "type" => "error",
+                    "description" => "Error al guardar el archivo MP3.",
+                    "title" => "¡ERROR!"
+                );
+                header('Location: ../../../views/panel/cancion_detalles.php?id=' . $id_cancion);
+                exit();
+            }
+        }
+
+        // Procesar URL opcionales
+        $url_cancion = !empty($_POST["url_cancion"]) ? $_POST["url_cancion"] : null;
+        $url_video_cancion = !empty($_POST["url_video_cancion"]) ? $_POST["url_video_cancion"] : null;
+
+        // Preparar los datos
         $data = array(
-            "nombre_cancion" => $nombre,
+            "nombre_cancion" => $nombre_cancion,
             "fecha_lanzamiento_cancion" => $fecha_lanzamiento,
-            "duracion_cancion" => $duracion,
-            "mp3_cancion" => $mp3,
+            "duracion_cancion" => $duracion_cancion,
+            "mp3_cancion" => $file_name,
             "url_cancion" => $url_cancion,
-            "url_video_cancion" => $url_video,
+            "url_video_cancion" => $url_video_cancion,
             "id_artista" => $id_artista,
             "id_genero" => $id_genero,
             "id_album" => $id_album,
         );
 
-        // Declarar una variable para el archivo
-        $img = $_FILES["foto_album"];
-        $file_name = NULL;
-
-        if (!empty($img["name"])) {
-            // Validar la extensión
-            $temp = explode(".", $img["name"]);
-            $exten = end($temp);
-
-            if (($exten != "jpg") && ($exten != "png")) {
-                $_SESSION['message'] = array(
-                    "type" => "error",
-                    "description" => "La imagen que desea capturar no corresponde a la extensión establecida (jpg o png)...",
-                    "title" => "¡ERROR!"
-                );
-
-                header('Location: ../../views/panel/cancion_detalles.php?id=' . $id_cancion);
-                exit();
-            }
-
-            if ($_POST['foto_album_anterior'] != null) {
-                if (file_exists("../../../recursos/img/albums/" . $_POST["foto_album_anterior"])) {
-                    unlink("../../../recursos/img/albums/" . $_POST["foto_album_anterior"]);
-                    if (move_uploaded_file($img['tmp_name'], "../../../recursos/img/albums/" . $img['name'])) {
-                        $file_name = $img['name'];
-                        $data['foto_album'] = $file_name;
-                    } else {
-                        $_SESSION['message'] = array(
-                            "type" => "warning",
-                            "description" => "La foto del álbum no fue actualizada, intente más tarde...",
-                            "title" => "¡ERROR!"
-                        );
-
-                        header('Location: ../../views/panel/cancion_detalles.php?id=' . $id_cancion);
-                        exit();
-                    }
-                } else {
-                    $_SESSION['message'] = array(
-                        "type" => "warning",
-                        "description" => "La foto del álbum no fue actualizada, intente más tarde...",
-                        "title" => "¡ERROR!"
-                    );
-
-                    header('Location: ../../views/panel/cancion_detalles.php?id=' . $id_cancion);
-                    exit();
-                }
-            } else {
-                if (move_uploaded_file($img['tmp_name'], "../../../../recursos/img/albums/" . $img['name'])) {
-                    $file_name = $img['name'];
-                    $data['foto_album'] = $file_name;
-                }
-            }
-        }
-
-        // STAMENT QUERY - UPDATE
+        // Intentar actualizar la canción
         if ($tabla_cancion->updateCancion($id_cancion, $data)) {
             $_SESSION['message'] = array(
                 "type" => "success",
-                "description" => "La canción ha sido actualizada de manera correcta...",
-                "title" => "¡Edición Exitosa!"
+                "description" => "La canción ha sido actualizada correctamente.",
+                "title" => "¡Actualización Exitosa!"
             );
-            header('Location: ../../views/panel/canciones.php');
+            header('Location: ../../../views/panel/canciones.php');
             exit();
         } else {
             $_SESSION['message'] = array(
-                "type" => "warning",
-                "description" => "Error al intentar actualizar la canción...",
-                "title" => "¡Ocurrió un Error!"
+                "type" => "error",
+                "description" => "Ocurrió un error al intentar actualizar la canción.",
+                "title" => "¡ERROR!"
             );
             header('Location: ../../../views/panel/cancion_detalles.php?id=' . $id_cancion);
             exit();
@@ -115,21 +105,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $_SESSION['message'] = array(
             "type" => "error",
-            "description" => "Ocurrió un error al procesar la información...",
+            "description" => "Faltan datos requeridos para actualizar la canción.",
             "title" => "¡ERROR!"
         );
-
-        header('Location: ../../../views/panel/cancion_detalles.php?id=' . $id_cancion);
+        header('Location: ../../../views/panel/cancion_detalles.php?id=' . $_POST["id_cancion"]);
         exit();
     }
 } else {
     $_SESSION['message'] = array(
         "type" => "error",
-        "description" => "Ocurrió un error al procesar la información...",
+        "description" => "Método no permitido.",
         "title" => "¡ERROR!"
     );
-
-    header('Location: ../../../views/panel/cancion_detalles.php?id=' . $id_cancion);
+    header('Location: ../../../views/panel/canciones.php');
     exit();
 }
-?>

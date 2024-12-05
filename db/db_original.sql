@@ -53,7 +53,7 @@ CREATE TABLE canciones (
     nombre_cancion varchar(50) NOT NULL,
     fecha_lanzamiento_cancion DATE NULL,
     duracion_cancion TIME NOT NULL,
-    mp3_cancion varchar(200) NOT NULL,
+    mp3_cancion varchar(200) NULL,
     url_cancion varchar(200) DEFAULT NULL,
     url_video_cancion varchar(200) DEFAULT NULL,
     id_artista int(3) NOT NULL,

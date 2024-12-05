@@ -3,35 +3,89 @@ echo 'Validating...';
 
 // Importar librería modelo
 require_once '../../../models/Tabla_canciones.php';
+require_once '../../../models/Tabla_artista.php'; // Nuevo: Para manejar la relación usuarios-artistas
 
 // Iniciar la sesión
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Instancia del modelo
+    // Instancia de modelos
     $tabla_cancion = new Tabla_canciones();
+    $tabla_artista = new Tabla_artista();
 
-    if (
-        isset($_POST["nombre_cancion"]) && isset($_POST["duracion_cancion"]) &&
-        isset($_POST["mp3_cancion"]) && isset($_POST["id_artista"]) &&
-        isset($_POST["id_genero"]) && isset($_POST["id_album"])
-    ) {
+    // Obtener id_artista relacionado con el usuario actual
+    $id_usuario = $_SESSION['id_usuario'];
+    $artista = $tabla_artista->getArtistaByUsuario($id_usuario);
+
+    if (!$artista || empty($artista->id_artista)) {
+        $_SESSION['message'] = array(
+            "type" => "error",
+            "description" => "El usuario no está vinculado a un artista válido.",
+            "title" => "¡ERROR!"
+        );
+
+        header('Location: ../../../views/panel/cancion_nueva.php');
+        exit();
+    }
+
+    $id_artista = $artista->id_artista;
+
+    // Validar los campos del formulario
+    if (isset($_POST["nombre_cancion"], $_POST["duracion_cancion"], $_POST["id_genero"], $_POST["id_album"])) {
         $nombre_cancion = $_POST["nombre_cancion"];
         $fecha_lanzamiento = !empty($_POST["fecha_lanzamiento_cancion"]) ? $_POST["fecha_lanzamiento_cancion"] : null;
         $duracion_cancion = $_POST["duracion_cancion"];
-        $mp3_cancion = $_POST["mp3_cancion"];
-        $url_cancion = !empty($_POST["url_cancion"]) ? $_POST["url_cancion"] : null;
-        $url_video_cancion = !empty($_POST["url_video_cancion"]) ? $_POST["url_video_cancion"] : null;
-        $id_artista = $_POST["id_artista"];
         $id_genero = $_POST["id_genero"];
         $id_album = $_POST["id_album"];
+
+        // Manejar el archivo MP3
+        $mp3 = $_FILES["mp3_cancion"];
+        $file_name = null;
+
+        if (!empty($mp3["name"])) {
+            // Validar la extensión del archivo
+            $temp = explode(".", $mp3["name"]);
+            $exten = strtolower(end($temp));
+
+            if ($exten !== "mp3") {
+                $_SESSION['message'] = array(
+                    "type" => "error",
+                    "description" => "El archivo debe tener una extensión válida (mp3).",
+                    "title" => "¡ERROR!"
+                );
+
+                header('Location: ../../../views/panel/cancion_nueva.php');
+                exit();
+            }
+
+            // Mover el archivo cargado
+            if (move_uploaded_file($mp3['tmp_name'], "../../../recursos/audio/canciones/" . $mp3['name'])) {
+                $file_name = $mp3['name'];
+            } else {
+                $_SESSION['message'] = array(
+                    "type" => "error",
+                    "description" => "Error al guardar el archivo MP3.",
+                    "title" => "¡ERROR!"
+                );
+
+                header('Location: ../../../views/panel/cancion_nueva.php');
+                exit();
+            }
+        } else {
+            // Asignar un valor predeterminado si no se proporciona archivo
+            $file_name = "default.mp3"; // Ruta o nombre simbólico que exista en el sistema
+        }
+
+        // Manejar las URL opcionales
+        $url_cancion = !empty($_POST["url_cancion"]) ? $_POST["url_cancion"] : null;
+        $url_video_cancion = !empty($_POST["url_video_cancion"]) ? $_POST["url_video_cancion"] : null;
 
         // Preparar los datos
         $data = array(
             "nombre_cancion" => $nombre_cancion,
             "fecha_lanzamiento_cancion" => $fecha_lanzamiento,
             "duracion_cancion" => $duracion_cancion,
-            "mp3_cancion" => $mp3_cancion,
+            "mp3_cancion" => $file_name,
             "url_cancion" => $url_cancion,
             "url_video_cancion" => $url_video_cancion,
             "id_artista" => $id_artista,
@@ -39,30 +93,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "id_album" => $id_album,
         );
 
-        echo print ("<pre>" . print_r($data, true) . "</pre>");
-
-        // Consulta para insertar
+        // Depurar los datos preparados antes de la inserción
+        echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+        // Intentar registrar la canción
         if ($tabla_cancion->createCancion($data)) {
             $_SESSION['message'] = array(
                 "type" => "success",
-                "description" => "La canción ha sido registrada de manera correcta...",
+                "description" => "La canción ha sido registrada correctamente.",
                 "title" => "¡Registro Exitoso!"
             );
             header('Location: ../../../views/panel/canciones.php');
             exit();
         } else {
             $_SESSION['message'] = array(
-                "type" => "warning",
-                "description" => "Error al intentar registrar la canción...",
-                "title" => "¡Ocurrió un Error!"
+                "type" => "error",
+                "description" => "Ocurrió un error al registrar la canción.",
+                "title" => "¡ERROR!"
             );
-            header('Location: ../../../views/panel/cancion_nueva.php');
+            //header('Location: ../../../views/panel/cancion_nueva.php');
             exit();
         }
     } else {
         $_SESSION['message'] = array(
             "type" => "error",
-            "description" => "Ocurrió un error al procesar la información...",
+            "description" => "Faltan datos requeridos para registrar la canción.",
             "title" => "¡ERROR!"
         );
 
@@ -72,11 +128,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     $_SESSION['message'] = array(
         "type" => "error",
-        "description" => "Ocurrió un error al procesar la información...",
+        "description" => "Método no permitido.",
         "title" => "¡ERROR!"
     );
 
     header('Location: ../../../views/panel/cancion_nueva.php');
     exit();
 }
-?>

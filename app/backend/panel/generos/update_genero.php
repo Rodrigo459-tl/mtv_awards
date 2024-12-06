@@ -2,7 +2,7 @@
 echo 'Validating...';
 
 //Importar libreria modelo
-require_once '../../models/Tabla_generos.php';
+require_once '../../../models/Tabla_generos.php';
 
 //Iniciar la sesión
 session_start();
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "description" => "El género ha sido actualizado de manera correcta...",
                 "title" => "¡Edición Exitosa!"
             );
-            header('Location: ../../views/panel/generos.php');
+            header('Location: ../../../views/panel/generos.php');
             exit();
         } else {
             $_SESSION['message'] = array(
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "description" => "Error al intentar actualizar el género...",
                 "title" => "¡Ocurrió un Error!"
             );
-            header('Location: ../../views/panel/genero_detalles.php?id=' . $id_genero);
+            header('Location: ../../../views/panel/genero_detalles.php?id=' . $id_genero);
             exit();
         }//end else
     } else {
@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "title" => "¡ERROR!"
         );
 
-        header('Location: ../../views/panel/genero_detalles.php?id=' . $id_genero);
+        header('Location: ../../../views/panel/genero_detalles.php?id=' . $id_genero);
         exit();
     }//end else
 }//end REQUEST_METHOD
@@ -56,6 +56,6 @@ else {
         "title" => "¡ERROR!"
     );
 
-    header('Location: ../../views/panel/genero_detalles.php');
+    header('Location: ../../../views/panel/genero_detalles.php');
     exit();
 }//end else

@@ -54,6 +54,30 @@ class Tabla_albumes
                 FROM " . $this->table . "
                 INNER JOIN artistas ON " . $this->table . ".id_artista = artistas.id_artista
                 INNER JOIN usuarios ON artistas.id_usuario = usuarios.id_usuario
+                WHERE usuarios.id_usuario = :id_usuario AND estatus_album = 1
+                ORDER BY " . $this->table . ".fecha_lanzamiento_album;";
+        try {
+            $stmt = $this->connect->prepare($sql);
+            $stmt->bindValue(":id_usuario", $id_usuario, PDO::PARAM_INT);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
+            $stmt->execute();
+            $albums = $stmt->fetchAll();
+            return (!empty($albums)) ? $albums : array();
+        } catch (PDOException $e) {
+            echo "Error en la consulta: " . $e->getMessage();
+            return array();
+        }
+    }
+
+    public function readAllAlbumsGeneral($id_usuario)
+    {
+        $sql = "SELECT " . $this->table . ".id_album, 
+                       " . $this->table . ".titulo_album, 
+                       " . $this->table . ".imagen_album, 
+                       " . $this->table . ".estatus_album
+                FROM " . $this->table . "
+                INNER JOIN artistas ON " . $this->table . ".id_artista = artistas.id_artista
+                INNER JOIN usuarios ON artistas.id_usuario = usuarios.id_usuario
                 WHERE usuarios.id_usuario = :id_usuario
                 ORDER BY " . $this->table . ".fecha_lanzamiento_album;";
         try {

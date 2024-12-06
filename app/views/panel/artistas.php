@@ -1,23 +1,22 @@
 <?php
-//Importar librerias
+// Importar librerías
 require_once '../../helpers/menu_lateral.php';
 require_once '../../helpers/funciones_globales.php';
 
-//Importar Modelo
-require_once '../../models/Tabla_generos.php';
+// Importar Modelo
+require_once '../../models/Tabla_artista.php';
 
-//Reintancias la variable
+// Reinstancia la variable
 session_start();
 
 if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
     header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
-}//end if 
+} //end if 
 
-//Instancia del Objeto
-$tabla_generos = new Tabla_generos();
-$generos = $tabla_generos->readAllGenerosIncluyendoEstatus();
+// Instancia del Objeto
+$tabla_artista = new Tabla_artista();
+$artistas = $tabla_artista->readAllArtists();
 
-// echo print("<pre>".print_r($generos,true)."</pre>");
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +25,7 @@ $generos = $tabla_generos->readAllGenerosIncluyendoEstatus();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Generos</title>
+    <title>AdminLTE 3 | Blank Page</title>
     <!-- Icon -->
     <link rel="icon" href="../../../recursos/img/system/mtv-logo.jpg" type="image/x-icon">
 
@@ -56,6 +55,7 @@ $generos = $tabla_generos->readAllGenerosIncluyendoEstatus();
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -67,14 +67,14 @@ $generos = $tabla_generos->readAllGenerosIncluyendoEstatus();
                     <a href="../../backend/panel/liberate_user.php" class="nav-link">Cerrar Sesión</a>
                 </li>
             </ul>
+
+            <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <!-- Maximizar -->
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
-                <!-- Cerrar Sesión -->
                 <li class="nav-item">
                     <a class="nav-link" href="../../backend/panel/liberate_user.php" role="button" data-toggle="tooltip"
                         data-placement="top" title="Cerrar Sesión">
@@ -83,10 +83,10 @@ $generos = $tabla_generos->readAllGenerosIncluyendoEstatus();
                 </li>
             </ul>
         </nav>
+        <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <!-- Brand Logo -->
             <a href="../../index3.html" class="brand-link">
                 <img src="../../../recursos/img/system/mtv-logo.jpg" alt="AdminLTE Logo" class="brand-image elevation-3"
                     style="opacity: .8">
@@ -119,7 +119,7 @@ $generos = $tabla_generos->readAllGenerosIncluyendoEstatus();
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
-                        <?= mostrar_menu_lateral("GENEROS") ?>
+                        <?= mostrar_menu_lateral("ARTISTAS") ?>
                     </ul>
                 </nav>
             </div>
@@ -129,31 +129,32 @@ $generos = $tabla_generos->readAllGenerosIncluyendoEstatus();
             <?php
             $breadcrumb = array(
                 array(
-                    'tarea' => 'Generos',
+                    'tarea' => 'Artistas',
                     'href' => '#'
                 )
             );
-            echo mostrar_breadcrumb('Generos', $breadcrumb);
+            echo mostrar_breadcrumb('Artistas', $breadcrumb);
             ?>
 
             <section class="content">
                 <div class="card">
                     <div class="card-header">
-                        <a href="./genero_nuevo.php" class="btn btn-block btn-dark">
+                        <a href="./artista_nuevo.php" class="btn btn-block btn-dark">
                             <i class="fa fa-plus-circle"></i> Agregar
                         </a>
                     </div>
                     <div class="card-body">
                         <div class="card">
                             <div class="card-header text-center">
-                                <h3 class="card-title ">Lista de Generos</h3>
+                                <h3 class="card-title ">Lista de Artistas</h3>
                             </div>
                             <div class="card-body">
-                                <table id="table-generos" class="table table-bordered table-hover">
+                                <table id="table-artistas" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Nombre del genero</th>
+                                            <th>Pseudónimo</th>
+                                            <th>Género</th>
                                             <th>Estatus</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -161,39 +162,37 @@ $generos = $tabla_generos->readAllGenerosIncluyendoEstatus();
                                     <tbody>
                                         <?php
                                         $html = '';
-                                        if (!empty($generos)) {
+                                        if (!empty($artistas)) {
                                             $count = 0;
-                                            foreach ($generos as $genero) {
+                                            foreach ($artistas as $artista) {
                                                 $html .= '
-                                                    <tr>
-                                                        <td>' . ++$count . '</td>
-                                                        <td>' . $genero->nombre_genero . '</td>';
-                                                if ($genero->estatus_genero == 0) {
-                                                    $html .= '<td><a href="../../backend/panel/generos/estatus_genero.php?id=' . $genero->id_genero . '&estatus=1" type="button" class="btn btn-block btn-info">Habilitar</a></td>';
+                                                        <tr>
+                                                            <td>' . ++$count . '</td>
+                                                            <td>' . $artista->pseudonimo_artista . '</td>
+                                                            <td>' . $artista->nombre_genero . '</td>';
+                                                if ($artista->estatus_artista == 0) {
+                                                    $html .= '<td><a href="../../backend/panel/estatus_artista.php?id=' . $artista->id_artista . '&estatus=1" type="button" class="btn btn-block btn-info">Habilitar</a></td>';
                                                 } else {
-                                                    $html .= '<td><a href="../../backend/panel/generos/estatus_genero.php?id=' . $genero->id_genero . '&estatus=0" type="button" class="btn btn-block btn-outline-success">Deshabilitar</a></td>';
+                                                    $html .= '<td><a href="../../backend/panel/estatus_artista.php?id=' . $artista->id_artista . '&estatus=0" type="button" class="btn btn-block btn-outline-success">Deshabilitar</a></td>';
                                                 }
                                                 $html .= '<td>
-                                                            <a href="../../backend/panel/generos/delete_genero.php?id=' . $genero->id_genero . '" type="button" class="btn btn-block btn-xs bg-gradient-danger">
-                                                                <i class="fa fa-trash"></i>
-                                                            </a>
-                                                            <a href="./genero_detalles.php?id=' . $genero->id_genero . '" type="button" class="btn btn-block btn-xs text-white bg-gradient-warning">
-                                                                <i class="fa fa-edit"></i>
-                                                            </a>
-                                                        </td>
-                                                </tr>';
+                                                                <a href="../../backend/panel/delete_artista.php?id=' . $artista->id_artista . '" type="button" class="btn btn-block btn-xs bg-gradient-danger">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </a>
+                                                                <a href="./artista_detalles.php?id=' . $artista->id_artista . '" type="button" class="btn btn-block btn-xs text-white bg-gradient-warning">
+                                                                    <i class="fa fa-edit"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    ';
                                             }
                                         }
                                         echo $html;
                                         ?>
                                     </tbody>
-
                                 </table>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        Footer
                     </div>
                 </div>
             </section>
@@ -203,19 +202,22 @@ $generos = $tabla_generos->readAllGenerosIncluyendoEstatus();
             <div class="float-right d-none d-sm-block">
                 <b>Version</b> 3.2.0
             </div>
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+            reserved.
         </footer>
-
     </div>
 
     <script src="../../../recursos/recursos_panel/plugins/jquery/jquery.min.js"></script>
     <script src="../../../recursos/recursos_panel/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../../../recursos/recursos_panel/js/adminlte.min.js"></script>
+    <script src="../../../recursos/recursos_panel/js/demo.js"></script>
     <script src="../../../recursos/recursos_panel/plugins/toastr/toastr.min.js"></script>
     <script src="../../../recursos/recursos_panel/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="../../../recursos/recursos_panel/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script
         src="../../../recursos/recursos_panel/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script
+        src="../../../recursos/recursos_panel/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <script src="../../../recursos/recursos_panel/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
     <script src="../../../recursos/recursos_panel/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
 </body>

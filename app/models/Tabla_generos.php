@@ -20,7 +20,7 @@ class Tabla_generos
     // Leer todos los géneros registrados
     public function readAllGeneros()
     {
-        $sql = "SELECT * FROM " . $this->table . " WHERE estatus_genero = 1 ORDER BY nombre_genero;";
+        $sql = "SELECT * FROM " . $this->table . " WHERE estatus_genero = 1;";
         try {
             $stmt = $this->connect->prepare($sql);
             $stmt->setFetchMode(PDO::FETCH_OBJ);
@@ -33,30 +33,46 @@ class Tabla_generos
         }
     }
 
+    public function readAllGenerosIncluyendoEstatus()
+    {
+        $sql = "SELECT * FROM " . $this->table . ";";
+        try {
+            $stmt = $this->connect->prepare($sql);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
+            $stmt->execute();
+            $generos = $stmt->fetchAll();
+            return (!empty($generos)) ? $generos : array();
+        } catch (PDOException $e) {
+            echo "Error en la consulta: " . $e->getMessage();
+            return array();
+        }
+    }
+
+
     public function readGetGenero($id_genero = 0)
-{
-    /**
-        QUERY - SELECT
-        SELECT * FROM generos WHERE id_genero = :id_genero;
-     */
-    $sql = "SELECT * FROM generos WHERE id_genero = :id_genero;";
-    try {
-        // PREPARE THE STATEMENT
-        $stmt = $this->connect->prepare($sql);
-        // BIND PARAM
-        $stmt->bindValue(":id_genero", $id_genero, PDO::PARAM_INT);
-        // SPECIFIC FETCH MODE BEFORE CALLING FETCH
-        $stmt->setFetchMode(PDO::FETCH_OBJ);
-        // EXECUTE THE QUERY
-        $stmt->execute();
-        // RETURN THE FETCHED RESULT
-        $genero = $stmt->fetch();
-        return (!empty($genero)) ? $genero : array();
-    }//end try
-    catch (PDOException $e) {
-        echo "Error in query: " . $e->getMessage();
-    }//end catch
-}//end readGetGenero
+    {
+        /**
+            QUERY - SELECT
+            SELECT * FROM generos WHERE id_genero = :id_genero;
+         */
+        $sql = "SELECT * FROM generos WHERE id_genero = :id_genero;";
+        try {
+            // PREPARE THE STATEMENT
+            $stmt = $this->connect->prepare($sql);
+            // BIND PARAM
+            $stmt->bindValue(":id_genero", $id_genero, PDO::PARAM_INT);
+            // SPECIFIC FETCH MODE BEFORE CALLING FETCH
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
+            // EXECUTE THE QUERY
+            $stmt->execute();
+            // RETURN THE FETCHED RESULT
+            $genero = $stmt->fetch();
+            return (!empty($genero)) ? $genero : array();
+        }//end try
+        catch (PDOException $e) {
+            echo "Error in query: " . $e->getMessage();
+        }//end catch
+    }//end readGetGenero
 
 
     // Método para registrar un nuevo género

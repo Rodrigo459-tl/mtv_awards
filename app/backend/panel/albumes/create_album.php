@@ -22,49 +22,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Manejar la imagen del álbum
         $img = $_FILES["imagen_album"];
-        $file_name = null;
+        $file_name = NULL;
 
         if (!empty($img["name"])) {
             // Validar la extensión del archivo
             $temp = explode(".", $img["name"]);
-            $exten = strtolower(end($temp));
+            $exten = end($temp);
 
-            if (!in_array($exten, ["jpg", "png"])) {
+            if (($exten != "jpg") && ($exten != "png")) {
                 $_SESSION['message'] = array(
                     "type" => "error",
                     "description" => "La imagen debe tener una extensión válida (jpg o png).",
                     "title" => "¡ERROR!"
                 );
 
-                header('Location: ../../views/panel/album_nuevo.php');
+                header('Location: ../../../views/panel/album_nuevo.php');
                 exit();
             }
 
             // Mover el archivo cargado
-            if (move_uploaded_file($img['tmp_name'], "../../../recursos/img/albums/" . $img['name'])) {
+            if (move_uploaded_file($img['tmp_name'], "../../../../recursos/img/albums/" . $img['name'])) {
                 $file_name = $img['name'];
-            } else {
-                $_SESSION['message'] = array(
-                    "type" => "error",
-                    "description" => "Error al guardar la imagen del álbum.",
-                    "title" => "¡ERROR!"
-                );
-
-                header('Location: ../../views/panel/album_nuevo.php');
-                exit();
             }
         }
 
         // Preparar los datos para el registro
         $data = array(
-            "titulo_album" => $titulo,
-            "fecha_lanzamiento_album" => $fecha_lanzamiento,
-            "descripcion_album" => $descripcion,
-            "imagen_album" => $file_name,
-            "id_artista" => $id_artista,
-            "id_genero" => $id_genero,
-        );
 
+            "fecha_lanzamiento_album" => $fecha_lanzamiento,
+            "titulo_album" => $titulo,
+            "descripcion_album" => $descripcion,
+            "imagen_album" => ($file_name == null) ? null : $file_name,
+            "id_artista" => $id_artista,
+            "id_genero" => $id_genero
+        );
+        echo print ("<pre>" . print_r($data, true) . "</pre>");
+
+        
         // Intentar registrar el álbum
         if ($tabla_album->createAlbum($data)) {
             $_SESSION['message'] = array(
@@ -83,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Location: ../../../views/panel/album_nuevo.php');
             exit();
         }
+        
     } else {
         $_SESSION['message'] = array(
             "type" => "error",

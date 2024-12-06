@@ -1,19 +1,11 @@
 <?php
-require_once("../../models/Tabla_albumes.php");
-require_once("../../models/Tabla_artista.php");
-//Reintancias la variable
+//reinstanciar la variable
 session_start();
 
-if (!empty($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
+if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
     header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
-}//end if 
-
-//Instancia del Objeto
-$tabla_albumes = new Tabla_albumes();
-$albums = $tabla_albumes->readAllAlbumsG();
-
-$tabla_artista = new Tabla_artista();
-$artistas = $tabla_artista->readAllArtists();
+    exit();
+}
 //debbugear un array
 //print ("<pre>" . print_r($_SESSION) . "</pre>")
 ?>
@@ -59,7 +51,7 @@ $artistas = $tabla_artista->readAllArtists();
                     <nav class="classy-navbar justify-content-between" id="oneMusicNav">
 
                         <!-- Nav brand -->
-                        <a href="index.php" class="nav-brand"><img
+                        <a href="index.html" class="nav-brand"><img
                                 src="../../../recursos/recursos_portal/img/core-img/logo.png" alt=""></a>
 
                         <!-- Navbar Toggler -->
@@ -129,76 +121,27 @@ $artistas = $tabla_artista->readAllArtists();
         </div>
     </section>
     <!-- ##### Breadcumb Area End ##### -->
-    
+
     <!-- ##### Contact Area Start ##### -->
     <section class="contact-area section-padding-100-0">
-        <div class="container mt-5">
-            <h2 class="text-center mb-4">Formulario de Votación</h2>
-            <form action="../../backend/panel/procesar_votacion.php" method="POST">
-                <!-- Sección de datos de votación -->
-                <div class="card mb-4">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">Datos de la Votación</h5>
-                    </div>
-                    <div class="card-body">
-                        <!-- Fecha de creación de votación -->
-                        <div class="form-group">
-                            <label for="fecha">Fecha de Creación</label>
-                            <input type="text" class="form-control" id="fecha" name="fecha_creacion_votacion"
-                                value="<?= date('Y-m-d H:i:s') ?>" readonly>
-                        </div>
+        <div class="container">
+            <div class="row oneMusic-albums">
 
-
-                        <!-- Usuario -->
-                        <div class="form-group">
-                            <label for="usuario">Usuario</label>
-                            <input type="text" class="form-control" id="usuario" name="id_usuario"
-                                value="<?= $_SESSION['id_usuario'] ?? '' ?>" readonly>
+                <!-- Single Album -->
+                <div class="col-12 col-sm-4 col-md-3 col-lg-2 single-album-item t c p">
+                    <div class="single-album">
+                        <img src="../../../recursos/recursos_portal/img/bg-img/a1.jpg" alt="">
+                        <div class="album-info">
+                            <a href="#">
+                                <h5>The Cure</h5>
+                            </a>
+                            <p>Second Song</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sección de selección de artista y álbum -->
-                <div class="card mb-4">
-                    <div class="card-header bg-info text-white">
-                        <h5 class="mb-0">Selección de Artista y Álbum</h5>
-                    </div>
-                    <div class="card-body">
-                        <!-- Artista -->
-                        <div class="form-group">
-                            <label for="artista">Seleccione Artista</label>
-                            <select class="form-control" id="artista" name="id_artista" required>
-                                <option value="">Seleccione un artista</option>
-                                <!-- Opciones de artista dinámicas -->
-                                <?php
-                                foreach ($artistas as $artista) {
-                                    echo "<option value='{$artista['id_artista']}'>{$artista['pseudonimo_artista']}</option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
+            </div>
 
-                        <!-- Álbum -->
-                        <div class="form-group">
-                            <label for="album">Seleccione Álbum</label>
-                            <select class="form-control" id="album" name="id_album" required>
-                                <option value="">Seleccione un álbum</option>
-                                <!-- Opciones de álbum dinámicas -->
-                                <?php
-                                foreach ($albums as $album) {
-                                    echo "<option value='{$album['id_album']}'>{$album['titulo_album']}</option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Botón de Enviar -->
-                <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary btn-lg">Registrar Voto</button>
-                </div>
-            </form>
         </div>
     </section>
     <!-- ##### Contact Area End ##### -->

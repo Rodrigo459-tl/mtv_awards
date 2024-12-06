@@ -45,6 +45,7 @@ class Tabla_albumes
         $fields = implode(", ", array_keys($data));
         $values = ":" . implode(", :", array_keys($data));
 
+        echo print ("<pre>" . print_r($data, true) . "</pre>");
         // Consulta SQL - INSERT
         $sql = "INSERT INTO " . $this->table . " ($fields) VALUES($values)";
 

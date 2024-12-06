@@ -50,7 +50,7 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                     <nav class="classy-navbar justify-content-between" id="oneMusicNav">
 
                         <!-- Nav brand -->
-                        <a href="index.html" class="nav-brand"><img src="img/core-img/logo.png" alt=""></a>
+                        <a href="index.php" class="nav-brand"><img src="img/core-img/logo.png" alt=""></a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -86,7 +86,8 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                                                     <?= htmlspecialchars($_SESSION["nickname"]) ?>
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="userDropdown">
-                                                    <a class="dropdown-item text-dark" href="./perfil.php">Mi perfil</a>
+                                                    <a class="dropdown-item text-dark" href="./miPerfil.php">Mi
+                                                        perfil</a>
                                                     <a class="dropdown-item text-dark"
                                                         href="../../backend/panel/liberate_user.php">Cerrar sesión</a>
                                                 </div>
@@ -561,8 +562,8 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                             href="#"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             Copyright &copy;
                             <script>document.write(new Date().getFullYear());</script> All rights reserved | This
-                            template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
-                                href="#" target="_blank">Colorlib</a>
+                            template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#"
+                                target="_blank">Colorlib</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                 </div>
 

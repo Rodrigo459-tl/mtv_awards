@@ -59,7 +59,7 @@ $artistas = $tabla_artista->readAllArtists();
                     <nav class="classy-navbar justify-content-between" id="oneMusicNav">
 
                         <!-- Nav brand -->
-                        <a href="index.html" class="nav-brand"><img
+                        <a href="index.php" class="nav-brand"><img
                                 src="../../../recursos/recursos_portal/img/core-img/logo.png" alt=""></a>
 
                         <!-- Navbar Toggler -->

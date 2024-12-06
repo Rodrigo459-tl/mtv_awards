@@ -81,8 +81,8 @@ $connect = new Conecct();
                           <?= htmlspecialchars($_SESSION["nickname"]) ?>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="userDropdown">
-                          <a class="dropdown-item text-dark" href="./perfil.php">Mi perfil</a>
-                          <a class="dropdown-item text-dark" href="../../backend/panel/liberate_user.php">Cerrar
+                          <a class="dropdown-item text-dark" href="./app/views/portal/miPerfil.php">Mi perfil</a>
+                          <a class="dropdown-item text-dark" href="./backend/panel/liberate_user.php">Cerrar
                             sesión</a>
                         </div>
                       </div>

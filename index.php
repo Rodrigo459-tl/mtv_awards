@@ -37,7 +37,6 @@ $connect = new Conecct();
 
   <!-- ##### Header Area Start ##### -->
   <header class="header-area">
-    <!-- Navbar Area -->
     <div class="oneMusic-main-menu">
       <div class="classy-nav-container breakpoint-off">
         <div class="container">
@@ -45,8 +44,8 @@ $connect = new Conecct();
           <nav class="classy-navbar justify-content-between" id="oneMusicNav">
 
             <!-- Nav brand -->
-            <a href="./index.php" class="nav-brand"><img src="./recursos/recursos_portal/img/core-img/logo.png"
-                alt=""></a>
+            <a href="./app/views/portal/index.php" class="nav-brand"><img
+                src="./recursos/recursos_portal/img/core-img/logo.png" alt=""></a>
 
             <!-- Navbar Toggler -->
             <div class="classy-navbar-toggler">
@@ -60,8 +59,54 @@ $connect = new Conecct();
               <div class="classycloseIcon">
                 <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
               </div>
+
+              <!-- Nav Start -->
+              <div class="classynav">
+                <ul>
+                  <li><a href="./app/views/portal/index.php">Inicio</a></li>
+                  <li><a href="./app/views/portal/event.php">Eventos</a></li>
+                  <li><a href="./app/views/portal/albums-store.php">Generos</a></li>
+                  <li><a href="./app/views/portal/artistas.php">Artistas</a></li>
+                  <li><a href="./app/views/portal/votar.php">Votar</a></li>
+                </ul>
+
+                <!-- Login/Register & Cart Button -->
+                <div class="login-register-cart-button d-flex align-items-center">
+                  <!-- Login/Register -->
+                  <div class="login-register-btn mr-50">
+                    <?php if (isset($_SESSION["nickname"])): ?>
+                      <div class="dropdown">
+                        <a href="#" class="dropdown-toggle" id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
+                          aria-expanded="false">
+                          <?= htmlspecialchars($_SESSION["nickname"]) ?>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="userDropdown">
+                          <a class="dropdown-item text-dark" href="./perfil.php">Mi perfil</a>
+                          <a class="dropdown-item text-dark" href="../../backend/panel/liberate_user.php">Cerrar
+                            sesión</a>
+                        </div>
+                      </div>
+                    <?php else: ?>
+                      <a href="./index.php">Iniciar sesión</a>
+                    <?php endif; ?>
+                  </div>
+
+                  <!-- Cart Button -->
+                </div>
+
+              </div>
+              <!-- Nav End -->
+
             </div>
           </nav>
+        </div>
+      </div>
+    </div>
+    <!-- Navbar Area -->
+    <div class="oneMusic-main-menu">
+      <div class="classy-nav-container breakpoint-off">
+        <div class="container">
+          <!-- Menu -->
         </div>
       </div>
     </div>
@@ -72,8 +117,7 @@ $connect = new Conecct();
   <section class="breadcumb-area bg-img bg-overlay"
     style="background-image: url(./recursos/recursos_portal/img/bg-img/breadcumb3.jpg);">
     <div class="bradcumbContent">
-      <p>See what’s new</p>
-      <h2>Login</h2>
+      <h2>Iniciar Sesión</h2>
     </div>
   </section>
   <!-- ##### Breadcumb Area End ##### -->
@@ -92,22 +136,21 @@ $connect = new Conecct();
             }
             ?>
 
-            <h3>Welcome Back</h3>
+            <h3>bienvenido de nuevo</h3>
             <!-- Login Form -->
             <div class="login-form">
               <form action="./app/backend/panel/validate_user.php" method="post">
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Email address</label>
+                  <label for="exampleInputEmail1">Correo Electrónico</label>
                   <input type="email" name="email" class="form-control" id="exampleInputEmail1"
-                    aria-describedby="emailHelp" placeholder="Enter E-mail">
-                  <small id="emailHelp" class="form-text text-muted"><i class="fa fa-lock mr-2"></i>We'll never share
-                    your email with anyone
-                    else.</small>
+                    aria-describedby="emailHelp" placeholder="Ingresa tu correo electrónico">
+                  <small id="emailHelp" class="form-text text-muted"><i class="fa fa-lock mr-2"></i>
+                    Nunca compartiremos su correo electrónico con nadie más.</small>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
+                  <label for="exampleInputPassword1">Contraseña</label>
                   <input type="password" name="password" class="form-control" id="exampleInputPassword1"
-                    placeholder="Password">
+                    placeholder="Ingresa tu contraseña">
                 </div>
                 <button type="submit" class="btn oneMusic-btn mt-30">Login</button>
               </form>
@@ -129,7 +172,7 @@ $connect = new Conecct();
               href="#"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
               Copyright &copy;
               <script>document.write(new Date().getFullYear());</script> All rights reserved | This
-              template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
+              template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#"
                 target="_blank">Colorlib</a>
               <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
         </div>
@@ -137,11 +180,11 @@ $connect = new Conecct();
         <div class="col-12 col-md-6">
           <div class="footer-nav">
             <ul>
-              <li><a href="./index.php">Home</a></li>
-              <li><a href="./index.php">Albums</a></li>
-              <li><a href="./index.php">Events</a></li>
-              <li><a href="./index.php">News</a></li>
-              <li><a href="./index.php">Contact</a></li>
+              <li><a href="./app/views/portal/index.php">Inicio</a></li>
+              <li><a href="./app/views/portal/event.php">Eventos</a></li>
+              <li><a href="./app/views/portal/albums-store.php">Generos</a></li>
+              <li><a href="./app/views/portal/artistas.php">Artistas</a></li>
+              <li><a href="./app/views/portal/votar.php">Votar</a></li>
             </ul>
           </div>
         </div>

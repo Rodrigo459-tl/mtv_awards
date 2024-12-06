@@ -53,6 +53,18 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="../../backend/panel/liberate_user.php" class="nav-link">Cerrar Sesión</a>
                 </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="./app/views/portal/event.php" class="nav-link">Eventos</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="./app/views/portal/albums-store.php" class="nav-link">Generos</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="./app/views/portal/artistas.php" class="nav-link">Artistas</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="./app/views/portal/votar.php" class="nav-link">Votar</a>
+                </li>
             </ul>
 
             <!-- Right navbar links -->

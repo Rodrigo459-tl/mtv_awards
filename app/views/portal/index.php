@@ -1,12 +1,17 @@
 <?php
-//reinstanciar la variable
+//Importar Modelo
+require_once '../../models/Tabla_usuarios.php';
+
+//Reintancias la variable
 session_start();
 
-if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
+if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
     header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
-}
-//debbugear un array
-//print ("<pre>" . print_r($_SESSION) . "</pre>")
+}//end if 
+
+//Instancia del Objeto
+$tabla_usuarios = new Tabla_usuarios();
+$usuarios = $tabla_usuarios->readAllUsers();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,7 +55,7 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                     <nav class="classy-navbar justify-content-between" id="oneMusicNav">
 
                         <!-- Nav brand -->
-                        <a href="./dashboard.php" class="nav-brand"><img
+                        <a href="./index.php" class="nav-brand"><img
                                 src="../../../recursos/recursos_portal/img/core-img/logo.png" alt=""></a>
 
                         <!-- Navbar Toggler -->
@@ -69,39 +74,11 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                             <!-- Nav Start -->
                             <div class="classynav">
                                 <ul>
-                                    <li><a href="./dashboard.php">Home</a></li>
-                                    <li><a href="./albums-store.php">Albums</a></li>
-                                    <li><a href="#">Pages</a>
-                                        <ul class="dropdown">
-                                            <li><a href="./dashboard.php">Home</a></li>
-                                            <li><a href="./albums-store.php">Albums</a></li>
-                                            <li><a href="./event.php">Events</a></li>
-                                            <li><a href="./blog.php">News</a></li>
-                                            <li><a href="./contact.php">Contact</a></li>
-                                            <li><a href="./elements.php">Elements</a></li>
-                                            <li><a href="../../../index.php">Log out</a></li>
-                                            <li><a href="#">Dropdown</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="#">Even Dropdown</a></li>
-                                                    <li><a href="#">Even Dropdown</a></li>
-                                                    <li><a href="#">Even Dropdown</a></li>
-                                                    <li><a href="#">Even Dropdown</a>
-                                                        <ul class="dropdown">
-                                                            <li><a href="#">Deeply Dropdown</a></li>
-                                                            <li><a href="#">Deeply Dropdown</a></li>
-                                                            <li><a href="#">Deeply Dropdown</a></li>
-                                                            <li><a href="#">Deeply Dropdown</a></li>
-                                                            <li><a href="#">Deeply Dropdown</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="#">Even Dropdown</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="./event.php">Events</a></li>
-                                    <li><a href="./blog.php">News</a></li>
-                                    <li><a href="./contact.php">Contact</a></li>
+                                    <li><a href="./index.php">Inicio</a></li>
+                                    <li><a href="./event.php">Eventos</a></li>
+                                    <li><a href="./albums-store.php">Generos</a></li>
+                                    <li><a href="./artistas.php">Artistas</a></li>
+                                    <li><a href="./votar.php">Votar</a></li>
                                 </ul>
 
                                 <!-- Login/Register & Cart Button -->
@@ -115,10 +92,13 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                                                     <?= htmlspecialchars($_SESSION["nickname"]) ?>
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="userDropdown">
-                                                    <a class="dropdown-item text-dark" href="./perfil.php">Mi perfil</a>
+                                                    <a class="dropdown-item text-dark"
+                                                        href="../../backend/panel/validar_perfil.php>">Mi
+                                                        perfil</a>
                                                     <a class="dropdown-item text-dark"
                                                         href="../../backend/panel/liberate_user.php">Cerrar sesión</a>
                                                 </div>
+
                                             </div>
                                         <?php else: ?>
                                             <a href="../../../login.php">Iniciar sesión / Registrarse</a>
@@ -851,8 +831,8 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                             href="#"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             Copyright &copy;
                             <script>document.write(new Date().getFullYear());</script> All rights reserved | This
-                            template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
-                                href="https://colorlib.com" target="_blank">Colorlib</a>
+                            template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#"
+                                target="_blank">Colorlib</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                 </div>
 
@@ -862,8 +842,8 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                             <li><a href="./dashboard.php">Home</a></li>
                             <li><a href="./albums-store.php">Albums</a></li>
                             <li><a href="./event.php">Events</a></li>
-                            <li><a href="./blog.php">News</a></li>
-                            <li><a href="./contact.php">Contact</a></li>
+                            <li><a href="./artistas.php">News</a></li>
+                            <li><a href="./votar.php">Contact</a></li>
                         </ul>
                     </div>
                 </div>

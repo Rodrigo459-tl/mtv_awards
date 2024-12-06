@@ -44,10 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['message'] = array("type" => "info", "description" => "Bienvenido al sistema", "title" => "Inicio de sesión éxitoso");
                 header('Location: ../../views/portal/index.php');
                 exit();
-            } else {
-                $_SESSION['message'] = array("type" => "info", "description" => "Bienvenido al sistema", "title" => "Inicio de sesión éxitoso");
-                header('Location: ../../views/portal/index.php');
-                exit();
             }
 
         }//end if

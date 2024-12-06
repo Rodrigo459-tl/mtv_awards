@@ -92,13 +92,11 @@ $usuarios = $tabla_usuarios->readAllUsers();
                                                     <?= htmlspecialchars($_SESSION["nickname"]) ?>
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="userDropdown">
-                                                    <a class="dropdown-item text-dark"
-                                                        href="../../backend/panel/validar_perfil.php">Mi
+                                                    <a class="dropdown-item text-dark" href="./miPerfil.php">Mi
                                                         perfil</a>
                                                     <a class="dropdown-item text-dark"
                                                         href="../../backend/panel/liberate_user.php">Cerrar sesión</a>
                                                 </div>
-
                                             </div>
                                         <?php else: ?>
                                             <a href="../../../login.php">Iniciar sesión / Registrarse</a>
@@ -107,10 +105,8 @@ $usuarios = $tabla_usuarios->readAllUsers();
 
                                     <!-- Cart Button -->
                                 </div>
-
                             </div>
                             <!-- Nav End -->
-
                         </div>
                     </nav>
                 </div>

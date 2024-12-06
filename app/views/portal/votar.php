@@ -8,6 +8,15 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
 }
 //debbugear un array
 //print ("<pre>" . print_r($_SESSION) . "</pre>")
+// Importar el archivo que contiene la clase Tabla_albumes
+require_once '../../models/Tabla_albumes.php';
+
+// Instanciar la clase
+$tabla_albumes = new Tabla_albumes();
+
+// Obtener los álbumes
+$albums = $tabla_albumes->readAllAlbumsG();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -127,17 +136,32 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
         <div class="container">
             <div class="row oneMusic-albums">
 
-                <!-- Single Album -->
-                <div class="col-12 col-sm-4 col-md-3 col-lg-2 single-album-item t c p">
-                    <div class="single-album">
-                        <img src="../../../recursos/recursos_portal/img/bg-img/a1.jpg" alt="">
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>The Cure</h5>
-                            </a>
-                            <p>Second Song</p>
+                <!-- Generar dinámicamente las tarjetas de álbumes -->
+                <div class="row">
+                    <?php foreach ($albums as $album): ?>
+                        <div class="col-12 col-sm-4 col-md-3 col-lg-2 single-album-item t c p">
+                            <div class="single-album">
+                                <!-- Imagen del álbum -->
+                                <img src="<?= htmlspecialchars($album->imagen_album) ?>"
+                                    alt="<?= htmlspecialchars($album->titulo_album) ?>">
+                                <div class="album-info">
+                                    <!-- Título del álbum -->
+                                    <a href="#">
+                                        <h5><?= htmlspecialchars($album->titulo_album) ?></h5>
+                                    </a>
+                                    <p><?= htmlspecialchars($album->estatus_album) ?></p>
+                                </div>
+                                <!-- Botón Votar -->
+                                <div class="text-center mt-2">
+                                    <form action="../../backend/panel/procesar_votacion.php" method="POST">
+                                        <input type="hidden" name="id_album"
+                                            value="<?= htmlspecialchars($album->id_album) ?>">
+                                        <button type="submit" class="btn btn-primary">Votar</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
 
             </div>

@@ -16,10 +16,10 @@ VALUES (
         'Santana',
         'Gómez',
         1,
-        'carlos.santana@example.com',
+        'car.santana@example.com',
         SHA2('password123', 256),
         'carlos_santana.jpg',
-        85
+        8
     );
 -- Insertar artista relacionado con el usuario (usando LAST_INSERT_ID() para id_usuario)
 INSERT INTO artistas (

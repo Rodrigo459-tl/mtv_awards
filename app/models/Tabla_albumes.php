@@ -17,6 +17,27 @@ class Tabla_albumes
     // CRUD: Create | Read | Update | Delete
     //---------------------------
 
+    // Leer todos los álbumes de la tabla sin necesidad de un argumento
+    public function readAllAlbumsG()
+    {
+        $sql = "SELECT " . $this->table . ".id_album, 
+                   " . $this->table . ".titulo_album, 
+                   " . $this->table . ".imagen_album, 
+                   " . $this->table . ".estatus_album
+            FROM " . $this->table . "
+            ORDER BY " . $this->table . ".fecha_lanzamiento_album;";
+        try {
+            $stmt = $this->connect->prepare($sql);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
+            $stmt->execute();
+            $albums = $stmt->fetchAll();
+            return (!empty($albums)) ? $albums : array();
+        } catch (PDOException $e) {
+            echo "Error en la consulta: " . $e->getMessage();
+            return array();
+        }
+    }
+
     // Crear un nuevo álbum
     public function createAlbum($data = array())
     {

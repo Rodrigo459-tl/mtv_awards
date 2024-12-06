@@ -63,7 +63,7 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
                     <a href="./app/views/portal/artistas.php" class="nav-link">Artistas</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="./app/views/portal/votar.php" class="nav-link">Votar</a>
+                    <a href="../../views/portal/votar.php" class="nav-link">Votar</a>
                 </li>
             </ul>
 

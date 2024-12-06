@@ -94,37 +94,37 @@ INSERT INTO usuarios (
         id_rol
     )
 VALUES (
-        NULL,
+        1,
         NULL,
         'Admon',
         'Admon',
         NULL,
         0,
-        'admon@mtvawards.com',
+        'ad@mtvawards.com',
         SHA2("admon123", 0),
         NULL,
         128
     ),
     (
-        NULL,
+        1,
         NULL,
         'Artista',
         'Artista',
         NULL,
         0,
-        'artista@mtvawards.com',
+        'ar@mtvawards.com',
         SHA2("artista", 0),
         NULL,
         85
     ),
     (
-        NULL,
+        1,
         NULL,
         'Operador',
         'Operador',
         NULL,
         0,
-        'operador@mtvawards.com',
+        'op@mtvawards.com',
         SHA2("operador", 0),
         NULL,
         8

@@ -93,7 +93,7 @@ $usuarios = $tabla_usuarios->readAllUsers();
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="userDropdown">
                                                     <a class="dropdown-item text-dark"
-                                                        href="../../backend/panel/validar_perfil.php>">Mi
+                                                        href="../../backend/panel/validar_perfil.php">Mi
                                                         perfil</a>
                                                     <a class="dropdown-item text-dark"
                                                         href="../../backend/panel/liberate_user.php">Cerrar sesión</a>

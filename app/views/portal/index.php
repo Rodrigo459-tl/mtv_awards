@@ -24,10 +24,10 @@ $usuarios = $tabla_usuarios->readAllUsers();
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>One Music - Modern Music HTML5 Template</title>
+    <title>MTV awards</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="../../../recursos/recursos_portal/img/core-img/favicon.ico">
+    <link rel="icon" href="../../../recursos/img/system/mtv-logo.jpg">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../../recursos/recursos_portal/style.css">
@@ -128,7 +128,7 @@ $usuarios = $tabla_usuarios->readAllUsers();
                     <div class="row">
                         <div class="col-12">
                             <div class="hero-slides-content text-center">
-                                <h6 data-animation="fadeInUp" data-delay="100ms">Latest album</h6>
+                                <h6 data-animation="fadeInUp" data-delay="100ms">Conoce los albumes</h6>
                                 <h2 data-animation="fadeInUp" data-delay="300ms">Beyond Time <span>Beyond Time</span>
                                 </h2>
                                 <a data-animation="fadeInUp" data-delay="500ms" href="#"

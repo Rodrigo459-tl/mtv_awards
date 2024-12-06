@@ -2,7 +2,7 @@
 echo 'Validating...';
 
 // Importar librería modelo
-require_once '../../models/Tabla_votacion.php';
+require_once '../../models/Tabla_votaciones.php';
 
 // Iniciar la sesión
 session_start();
@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "description" => "La votación ha sido registrada de manera correcta...",
                 "title" => "¡Votación Exitosa!"
             );
-            header('Location: ../../views/panel/votaciones.php');
+            header('Location: ../../views/portal/votar.php');
             exit();
         } else {
             $_SESSION['message'] = array(
@@ -67,4 +67,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Location: ../../views/panel/votacion_nueva.php');
     exit();
 }
-?>

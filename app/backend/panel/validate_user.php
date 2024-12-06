@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = $tabla_usuario->validateUser($email, $pass);
 
         print_r($data);
-        if (!empty($data)) {
+        if (!empty($data && $data->estatus_usuario == true)) {
             $_SESSION["is_logged"] = true;
             $_SESSION["id_usuario"] = $data->id_usuario;
             $_SESSION["rol"] = $data->id_rol;

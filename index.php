@@ -45,7 +45,7 @@ $connect = new Conecct();
 
             <!-- Nav brand -->
             <a href="./app/views/portal/index.php" class="nav-brand"><img
-                src="./recursos/img/system/mtv-logo-blanco.png" alt=""></a>
+                src="./recursos/img/system/mtv-logo-blanco.png" width="50%" alt=""></a>
 
             <!-- Menu -->
             <div class="classy-menu">

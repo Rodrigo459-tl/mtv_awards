@@ -13,7 +13,7 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
 
 // Instancia del Objeto
 $tabla_canciones = new Tabla_canciones();
-$canciones = $tabla_canciones->readAllCanciones($_SESSION["id_usuario"]);
+$canciones = $tabla_canciones->readAllC();
 ?>
 
 <!DOCTYPE html>

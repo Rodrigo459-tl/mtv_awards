@@ -36,6 +36,24 @@ class Tabla_canciones
         }
     }
 
+    public function readAllC()
+{
+    $sql = "SELECT c.* 
+            FROM " . $this->table . " c 
+            INNER JOIN artistas a ON c.id_artista = a.id_artista 
+            ORDER BY c.nombre_cancion";
+    try {
+        $stmt = $this->connect->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_OBJ);
+        $stmt->execute();
+        $canciones = $stmt->fetchAll();
+        return (!empty($canciones)) ? $canciones : array();
+    } catch (PDOException $e) {
+        echo "Error in query: " . $e->getMessage();
+        return array();
+    }
+}
+
     public function readAllCanciones($id_usuario)
     {
         $sql = "SELECT c.* 

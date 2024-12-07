@@ -49,8 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Preparar los datos para el registro
         $data = array(
 
-            "fecha_lanzamiento_album" => $fecha_lanzamiento,
             "titulo_album" => $titulo,
+            "fecha_lanzamiento_album" => $fecha_lanzamiento,
             "descripcion_album" => $descripcion,
             "imagen_album" => ($file_name == null) ? null : $file_name,
             "id_artista" => $id_artista,

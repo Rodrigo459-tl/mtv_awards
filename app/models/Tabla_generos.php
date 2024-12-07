@@ -32,6 +32,7 @@ class Tabla_generos
             return array();
         }
     }
+    
 
     public function readAllGenerosIncluyendoEstatus()
     {

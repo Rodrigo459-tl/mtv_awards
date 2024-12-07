@@ -54,7 +54,7 @@ if (empty($cancion)) {
 $tabla_albumes = new Tabla_albumes();
 $tabla_generos = new Tabla_generos();
 
-$albumes = $tabla_albumes->readAllAlbums($_SESSION["id_usuario"]);
+$albumes = $tabla_albumes->readAllAlbumsG();
 $generos = $tabla_generos->readAllGeneros();
 ?>
 
@@ -166,11 +166,16 @@ $generos = $tabla_generos->readAllGeneros();
                                                 value="<?= $cancion->fecha_lanzamiento_cancion ?>" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="duracion_cancion">Duración</label>
-                                            <input type="time" name="duracion_cancion" class="form-control"
-                                                id="duracion_cancion" value="<?= $cancion->duracion_cancion ?>"
-                                                required>
+                                            <label for="duracion_cancion">Duración (HH:MM:SS)</label>
+                                            <input type="text" name="duracion_cancion" class="form-control"
+                                                id="duracion_cancion"
+                                                value="<?= isset($cancion->duracion_cancion) ? $cancion->duracion_cancion : '' ?>"
+                                                placeholder="HH:MM:SS" required>
+                                            <small class="form-text text-muted">
+                                                Ingrese la duración en formato HH:MM:SS (24 horas)
+                                            </small>
                                         </div>
+
                                         <div class="form-group">
                                             <label for="id_album">Álbum</label>
                                             <select class="form-control" name="id_album" id="id_album" required>

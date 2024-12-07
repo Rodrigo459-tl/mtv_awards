@@ -1,7 +1,16 @@
 <?php
 //Importar Modelo
 require_once '../../models/Tabla_usuarios.php';
+require_once '../../models/Tabla_artista.php';
+require_once '../../models/Tabla_albumes.php';
 
+//instanciar modelo artista
+$tabla_artista = new Tabla_artista();
+$artistas = $tabla_artista->readAllArtists();
+
+//instanciar modelo albumes
+$tabla_album = new Tabla_albumes();
+$albums = $tabla_album->readAllAlbumsG();
 //Reintancias la variable
 session_start();
 
@@ -56,7 +65,7 @@ $usuarios = $tabla_usuarios->readAllUsers();
 
                         <!-- Nav brand -->
                         <a href="./index.php" class="nav-brand"><img
-                                src="../../../recursos/recursos_portal/img/core-img/logo.png" alt=""></a>
+                                src="../../../recursos/img/system/mtv-logo-blanco.png" width="50%" alt=""></a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -128,11 +137,13 @@ $usuarios = $tabla_usuarios->readAllUsers();
                     <div class="row">
                         <div class="col-12">
                             <div class="hero-slides-content text-center">
-                                <h6 data-animation="fadeInUp" data-delay="100ms">Conoce los albumes</h6>
-                                <h2 data-animation="fadeInUp" data-delay="300ms">Beyond Time <span>Beyond Time</span>
+                                <h6 data-animation="fadeInUp" data-delay="100ms">Participa ahora</h6>
+                                <h2 data-animation="fadeInUp" data-delay="300ms">Vota por tu álbum favorito <span>¡Haz
+                                        tu elección!</span>
                                 </h2>
-                                <a data-animation="fadeInUp" data-delay="500ms" href="#"
-                                    class="btn oneMusic-btn mt-50">Discover <i class="fa fa-angle-double-right"></i></a>
+                                <a data-animation="fadeInUp" data-delay="500ms" href="./votar.php"
+                                    class="btn oneMusic-btn mt-50">Vota por tu artista <i
+                                        class="fa fa-angle-double-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -149,11 +160,12 @@ $usuarios = $tabla_usuarios->readAllUsers();
                     <div class="row">
                         <div class="col-12">
                             <div class="hero-slides-content text-center">
-                                <h6 data-animation="fadeInUp" data-delay="100ms">Latest album</h6>
-                                <h2 data-animation="fadeInUp" data-delay="300ms">Colorlib Music <span>Colorlib
-                                        Music</span></h2>
-                                <a data-animation="fadeInUp" data-delay="500ms" href="#"
-                                    class="btn oneMusic-btn mt-50">Discover <i class="fa fa-angle-double-right"></i></a>
+                                <h6 data-animation="fadeInUp" data-delay="100ms">Descubre al mejor</h6>
+                                <h2 data-animation="fadeInUp" data-delay="300ms">El artista más escuchado<span>¡No te lo
+                                        pierdas!</span></h2>
+                                <a data-animation="fadeInUp" data-delay="500ms" href="./artistas.php"
+                                    class="btn oneMusic-btn mt-50">Ver artistas <i
+                                        class="fa fa-angle-double-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -169,18 +181,18 @@ $usuarios = $tabla_usuarios->readAllUsers();
             <div class="row">
                 <div class="col-12">
                     <div class="section-heading style-2">
-                        <p>See what’s new</p>
-                        <h2>Latest Albums</h2>
+                        <p>Descubre la música</p>
+                        <h2>Artistas y sus géneros</h2>
                     </div>
                 </div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-9">
                     <div class="ablums-text text-center mb-70">
-                        <p>Nam tristique ex vel magna tincidunt, ut porta nisl finibus. Vivamus eu dolor eu quam varius
-                            rutrum. Fusce nec justo id sem aliquam fringilla nec non lacus. Suspendisse eget lobortis
-                            nisi, ac cursus odio. Vivamus nibh velit, rutrum at ipsum ac, dignissim iaculis ante. Donec
-                            in velit non elit pulvinar pellentesque et non eros.</p>
+                        <p>Explora nuestra amplia colección de artistas, desde las icónicas leyendas del rock hasta las
+                            voces emergentes del pop y el indie. Cada género tiene una historia única que contar, y
+                            nuestros artistas lo llevan a otro nivel. Encuentra tus favoritos o descubre nuevos sonidos
+                            que te inspiren. ¡Sumérgete en un viaje musical sin igual!</p>
                     </div>
                 </div>
             </div>
@@ -188,82 +200,19 @@ $usuarios = $tabla_usuarios->readAllUsers();
             <div class="row">
                 <div class="col-12">
                     <div class="albums-slideshow owl-carousel">
-                        <!-- Single Album -->
-                        <div class="single-album">
-                            <img src="../../img/bg-img/a1.jpg" alt="">
-                            <div class="album-info">
-                                <a href="#">
-                                    <h5>The Cure</h5>
-                                </a>
-                                <p>Second Song</p>
-                            </div>
-                        </div>
 
                         <!-- Single Album -->
-                        <div class="single-album">
-                            <img src="../../img/bg-img/a2.jpg" alt="">
-                            <div class="album-info">
-                                <a href="#">
-                                    <h5>Sam Smith</h5>
-                                </a>
-                                <p>Underground</p>
+                        <?php foreach ($artistas as $artista): ?>
+                            <div class="single-album">
+                                <img src="../../img/bg-img/a7.jpg" alt="">
+                                <div class="album-info">
+                                    <a href="#">
+                                        <h5><?= $artista->pseudonimo_artista ?></h5>
+                                    </a>
+                                    <p><?= $artista->nombre_genero ?></p>
+                                </div>
                             </div>
-                        </div>
-
-                        <!-- Single Album -->
-                        <div class="single-album">
-                            <img src="../../img/bg-img/a3.jpg" alt="">
-                            <div class="album-info">
-                                <a href="#">
-                                    <h5>Will I am</h5>
-                                </a>
-                                <p>First</p>
-                            </div>
-                        </div>
-
-                        <!-- Single Album -->
-                        <div class="single-album">
-                            <img src="../../img/bg-img/a4.jpg" alt="">
-                            <div class="album-info">
-                                <a href="#">
-                                    <h5>The Cure</h5>
-                                </a>
-                                <p>Second Song</p>
-                            </div>
-                        </div>
-
-                        <!-- Single Album -->
-                        <div class="single-album">
-                            <img src="../../img/bg-img/a5.jpg" alt="">
-                            <div class="album-info">
-                                <a href="#">
-                                    <h5>DJ SMITH</h5>
-                                </a>
-                                <p>The Album</p>
-                            </div>
-                        </div>
-
-                        <!-- Single Album -->
-                        <div class="single-album">
-                            <img src="../../img/bg-img/a6.jpg" alt="">
-                            <div class="album-info">
-                                <a href="#">
-                                    <h5>The Ustopable</h5>
-                                </a>
-                                <p>Unplugged</p>
-                            </div>
-                        </div>
-
-                        <!-- Single Album -->
-                        <div class="single-album">
-                            <img src="../../img/bg-img/a7.jpg" alt="">
-                            <div class="album-info">
-                                <a href="#">
-                                    <h5>Beyonce</h5>
-                                </a>
-                                <p>Songs</p>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -277,8 +226,18 @@ $usuarios = $tabla_usuarios->readAllUsers();
             <div class="row">
                 <div class="col-12">
                     <div class="section-heading style-2">
-                        <p>See what’s new</p>
-                        <h2>Buy What’s New</h2>
+                        <p>Explora lo mejor</p>
+                        <h2>Álbumes destacados</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-9">
+                    <div class="albums-text text-center mb-70">
+                        <p>Descubre los álbumes que están marcando tendencia. Desde las producciones más votadas por la
+                            comunidad hasta los lanzamientos que redefinen los géneros musicales, cada álbum cuenta una
+                            historia única. Explora tus favoritos o déjate sorprender por nuevos ritmos y sonidos. ¡La
+                            música está esperando por ti!</p>
                     </div>
                 </div>
             </div>
@@ -286,215 +245,27 @@ $usuarios = $tabla_usuarios->readAllUsers();
             <div class="row">
 
                 <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                    <div class="single-album-area wow fadeInUp" data-wow-delay="100ms">
-                        <div class="album-thumb">
-                            <img src="../../img/bg-img/b1.jpg" alt="">
-                            <!-- Album Price -->
-                            <div class="album-price">
-                                <p>$0.90</p>
+                <?php foreach ($albums as $album): ?>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                        <div class="single-album-area wow fadeInUp" data-wow-delay="300ms">
+                            <div class="album-thumb">
+                                <img src="../../img/bg-img/b3.jpg" alt="">
                             </div>
-                            <!-- Play Icon -->
-                            <div class="play-icon">
-                                <a href="#" class="video--play--btn"><span class="icon-play-button"></span></a>
-                            </div>
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Garage Band</h5>
-                            </a>
-                            <p>Radio Station</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                    <div class="single-album-area wow fadeInUp" data-wow-delay="200ms">
-                        <div class="album-thumb">
-                            <img src="../../img/bg-img/b2.jpg" alt="">
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Noises</h5>
-                            </a>
-                            <p>Buble Gum</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                    <div class="single-album-area wow fadeInUp" data-wow-delay="300ms">
-                        <div class="album-thumb">
-                            <img src="../../img/bg-img/b3.jpg" alt="">
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Jess Parker</h5>
-                            </a>
-                            <p>The Album</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                    <div class="single-album-area wow fadeInUp" data-wow-delay="400ms">
-                        <div class="album-thumb">
-                            <img src="../../img/bg-img/b4.jpg" alt="">
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Noises</h5>
-                            </a>
-                            <p>Buble Gum</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                    <div class="single-album-area wow fadeInUp" data-wow-delay="500ms">
-                        <div class="album-thumb">
-                            <img src="../../img/bg-img/b1.jpg" alt="">
-                            <!-- Album Price -->
-                            <div class="album-price">
-                                <p>$0.90</p>
-                            </div>
-                            <!-- Play Icon -->
-                            <div class="play-icon">
-                                <a href="#" class="video--play--btn"><span class="icon-play-button"></span></a>
+                            <div class="album-info">
+                                <a href="#">
+                                    <h5><?= $album->titulo_album ?></h5>
+                                </a>
+                               <!-- <p> $album->fecha_lanzamiento_album</p>-->
                             </div>
                         </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Garage Band</h5>
-                            </a>
-                            <p>Radio Station</p>
-                        </div>
                     </div>
-                </div>
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                    <div class="single-album-area wow fadeInUp" data-wow-delay="600ms">
-                        <div class="album-thumb">
-                            <img src="../../img/bg-img/b2.jpg" alt="">
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Noises</h5>
-                            </a>
-                            <p>Buble Gum</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                    <div class="single-album-area wow fadeInUp" data-wow-delay="100ms">
-                        <div class="album-thumb">
-                            <img src="../../img/bg-img/b3.jpg" alt="">
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Jess Parker</h5>
-                            </a>
-                            <p>The Album</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                    <div class="single-album-area wow fadeInUp" data-wow-delay="200ms">
-                        <div class="album-thumb">
-                            <img src="../../img/bg-img/b4.jpg" alt="">
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Noises</h5>
-                            </a>
-                            <p>Buble Gum</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                    <div class="single-album-area wow fadeInUp" data-wow-delay="300ms">
-                        <div class="album-thumb">
-                            <img src="../../img/bg-img/b1.jpg" alt="">
-                            <!-- Album Price -->
-                            <div class="album-price">
-                                <p>$0.90</p>
-                            </div>
-                            <!-- Play Icon -->
-                            <div class="play-icon">
-                                <a href="#" class="video--play--btn"><span class="icon-play-button"></span></a>
-                            </div>
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Garage Band</h5>
-                            </a>
-                            <p>Radio Station</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                    <div class="single-album-area wow fadeInUp" data-wow-delay="400ms">
-                        <div class="album-thumb">
-                            <img src="../../img/bg-img/b2.jpg" alt="">
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Noises</h5>
-                            </a>
-                            <p>Buble Gum</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                    <div class="single-album-area wow fadeInUp" data-wow-delay="500ms">
-                        <div class="album-thumb">
-                            <img src="../../img/bg-img/b3.jpg" alt="">
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Jess Parker</h5>
-                            </a>
-                            <p>The Album</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                    <div class="single-album-area wow fadeInUp" data-wow-delay="600ms">
-                        <div class="album-thumb">
-                            <img src="../../img/bg-img/b4.jpg" alt="">
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Noises</h5>
-                            </a>
-                            <p>Buble Gum</p>
-                        </div>
-                    </div>
-                </div>
-
+                <?php endforeach; ?>
             </div>
 
             <div class="row">
                 <div class="col-12">
                     <div class="load-more-btn text-center wow fadeInUp" data-wow-delay="300ms">
-                        <a href="#" class="btn oneMusic-btn">Load More <i class="fa fa-angle-double-right"></i></a>
+                        <a href="./albums-store.php" class="btn oneMusic-btn">Ver Albums <i class="fa fa-angle-double-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -502,41 +273,6 @@ $usuarios = $tabla_usuarios->readAllUsers();
     </section>
     <!-- ##### Buy Now Area End ##### -->
 
-    <!-- ##### Featured Artist Area Start ##### -->
-    <section class="featured-artist-area section-padding-100 bg-img bg-overlay bg-fixed"
-        style="background-image: url(../../../recursos/recursos_portal/img/bg-img/bg-4.jpg);">
-        <div class="container">
-            <div class="row align-items-end">
-                <div class="col-12 col-md-5 col-lg-4">
-                    <div class="featured-artist-thumb">
-                        <img src="../../img/bg-img/fa.jpg" alt="">
-                    </div>
-                </div>
-                <div class="col-12 col-md-7 col-lg-8">
-                    <div class="featured-artist-content">
-                        <!-- Section Heading -->
-                        <div class="section-heading white text-left mb-30">
-                            <p>See what’s new</p>
-                            <h2>Buy What’s New</h2>
-                        </div>
-                        <p>Nam tristique ex vel magna tincidunt, ut porta nisl finibus. Vivamus eu dolor eu quam varius
-                            rutrum. Fusce nec justo id sem aliquam fringilla nec non lacus. Suspendisse eget lobortis
-                            nisi, ac cursus odio. Vivamus nibh velit, rutrum at ipsum ac, dignissim iaculis ante. Donec
-                            in velit non elit pulvinar pellentesque et non eros.</p>
-                        <div class="song-play-area">
-                            <div class="song-name">
-                                <p>01. Main Hit Song</p>
-                            </div>
-                            <audio preload="auto" controls>
-                                <source src="../../audio/dummy-audio.mp3">
-                            </audio>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ##### Featured Artist Area End ##### -->
 
     <!-- ##### Miscellaneous Area Start ##### -->
     <section class="miscellaneous-area section-padding-100-0">
@@ -821,25 +557,18 @@ $usuarios = $tabla_usuarios->readAllUsers();
         <div class="container">
             <div class="row d-flex flex-wrap align-items-center">
                 <div class="col-12 col-md-6">
-                    <a href="./dashboard.php"><img src="../../../../recursos/recursos_portal/img/core-img/logo.png"
+                    <a href="./dashboard.php"><img src="../../../recursos/img/system/mtv-logo-blanco.png" width="15%"
                             alt=""></a>
-                    <p class="copywrite-text"><a
-                            href="#"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This
-                            template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#"
-                                target="_blank">Colorlib</a>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                 </div>
 
                 <div class="col-12 col-md-6">
                     <div class="footer-nav">
                         <ul>
-                            <li><a href="./dashboard.php">Home</a></li>
-                            <li><a href="./albums-store.php">Albums</a></li>
-                            <li><a href="./event.php">Events</a></li>
-                            <li><a href="./artistas.php">News</a></li>
-                            <li><a href="./votar.php">Contact</a></li>
+                            <li><a href="./index.php">Inicio</a></li>
+                            <li><a href="./event.php">Eventos</a></li>
+                            <li><a href="./albums-store.php">Generos</a></li>
+                            <li><a href="./artistas.php">Artistas</a></li>
+                            <li><a href="./votar.php">Votar</a></li>
                         </ul>
                     </div>
                 </div>

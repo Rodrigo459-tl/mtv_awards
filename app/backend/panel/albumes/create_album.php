@@ -4,6 +4,7 @@ echo 'Validating...';
 
 // Importar el modelo
 require_once '../../../models/Tabla_albumes.php';
+require_once '../../../models/Tabla_artista.php';
 
 // Iniciar la sesión
 session_start();
@@ -11,13 +12,14 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Instancia del modelo
     $tabla_album = new Tabla_albumes();
+    $tabla_artista = new Tabla_artista();
 
     // Verificar que los datos requeridos estén presentes
     if (isset($_POST["titulo_album"], $_POST["fecha_lanzamiento_album"], $_POST["id_genero"])) {
         $titulo = $_POST["titulo_album"];
         $fecha_lanzamiento = $_POST["fecha_lanzamiento_album"];
         $descripcion = isset($_POST["descripcion_album"]) ? $_POST["descripcion_album"] : null;
-        $id_artista = $_SESSION['id_usuario']; // Usar la ID del usuario autenticado como ID del artista
+        $id_artista = $tabla_artista->getArtistaByUsuario($_SESSION['id_usuario'])->id_artista; // Usar la ID del usuario autenticado como ID del artista
         $id_genero = $_POST["id_genero"];
 
         // Manejar la imagen del álbum
@@ -58,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         );
         echo print ("<pre>" . print_r($data, true) . "</pre>");
 
-        
+
         // Intentar registrar el álbum
         if ($tabla_album->createAlbum($data)) {
             $_SESSION['message'] = array(
@@ -74,10 +76,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "description" => "Ocurrió un error al registrar el álbum.",
                 "title" => "¡ERROR!"
             );
-            header('Location: ../../../views/panel/album_nuevo.php');
+            //header('Location: ../../../views/panel/album_nuevo.php');
+            print_r($data);
             exit();
         }
-        
+
     } else {
         $_SESSION['message'] = array(
             "type" => "error",

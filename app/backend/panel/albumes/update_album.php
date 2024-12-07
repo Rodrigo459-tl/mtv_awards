@@ -21,18 +21,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fecha_lanzamiento = $_POST["fecha_lanzamiento_album"];
         $id_genero = $_POST["id_genero"];
 
+        //Prepara la ruta de la imagen anterior:
+        $oldImg = $_SERVER['DOCUMENT_ROOT'] . "/mtv_awards/recursos/img/albums/" . $_POST["imagen_anterior"];
+
         // Preparar datos para la actualización
         $data = array(
             "titulo_album" => $titulo,
             "descripcion_album" => $descripcion,
             "fecha_lanzamiento_album" => $fecha_lanzamiento,
             "id_genero" => $id_genero,
+            "imagen_album" => null,
         );
 
         // Manejo de la imagen
         $img = $_FILES["imagen_album"];
         $file_name = null;
 
+        //Verifica que exista una imagen que actualizar
         if (!empty($img["name"])) {
             // Validar la extensión
             $temp = explode(".", $img["name"]);
@@ -50,14 +55,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             // Eliminar la imagen anterior si existe
-            if (!empty($_POST['imagen_anterior']) && file_exists("../../../recursos/img/albums/" . $_POST["imagen_anterior"])) {
-                unlink("../../../recursos/img/albums/" . $_POST["imagen_anterior"]);
+            if (!empty($_POST['imagen_anterior']) && file_exists($oldImg)) {
+                unlink($oldImg);
             }
 
-            // Guardar la nueva imagen
-            if (move_uploaded_file($img['tmp_name'], "../../../recursos/img/albums/" . $img['name'])) {
+            // Guardar la nueva imagen y asigna su ruta al update
+            if (move_uploaded_file($img['tmp_name'], "../../../../recursos/img/albums/" . $img['name'])) {
                 $file_name = $img['name'];
-                $data['imagen_album'] = $file_name;
+                $data["imagen_album"] = $file_name;
+
             } else {
                 $_SESSION['message'] = array(
                     "type" => "warning",

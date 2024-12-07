@@ -1,6 +1,4 @@
 <?php
-echo 'Validating...';
-
 // Importar librería modelo
 require_once '../../../models/Tabla_albumes.php';
 
@@ -15,14 +13,19 @@ if (isset($_GET['id'])) {
     $album = $tabla_album->readGetAlbum($id_album);
 
     if (!empty($album)) {
+
         // Verificar si el álbum tiene una imagen asociada
         if ($album->imagen_album != null) {
-            $image_path = '../../../recursos/img/albums/' . $album->imagen_album;
 
-            // Si la imagen existe, intentar eliminarla
-            if (file_exists($image_path) && unlink($image_path)) {
-                // Si se elimina la imagen, intentar eliminar el álbum
-                if ($tabla_album->deleteAlbum($id_album)) {
+            //Asignacion y verificacion de la ruta de la imagen
+            $image_path = $_SERVER['DOCUMENT_ROOT'] . "/mtv_awards/recursos/img/albums/" . $album->imagen_album;
+            echo "Ruta relativa: $image_path<br>";
+
+            // Verificar si la imagen existe
+            if (file_exists($image_path)) {
+                print_r('la ruta si exista');
+                // Intentar eliminar la imagen
+                if (unlink($image_path) && $tabla_album->deleteAlbum($id_album)) {
                     $_SESSION['message'] = array(
                         "type" => "success",
                         "description" => "El álbum ha sido eliminado de manera correcta.",
@@ -31,17 +34,20 @@ if (isset($_GET['id'])) {
                 } else {
                     $_SESSION['message'] = array(
                         "type" => "warning",
-                        "description" => "Error al intentar eliminar el álbum de la base de datos.",
-                        "title" => "¡Ocurrió Error!"
+                        "description" => "Error al eliminar el album",
+                        "title" => "¡Advertencia!"
                     );
                 }
             } else {
+                print_r('la ruta no existe');
                 $_SESSION['message'] = array(
                     "type" => "warning",
-                    "description" => "Error al intentar eliminar la imagen del álbum.",
-                    "title" => "¡Ocurrió Error!"
+                    "description" => "La imagen asociada no se encontró en el servidor, pero se procederá a eliminar el álbum de la base de datos.",
+                    "title" => "¡Advertencia!"
                 );
+                $tabla_album->deleteAlbum($id_album);
             }
+
         } else {
             // Si no tiene imagen, solo intentar eliminar el álbum
             if ($tabla_album->deleteAlbum($id_album)) {
@@ -66,7 +72,7 @@ if (isset($_GET['id'])) {
         );
     }
 
-    // Redirigir a la lista de álbumes
+    //Redirigir a la lista de álbumes
     header('Location: ../../../views/panel/albumes.php');
     exit();
 } else {

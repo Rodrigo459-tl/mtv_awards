@@ -162,30 +162,19 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
             <div class="row oneMusic-albums">
 
                 <!-- Single Album -->
-                <div class="col-12 col-sm-4 col-md-3 col-lg-2 single-album-item t c p">
-                    <div class="single-album">
-                        <img src="../../../recursos/recursos_portal/img/bg-img/a1.jpg" alt="">
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>The Cure</h5>
-                            </a>
-                            <p>Second Song</p>
+                <?php foreach ($artistas as $artista): ?>
+                    <div class="col-12 col-sm-4 col-md-3 col-lg-2 single-album-item t c p">
+                        <div class="single-album">
+                            <img src="../../../recursos/recursos_portal/img/users/<?=$artista->imagen_usuario?>" alt="">
+                            <div class="album-info">
+                                <a href="#">
+                                    <h5><?= $artista->pseudonimo_artista ?></h5>
+                                </a>
+                                <p><?= $artista->nombre_genero ?></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Single Album -->
-                <div class="col-12 col-sm-4 col-md-3 col-lg-2 single-album-item s e q">
-                    <div class="single-album">
-                        <img src="../../../recursos/recursos_portal/img/bg-img/a2.jpg" alt="">
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Sam Smith</h5>
-                            </a>
-                            <p>Underground</p>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
 
             </div>
         </div>

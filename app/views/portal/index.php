@@ -102,7 +102,7 @@ $usuarios = $tabla_usuarios->readAllUsers();
                                                     <?= htmlspecialchars($_SESSION["nickname"]) ?>
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="userDropdown">
-                                                    <a class="dropdown-item text-dark" href="./miPerfil.php">Mi
+                                                    <a class="dropdown-item text-dark" href="../../backend/panel/validate_perfil.php">Mi
                                                         perfil</a>
                                                     <a class="dropdown-item text-dark"
                                                         href="../../backend/panel/liberate_user.php">Cerrar sesión</a>

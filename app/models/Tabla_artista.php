@@ -225,52 +225,55 @@ class Tabla_artista
     } //end getAlbumDetails
 
     public function getAllAlbumDetails()
-{
-    $sql = "SELECT 
-                a.titulo_album AS Album,
-                ar.pseudonimo_artista AS Artista,
-                c.nombre_cancion AS Cancion,
-                c.url_cancion AS UrlCancion
-            FROM 
-                albumes a
-            INNER JOIN 
-                artistas ar ON a.id_artista = ar.id_artista
-            INNER JOIN 
-                canciones c ON a.id_album = c.id_album
-            ORDER BY 
-                a.titulo_album, c.nombre_cancion";
+    {
+        $sql = "SELECT 
+                    a.titulo_album AS Album,
+                    ar.pseudonimo_artista AS Artista,
+                    c.nombre_cancion AS Cancion,
+                    c.url_cancion AS UrlCancion,
+                    c.mp3_cancion AS Mp3Cancion
+                FROM 
+                    albumes a
+                INNER JOIN 
+                    artistas ar ON a.id_artista = ar.id_artista
+                INNER JOIN 
+                    canciones c ON a.id_album = c.id_album
+                ORDER BY 
+                    a.titulo_album, c.nombre_cancion";
 
-    try {
-        $stmt = $this->connect->prepare($sql);
-        $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        try {
+            $stmt = $this->connect->prepare($sql);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-        $results = $stmt->fetchAll();
+            $results = $stmt->fetchAll();
 
-        // Reorganizar los datos en un array anidado
-        $albums = [];
-        foreach ($results as $row) {
-            $albumKey = $row['Album']; // Agrupar por álbum
-            if (!isset($albums[$albumKey])) {
-                $albums[$albumKey] = [
-                    'Artista' => $row['Artista'],
-                    'Album' => $row['Album'],
-                    'Canciones' => []
+            // Reorganizar los datos en un array anidado
+            $albums = [];
+            foreach ($results as $row) {
+                $albumKey = $row['Album']; // Agrupar por álbum
+                if (!isset($albums[$albumKey])) {
+                    $albums[$albumKey] = [
+                        'Artista' => $row['Artista'],
+                        'Album' => $row['Album'],
+                        'Canciones' => []
+                    ];
+                }
+
+                $albums[$albumKey]['Canciones'][] = [
+                    'nombre_cancion' => $row['Cancion'],
+                    'url_cancion' => $row['UrlCancion'],
+                    'mp3_cancion' => $row['Mp3Cancion'] // Incluir mp3_cancion
                 ];
             }
 
-            $albums[$albumKey]['Canciones'][] = [
-                'nombre_cancion' => $row['Cancion'],
-                'url_cancion' => $row['UrlCancion']
-            ];
+            return array_values($albums); // Reindexar el array
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return [];
         }
-
-        return array_values($albums); // Reindexar el array
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
-        return [];
     }
-}
+
 
 
 

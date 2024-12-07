@@ -166,4 +166,112 @@ class Tabla_artista
             return null;
         }
     } //end getArtistaByUsuario
+
+    public function getAlbumDetails($id_album)
+    {
+        // Primera consulta: Obtener título del álbum y las canciones
+        $sqlAlbum = "SELECT 
+                    a.titulo_album AS Album,
+                    c.nombre_cancion AS Cancion
+                 FROM 
+                    albumes a
+                 INNER JOIN 
+                    canciones c ON a.id_album = c.id_album
+                 WHERE 
+                    a.id_album = :id_album
+                 ORDER BY 
+                    c.nombre_cancion;";
+
+        // Segunda consulta: Obtener título del álbum, artista y canciones
+        $sqlAlbumArtist = "SELECT 
+                          a.titulo_album AS Album,
+                          ar.pseudonimo_artista AS Artista,
+                          c.nombre_cancion AS Cancion
+                       FROM 
+                          albumes a
+                       INNER JOIN 
+                          artistas ar ON a.id_artista = ar.id_artista
+                       INNER JOIN 
+                          canciones c ON a.id_album = c.id_album
+                       WHERE 
+                          a.id_album = :id_album
+                       ORDER BY 
+                          c.nombre_cancion;";
+
+        try {
+            // Preparar la primera consulta
+            $stmtAlbum = $this->connect->prepare($sqlAlbum);
+            $stmtAlbum->bindValue(":id_album", $id_album, PDO::PARAM_INT);
+            $stmtAlbum->setFetchMode(PDO::FETCH_OBJ);
+            $stmtAlbum->execute();
+            $albumData = $stmtAlbum->fetchAll();
+
+            // Preparar la segunda consulta
+            $stmtAlbumArtist = $this->connect->prepare($sqlAlbumArtist);
+            $stmtAlbumArtist->bindValue(":id_album", $id_album, PDO::PARAM_INT);
+            $stmtAlbumArtist->setFetchMode(PDO::FETCH_OBJ);
+            $stmtAlbumArtist->execute();
+            $albumArtistData = $stmtAlbumArtist->fetchAll();
+
+            // Retornar ambas consultas en un array
+            return [
+                "album_details" => $albumData,
+                "album_with_artist" => $albumArtistData
+            ];
+        } catch (PDOException $e) {
+            echo "Error en la consulta: " . $e->getMessage();
+            return null;
+        }
+    } //end getAlbumDetails
+
+    public function getAllAlbumDetails()
+{
+    $sql = "SELECT 
+                a.titulo_album AS Album,
+                ar.pseudonimo_artista AS Artista,
+                c.nombre_cancion AS Cancion,
+                c.url_cancion AS UrlCancion
+            FROM 
+                albumes a
+            INNER JOIN 
+                artistas ar ON a.id_artista = ar.id_artista
+            INNER JOIN 
+                canciones c ON a.id_album = c.id_album
+            ORDER BY 
+                a.titulo_album, c.nombre_cancion";
+
+    try {
+        $stmt = $this->connect->prepare($sql);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $results = $stmt->fetchAll();
+
+        // Reorganizar los datos en un array anidado
+        $albums = [];
+        foreach ($results as $row) {
+            $albumKey = $row['Album']; // Agrupar por álbum
+            if (!isset($albums[$albumKey])) {
+                $albums[$albumKey] = [
+                    'Artista' => $row['Artista'],
+                    'Album' => $row['Album'],
+                    'Canciones' => []
+                ];
+            }
+
+            $albums[$albumKey]['Canciones'][] = [
+                'nombre_cancion' => $row['Cancion'],
+                'url_cancion' => $row['UrlCancion']
+            ];
+        }
+
+        return array_values($albums); // Reindexar el array
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+        return [];
+    }
+}
+
+
+
 } //end Tabla_artistas

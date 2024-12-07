@@ -42,6 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mp3 = $_FILES["mp3_cancion"];
         $file_name = null;
 
+        //Ruta del anterior archivo mp3.
+        $oldMp3 = $_SERVER['DOCUMENT_ROOT'] . "/mtv_awards/recursos/audio/" . $_POST["mp3_anterior"];
+
+
         if (!empty($mp3["name"])) {
             $temp = explode(".", $mp3["name"]);
             $exten = strtolower(end($temp));
@@ -56,7 +60,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit();
             }
 
-            if (move_uploaded_file($mp3['tmp_name'], "../../../recursos/audio/canciones/" . $mp3['name'])) {
+            // Eliminar la cancion anterior si existe
+            if (!empty($_POST['mp3_anterior']) && file_exists($oldMp3)) {
+                unlink($oldMp3);
+            }
+
+            //Mueve la nueva cancion a la ruta
+            if (move_uploaded_file($mp3['tmp_name'], "../../../../recursos/audio/" . $mp3['name'])) {
                 $file_name = $mp3['name'];
             } else {
                 $_SESSION['message'] = array(

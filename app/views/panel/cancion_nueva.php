@@ -135,13 +135,9 @@ $generos = $tabla_generos->readAllGeneros();
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="duracion_cancion">Duración (HH:MM:SS)</label>
-                                                    <input type="text" name="duracion_cancion" class="form-control"
-                                                        id="duracion_cancion" placeholder="Ejemplo: 05:30:15"
-                                                        pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$" required>
-                                                    <small class="form-text text-muted">
-                                                        Formato válido: HH:MM:SS (24 horas)
-                                                    </small>
+                                                    <label for="duracion_cancion">Duración (MM:SS)</label>
+                                                    <input type="time" name="duracion_cancion" class="form-control"
+                                                        id="duracion_cancion" required>
                                                 </div>
 
                                             </div>

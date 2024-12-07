@@ -26,7 +26,7 @@ $generos = $tabla_generos->readAllGenerosIncluyendoEstatus();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Generos</title>
+    <title>MTV | awards</title>
     <!-- Icon -->
     <link rel="icon" href="../../../recursos/img/system/mtv-logo.jpg" type="image/x-icon">
 
@@ -65,6 +65,18 @@ $generos = $tabla_generos->readAllGenerosIncluyendoEstatus();
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="../../backend/panel/liberate_user.php" class="nav-link">Cerrar Sesión</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="../../views/portal/event.php" class="nav-link">Eventos</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="../../views/portal/albums-store.php" class="nav-link">Generos</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="../../views/portal/artistas.php" class="nav-link">Artistas</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="../../views/portal/votar.php" class="nav-link">Votar</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">

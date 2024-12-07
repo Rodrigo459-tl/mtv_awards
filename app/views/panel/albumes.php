@@ -22,7 +22,7 @@ $albumes = $tabla_albumes->readAllAlbumsG();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Álbumes</title>
+    <title>MTV | awards</title>
     <!-- Icon -->
     <link rel="icon" href="../../../recursos/img/system/mtv-logo.jpg" type="image/x-icon">
 
@@ -58,10 +58,41 @@ $albumes = $tabla_albumes->readAllAlbumsG();
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="./dashboard_artista.php" class="nav-link">Inicio</a>
+                    <a href="./dashboard.php" class="nav-link">Inicio</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="../../backend/panel/liberate_user.php" class="nav-link">Cerrar Sesión</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="../../views/portal/event.php" class="nav-link">Eventos</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="../../views/portal/albums-store.php" class="nav-link">Generos</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="../../views/portal/artistas.php" class="nav-link">Artistas</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="../../views/portal/votar.php" class="nav-link">Votar</a>
+                </li>
+            </ul>
+
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+
+                <!-- Maximizar -->
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+                <!-- Cerrar Sesión -->
+                <li class="nav-item">
+                    <a class="nav-link" href="../../backend/panel/liberate_user.php" role="button" data-toggle="tooltip"
+                        data-placement="top" title="Cerrar Sesión">
+                        <i class="fa fa-window-close"></i>
+                    </a>
                 </li>
             </ul>
         </nav>

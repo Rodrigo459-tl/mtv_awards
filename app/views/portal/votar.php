@@ -29,10 +29,10 @@ $albums = $tabla_albumes->readAllAlbumsG();
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>One Music - Modern Music HTML5 Template</title>
+    <title>MTV | awards</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="../../../recursos/recursos_portal/img/core-img/favicon.ico">
+    <link rel="icon" href="../../../recursos/img/system/mtv-logo.jpg">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../../recursos/recursos_portal/style.css">
@@ -60,8 +60,8 @@ $albums = $tabla_albumes->readAllAlbumsG();
                     <nav class="classy-navbar justify-content-between" id="oneMusicNav">
 
                         <!-- Nav brand -->
-                        <a href="index.html" class="nav-brand"><img
-                                src="../../../recursos/recursos_portal/img/core-img/logo.png" alt=""></a>
+                        <a href="./index.php" class="nav-brand"><img
+                                src="../../../recursos/img/system/mtv-logo-blanco.png" width="50%" alt=""></a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -97,7 +97,9 @@ $albums = $tabla_albumes->readAllAlbumsG();
                                                     <?= htmlspecialchars($_SESSION["nickname"]) ?>
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="userDropdown">
-                                                    <a class="dropdown-item text-dark" href="./perfil.php">Mi perfil</a>
+                                                    <a class="dropdown-item text-dark"
+                                                        href="../../backend/panel/validate_perfil.php">Mi
+                                                        perfil</a>
                                                     <a class="dropdown-item text-dark"
                                                         href="../../backend/panel/liberate_user.php">Cerrar sesión</a>
                                                 </div>
@@ -109,10 +111,8 @@ $albums = $tabla_albumes->readAllAlbumsG();
 
                                     <!-- Cart Button -->
                                 </div>
-
                             </div>
                             <!-- Nav End -->
-
                         </div>
                     </nav>
                 </div>
@@ -175,14 +175,8 @@ $albums = $tabla_albumes->readAllAlbumsG();
         <div class="container">
             <div class="row d-flex flex-wrap align-items-center">
                 <div class="col-12 col-md-6">
-                    <a href="#"><img src="img/core-img/logo.png" alt=""></a>
-                    <p class="copywrite-text"><a
-                            href="#"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This
-                            template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#"
-                                target="_blank">Colorlib</a>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    <a href="./dashboard.php"><img src="../../../recursos/img/system/mtv-logo-blanco.png" width="15%"
+                            alt=""></a>
                 </div>
 
                 <div class="col-12 col-md-6">

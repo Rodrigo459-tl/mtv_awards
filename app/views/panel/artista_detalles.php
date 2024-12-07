@@ -54,7 +54,7 @@ $generos = $tabla_generos->readAllGeneros(); // Todos los géneros
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Detalles del Artista</title>
+    <title>MTV | awards</title>
 
     <!-- Icon -->
     <link rel="icon" href="../../../recursos/img/system/mtv-logo.jpg" type="image/x-icon">

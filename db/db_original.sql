@@ -134,3 +134,4 @@ INSERT INTO generos (estatus_genero, nombre_genero)
 VALUES (1, 'Rock Alternativo'),
     (1, 'Pop Latino'),
     (0, 'Cumbia');
+

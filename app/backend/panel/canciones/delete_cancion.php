@@ -26,7 +26,7 @@ $tabla_artista = new Tabla_artista();
 
 // Validar que el usuario actual esté relacionado con la canción
 $id_usuario = $_SESSION['id_usuario'];
-$id_artista = $tabla_artista->getArtistaByUsuario($id_usuario);
+$id_artista = $tabla_artista->getArtistaByUsuario($id_usuario)->id_artista;
 
 if (!$id_artista) {
     $_SESSION['message'] = array(
@@ -53,7 +53,7 @@ if (empty($cancion)) {
 
 // Verificar si la canción tiene un archivo MP3 asociado y eliminarlo
 if (!empty($cancion->mp3_cancion)) {
-    $mp3_path = '../../../recursos/audio/canciones/' . $cancion->mp3_cancion;
+    $mp3_path = $_SERVER['DOCUMENT_ROOT'] . "/mtv_awards/recursos/audio/" . $cancion->mp3_cancion;
     if (file_exists($mp3_path)) {
         if (!unlink($mp3_path)) {
             $_SESSION['message'] = array(

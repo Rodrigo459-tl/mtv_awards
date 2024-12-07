@@ -153,6 +153,7 @@ $generos = $tabla_generos->readAllGeneros();
                                     method="post" enctype="multipart/form-data">
                                     <div class="card-body">
                                         <input type="hidden" name="id_cancion" value="<?= $cancion->id_acancion ?>">
+                                        <input type="hidden" name="mp3_anterior" value="<?= $cancion->mp3_cancion ?>">
 
                                         <div class="form-group">
                                             <label for="nombre_cancion">Nombre de la Canción</label>
@@ -166,14 +167,11 @@ $generos = $tabla_generos->readAllGeneros();
                                                 value="<?= $cancion->fecha_lanzamiento_cancion ?>" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="duracion_cancion">Duración (HH:MM:SS)</label>
-                                            <input type="text" name="duracion_cancion" class="form-control"
+                                            <label for="duracion_cancion">Duración (MM:SS)</label>
+                                            <input type="time" name="duracion_cancion" class="form-control"
                                                 id="duracion_cancion"
                                                 value="<?= isset($cancion->duracion_cancion) ? $cancion->duracion_cancion : '' ?>"
-                                                placeholder="HH:MM:SS" required>
-                                            <small class="form-text text-muted">
-                                                Ingrese la duración en formato HH:MM:SS (24 horas)
-                                            </small>
+                                                required>
                                         </div>
 
                                         <div class="form-group">

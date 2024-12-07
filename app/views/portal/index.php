@@ -34,7 +34,7 @@ $usuarios = $tabla_usuarios->readAllUsers();
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>MTV awards</title>
+    <title>MTV | awards</title>
 
     <!-- Favicon -->
     <link rel="icon" href="../../../recursos/img/system/mtv-logo.jpg">

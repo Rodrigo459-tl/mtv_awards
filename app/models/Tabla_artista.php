@@ -273,6 +273,53 @@ class Tabla_artista
             return [];
         }
     }
+    public function getArtistAlbumDetails($id_album)
+    {
+        // Consulta para obtener la información completa del artista, álbum y canciones por id_album
+        $sql = "SELECT 
+            ar.id_artista,
+            ar.pseudonimo_artista,
+            ar.nacionalidad_artista,
+            ar.biografia_artista,
+            ar.estatus_artista,
+            g.nombre_genero AS genero_artista,
+            al.id_album,
+            al.titulo_album,
+            al.fecha_lanzamiento_album,
+            al.descripcion_album,
+            al.imagen_album,
+            al.estatus_album,
+            c.id_acancion,
+            c.nombre_cancion,
+            c.fecha_lanzamiento_cancion,
+            c.duracion_cancion,
+            c.mp3_cancion,
+            c.url_cancion,
+            c.url_video_cancion,
+            c.estatus_cancion
+        FROM artistas ar
+        JOIN generos g ON ar.id_genero = g.id_genero
+        JOIN albumes al ON ar.id_artista = al.id_artista
+        LEFT JOIN canciones c ON al.id_album = c.id_album
+        WHERE al.id_album = :id_album;";
+
+        try {
+            // Preparar la consulta
+            $stmt = $this->connect->prepare($sql);
+            $stmt->bindValue(":id_album", $id_album, PDO::PARAM_INT);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
+            $stmt->execute();
+            $artistAlbumData = $stmt->fetchAll();
+
+            // Retornar los resultados
+            return (!empty($artistAlbumData)) ? $artistAlbumData : null;
+        } catch (PDOException $e) {
+            echo "Error en la consulta: " . $e->getMessage();
+            return null;
+        }
+    } //end getArtistAlbumDetails
+
+
 
 
 

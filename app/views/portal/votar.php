@@ -14,6 +14,7 @@ require_once '../../models/Tabla_albumes.php';
 // Instanciar la clase
 $tabla_albumes = new Tabla_albumes();
 
+
 // Obtener los álbumes
 $albums = $tabla_albumes->readAllAlbumsG();
 
@@ -36,6 +37,7 @@ $albums = $tabla_albumes->readAllAlbumsG();
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../../recursos/recursos_portal/style.css">
+    <link rel="stylesheet" href="../../../recursos/recursos_portal/style-votar.css">
 
 </head>
 
@@ -125,39 +127,55 @@ $albums = $tabla_albumes->readAllAlbumsG();
     <section class="breadcumb-area bg-img bg-overlay"
         style="background-image: url(../../../recursos/recursos_portal/img/bg-img/breadcumb.jpg);">
         <div class="bradcumbContent">
-            <p>See what’s new</p>
-            <h2>Contact</h2>
+            <h2>Vota por tu Album Favorito</h2>
         </div>
     </section>
     <!-- ##### Breadcumb Area End ##### -->
 
-    <!-- ##### Contact Area Start ##### -->
-    <section class="contact-area section-padding-100-0">
-        <div class="container">
-            <div class="row oneMusic-albums">
+    <!-- ##### Buy Now Area Start ##### -->
+    <div class="oneMusic-buy-now-area mb-100">
+        <div class="container p-5">
+            <div class="row">
 
-                <!-- Generar dinámicamente las tarjetas de álbumes -->
+                <!-- Single Album Area -->
+                <?php
+                if (empty($albums)) {
+                    echo "No se encontraron álbumes.";
+                }
+                ?>
+
                 <div class="row">
                     <?php foreach ($albums as $album): ?>
-                        <div class="col-12 col-sm-4 col-md-3 col-lg-2 single-album-item t c p">
-                            <div class="single-album">
-                                <!-- Imagen del álbum -->
-                                <img src="<?= htmlspecialchars($album->imagen_album) ?>"
-                                    alt="<?= htmlspecialchars($album->titulo_album) ?>">
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="single-album-area">
+                                <div class="album-thumb">
+                                    <img src="<?= '../../../recursos/img/albums/' . $album->imagen_album ?>" alt="">
+                                </div>
                                 <div class="album-info">
-                                    <!-- Título del álbum -->
                                     <a href="#">
+                                        <!-- Título del álbum -->
                                         <h5><?= htmlspecialchars($album->titulo_album) ?></h5>
                                     </a>
                                     <p><?= htmlspecialchars($album->estatus_album) ?></p>
-                                </div>
-                                <!-- Botón Votar -->
-                                <div class="text-center mt-2">
-                                    <form action="../../backend/panel/procesar_votacion.php" method="POST">
-                                        <input type="hidden" name="id_album"
-                                            value="<?= htmlspecialchars($album->id_album) ?>">
-                                        <button type="submit" class="btn btn-primary">Votar</button>
-                                    </form>
+                                    <div class="row mb-3">
+                                        <div class="col-12">
+                                            <form action="r../../backend/panel/procesar_votacion" method="post"
+                                                class="text-center">
+                                                <button type="submit" class="btn oneMusic-btn">Votar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <form action="./detalles-artista.php" method="get" class="text-center">
+                                                <input type="hidden" name="id_album" value="<?= $album->id_album ?>">
+                                                <button type="submit" class="btn oneMusic-btn">Ver Detalles</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -167,8 +185,8 @@ $albums = $tabla_albumes->readAllAlbumsG();
             </div>
 
         </div>
-    </section>
-    <!-- ##### Contact Area End ##### -->
+    </div>
+    <!-- ##### Buy Now Area End ##### -->
 
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer-area">

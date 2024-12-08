@@ -310,8 +310,7 @@ $usuarios = $tabla_usuarios->readAllUsers();
                                         </div>
                                     </div>
                                     <audio preload="auto" controls>
-                                        <source
-                                            src="<?= '../../../recursos/audio/' . $cancion['mp3_cancion']  ?>">
+                                        <source src="<?= '../../../recursos/audio/' . $cancion['mp3_cancion'] ?>">
                                     </audio>
 
                                 </div>

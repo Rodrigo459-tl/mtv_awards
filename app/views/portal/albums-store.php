@@ -165,7 +165,7 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                 <?php foreach ($artistas as $artista): ?>
                     <div class="col-12 col-sm-4 col-md-3 col-lg-2 single-album-item t c p">
                         <div class="single-album">
-                            <img src="../../../recursos/recursos_portal/img/users/<?=$artista->imagen_usuario?>" alt="">
+                            <img src="../../../recursos/recursos_portal/img/users/<?= $artista->imagen_usuario ?>" alt="">
                             <div class="album-info">
                                 <a href="#">
                                     <h5><?= $artista->pseudonimo_artista ?></h5>
@@ -191,10 +191,6 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                     <div class="single-album-area">
                         <div class="album-thumb">
                             <img src="../../../recursos/recursos_portal/img/bg-img/b1.jpg" alt="">
-                            <!-- Album Price -->
-                            <div class="album-price">
-                                <p>$0.90</p>
-                            </div>
                             <!-- Play Icon -->
                             <div class="play-icon">
                                 <a href="#" class="video--play--btn"><span class="icon-play-button"></span></a>

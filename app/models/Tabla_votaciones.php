@@ -52,6 +52,24 @@ class Tabla_votaciones
         }
     }
 
+    public function countVotacionesByAlbum($id_album)
+    {
+        $sql = "SELECT COUNT(*) AS total FROM " . $this->table . " WHERE id_album = :id_album";
+        try {
+            $stmt = $this->connect->prepare($sql);
+            $stmt->bindValue(":id_album", $id_album, PDO::PARAM_INT);
+            $stmt->execute();
+
+            // Obtén el resultado como un número entero
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return (int) $result['total'];
+        } catch (PDOException $e) {
+            echo "Error in query: " . $e->getMessage();
+            return 0; // Devuelve 0 en caso de error
+        }
+    }
+
+
     public function readGetVotacion($id_votacion)
     {
         $sql = "SELECT * FROM " . $this->table . " WHERE " . $this->primary_key . " = :id_votacion";

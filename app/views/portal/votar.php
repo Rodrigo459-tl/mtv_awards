@@ -10,10 +10,11 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
 //print ("<pre>" . print_r($_SESSION) . "</pre>")
 // Importar el archivo que contiene la clase Tabla_albumes
 require_once '../../models/Tabla_albumes.php';
+require_once '../../models/Tabla_artista.php';
 
 // Instanciar la clase
 $tabla_albumes = new Tabla_albumes();
-
+$tabla_artista = new Tabla_artista();
 
 // Obtener los álbumes
 $albums = $tabla_albumes->readAllAlbumsG();
@@ -167,15 +168,13 @@ $albums = $tabla_albumes->readAllAlbumsG();
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
-                                            <form action="./detalles-artista.php" method="get" class="text-center">
-                                                <input type="hidden" name="id_album" value="<?= $album->id_album ?>">
+                                            <form action="r../../backend/panel/procesar_votacion" method="post"
+                                                class="text-center">
                                                 <button type="submit" class="btn oneMusic-btn">Ver Detalles</button>
                                             </form>
                                         </div>
                                     </div>
-
-
-
+                                
                                 </div>
                             </div>
                         </div>

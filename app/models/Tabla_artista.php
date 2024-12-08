@@ -64,6 +64,22 @@ class Tabla_artista
         }
     } //end readAllArtists
 
+    public function readAllArtistsByGenero($id_genero)
+    {
+        $sql = "SELECT * FROM " . $this->table . " WHERE id_genero = :id_genero";
+        try {
+            // Preparar la consulta
+            $stmt = $this->connect->prepare($sql);
+            $stmt->bindValue(":id_genero", $id_genero);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
+            $stmt->execute();
+            $artists = $stmt->fetchAll();
+            return (!empty($artists)) ? $artists : array();
+        } catch (PDOException $e) {
+            echo "Error en la consulta: " . $e->getMessage();
+        }
+    } //end readAllArtists
+
     public function readGetArtist($id_artista = 0)
     {
         /**

@@ -70,7 +70,6 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                             <div class="classynav">
                                 <ul>
                                     <li><a href="./index.php">Inicio</a></li>
-                                    <li><a href="./event.php">Eventos</a></li>
                                     <li><a href="./albums-store.php">Generos</a></li>
                                     <li><a href="./artistas.php">Artistas</a></li>
                                     <li><a href="./votar.php">Votar</a></li>
@@ -88,7 +87,7 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="userDropdown">
                                                     <a class="dropdown-item text-dark"
-                                                        href="../../backend/panel/validate_perfil.php">Mi
+                                                        href="./miPerfil.php?id=<?php echo $_SESSION['id_usuario']; ?>">Mi
                                                         perfil</a>
                                                     <a class="dropdown-item text-dark"
                                                         href="../../backend/panel/liberate_user.php">Cerrar sesión</a>

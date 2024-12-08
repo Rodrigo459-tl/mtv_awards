@@ -1,11 +1,20 @@
 <?php
+require_once '../../models/Tabla_generos.php';
+require_once '../../models/Tabla_artista.php';
+
+
 //reinstanciar la variable
 session_start();
 
 if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
     header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
 }
-//debbugear un array
+
+$tabla_generos = new Tabla_generos();
+$tabla_artista = new Tabla_artista();
+
+$generos = $tabla_generos->readAllGeneros();
+
 //print ("<pre>" . print_r($_SESSION) . "</pre>")
 ?>
 <!DOCTYPE html>
@@ -26,6 +35,9 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../../recursos/recursos_portal/style.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 </head>
 
@@ -70,7 +82,6 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                             <div class="classynav">
                                 <ul>
                                     <li><a href="./index.php">Inicio</a></li>
-                                    <li><a href="./event.php">Eventos</a></li>
                                     <li><a href="./albums-store.php">Generos</a></li>
                                     <li><a href="./artistas.php">Artistas</a></li>
                                     <li><a href="./votar.php">Votar</a></li>
@@ -88,7 +99,7 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="userDropdown">
                                                     <a class="dropdown-item text-dark"
-                                                        href="../../backend/panel/validate_perfil.php">Mi
+                                                        href="./miPerfil.php?id=<?php echo $_SESSION['id_usuario']; ?>">Mi
                                                         perfil</a>
                                                     <a class="dropdown-item text-dark"
                                                         href="../../backend/panel/liberate_user.php">Cerrar sesión</a>
@@ -115,167 +126,48 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
     <section class="breadcumb-area bg-img bg-overlay"
         style="background-image: url(../../../recursos/recursos_portal/img/bg-img/breadcumb3.jpg);">
         <div class="bradcumbContent">
-            <p>See what’s new</p>
-            <h2>Latest Albums</h2>
+            <h2>Generos</h2>
         </div>
     </section>
     <!-- ##### Breadcumb Area End ##### -->
 
-    <!-- ##### Album Catagory Area Start ##### -->
-    <section class="album-catagory section-padding-100-0">
+    <section class="events-area section-padding-100">
         <div class="container">
             <div class="row">
-                <div class="col-12">
-                    <div class="browse-by-catagories catagory-menu d-flex flex-wrap align-items-center mb-70">
-                        <a href="#" data-filter="*">Browse All</a>
-                        <a href="#" data-filter=".a" class="active">A</a>
-                        <a href="#" data-filter=".b">B</a>
-                        <a href="#" data-filter=".c">C</a>
-                        <a href="#" data-filter=".d">D</a>
-                        <a href="#" data-filter=".e">E</a>
-                        <a href="#" data-filter=".f">F</a>
-                        <a href="#" data-filter=".g">G</a>
-                        <a href="#" data-filter=".h">H</a>
-                        <a href="#" data-filter=".i">I</a>
-                        <a href="#" data-filter=".j">J</a>
-                        <a href="#" data-filter=".k">K</a>
-                        <a href="#" data-filter=".l">L</a>
-                        <a href="#" data-filter=".m">M</a>
-                        <a href="#" data-filter=".n">N</a>
-                        <a href="#" data-filter=".o">O</a>
-                        <a href="#" data-filter=".p">P</a>
-                        <a href="#" data-filter=".q">Q</a>
-                        <a href="#" data-filter=".r">R</a>
-                        <a href="#" data-filter=".s">S</a>
-                        <a href="#" data-filter=".t">T</a>
-                        <a href="#" data-filter=".u">U</a>
-                        <a href="#" data-filter=".v">V</a>
-                        <a href="#" data-filter=".w">W</a>
-                        <a href="#" data-filter=".x">X</a>
-                        <a href="#" data-filter=".y">Y</a>
-                        <a href="#" data-filter=".z">Z</a>
-                        <a href="#" data-filter=".number">0-9</a>
-                    </div>
-                </div>
-            </div>
 
-            <div class="row oneMusic-albums">
-
-                <!-- Single Album -->
-                <?php foreach ($artistas as $artista): ?>
-                    <div class="col-12 col-sm-4 col-md-3 col-lg-2 single-album-item t c p">
-                        <div class="single-album">
-                            <img src="../../../recursos/recursos_portal/img/users/<?= $artista->imagen_usuario ?>" alt="">
-                            <div class="album-info">
-                                <a href="#">
-                                    <h5><?= $artista->pseudonimo_artista ?></h5>
-                                </a>
-                                <p><?= $artista->nombre_genero ?></p>
+                <?php foreach ($generos as $index => $genero):
+                    $artistas = $tabla_artista->readAllArtistsByGenero($genero->id_genero);
+                    ?>
+                    <!-- Single Event Area -->
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <!-- Botón que activa el colapsable -->
+                        <button class="single-event-area mb-30" style="width: 100%;" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseGenero<?= $index ?>" aria-expanded="false"
+                            aria-controls="collapseGenero<?= $index ?>">
+                            <div class="event-text">
+                                <h4 class="event-place"><?= htmlspecialchars($genero->nombre_genero) ?></h4>
+                            </div>
+                        </button>
+                        <!-- Contenido colapsable -->
+                        <div class="collapse" id="collapseGenero<?= $index ?>">
+                            <div class="card card-body mb-5">
+                                <!-- Aquí puedes incluir información adicional sobre el género -->
+                                <p>Artistas del generor <?= htmlspecialchars($genero->nombre_genero) ?>:</p>
+                                <p>
+                                    <?= empty($artistas) ? htmlspecialchars("No existen artistas de este genero") : "" ?>
+                                    <?php foreach ($artistas as $artista): ?>
+                                        <?= htmlspecialchars(($index + 1) . ".- " . $artista->pseudonimo_artista) ?>
+                                    <?php endforeach; ?>
+                                </p>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
 
+
             </div>
         </div>
     </section>
-    <!-- ##### Album Catagory Area End ##### -->
-
-    <!-- ##### Buy Now Area Start ##### -->
-    <div class="oneMusic-buy-now-area mb-100">
-        <div class="container">
-            <div class="row">
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="single-album-area">
-                        <div class="album-thumb">
-                            <img src="../../../recursos/recursos_portal/img/bg-img/b1.jpg" alt="">
-                            <!-- Play Icon -->
-                            <div class="play-icon">
-                                <a href="#" class="video--play--btn"><span class="icon-play-button"></span></a>
-                            </div>
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Garage Band</h5>
-                            </a>
-                            <p>Radio Station</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="single-album-area">
-                        <div class="album-thumb">
-                            <img src="../../../recursos/recursos_portal/img/bg-img/b2.jpg" alt="">
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Noises</h5>
-                            </a>
-                            <p>Buble Gum</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="single-album-area">
-                        <div class="album-thumb">
-                            <img src="../../../recursos/recursos_portal/img/bg-img/b3.jpg" alt="">
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Jess Parker</h5>
-                            </a>
-                            <p>The Album</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Album Area -->
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="single-album-area">
-                        <div class="album-thumb">
-                            <img src="../../../recursos/recursos_portal/img/bg-img/b4.jpg" alt="">
-                        </div>
-                        <div class="album-info">
-                            <a href="#">
-                                <h5>Noises</h5>
-                            </a>
-                            <p>Buble Gum</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="load-more-btn text-center">
-                        <a href="#" class="btn oneMusic-btn">Load More <i class="fa fa-angle-double-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ##### Buy Now Area End ##### -->
-
-    <!-- ##### Add Area Start ##### -->
-    <div class="add-area mb-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="adds">
-                        <a href="#"><img src="../../../recursos/recursos_portal/img/bg-img/add3.gif" alt=""></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ##### Add Area End ##### -->
 
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer-area">
@@ -290,7 +182,6 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
                     <div class="footer-nav">
                         <ul>
                             <li><a href="./index.php">Inicio</a></li>
-                            <li><a href="./event.php">Eventos</a></li>
                             <li><a href="./albums-store.php">Generos</a></li>
                             <li><a href="./artistas.php">Artistas</a></li>
                             <li><a href="./votar.php">Votar</a></li>

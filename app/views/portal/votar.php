@@ -86,7 +86,6 @@ $albums = $tabla_albumes->readAllAlbumsG();
                             <div class="classynav">
                                 <ul>
                                     <li><a href="./index.php">Inicio</a></li>
-                                    <li><a href="./event.php">Eventos</a></li>
                                     <li><a href="./albums-store.php">Generos</a></li>
                                     <li><a href="./artistas.php">Artistas</a></li>
                                     <li><a href="./votar.php">Votar</a></li>
@@ -104,7 +103,7 @@ $albums = $tabla_albumes->readAllAlbumsG();
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="userDropdown">
                                                     <a class="dropdown-item text-dark"
-                                                        href="../../backend/panel/validate_perfil.php">Mi
+                                                        href="./miPerfil.php?id=<?php echo $_SESSION['id_usuario']; ?>">Mi
                                                         perfil</a>
                                                     <a class="dropdown-item text-dark"
                                                         href="../../backend/panel/liberate_user.php">Cerrar sesión</a>
@@ -181,7 +180,7 @@ $albums = $tabla_albumes->readAllAlbumsG();
                                             </form>
                                         </div>
                                     </div>
-                                
+
                                 </div>
                             </div>
                         </div>
@@ -207,7 +206,6 @@ $albums = $tabla_albumes->readAllAlbumsG();
                     <div class="footer-nav">
                         <ul>
                             <li><a href="./index.php">Inicio</a></li>
-                            <li><a href="./event.php">Eventos</a></li>
                             <li><a href="./albums-store.php">Generos</a></li>
                             <li><a href="./artistas.php">Artistas</a></li>
                             <li><a href="./votar.php">Votar</a></li>

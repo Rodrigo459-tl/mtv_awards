@@ -193,12 +193,12 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
                                                     <label for="exampleInputEmail1">Sexo</label>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="sexo"
-                                                            value="2">
+                                                            value="1" checked>
                                                         <label class="form-check-label">Femenino</label>
                                                     </div>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="sexo"
-                                                            value="1">
+                                                            value="0">
                                                         <label class="form-check-label">Masculino</label>
                                                     </div>
                                                 </div>
@@ -230,14 +230,14 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Contraseña</label>
                                                     <input type="password" name="password" class="form-control"
-                                                        id="password" placeholder="***********">
+                                                        id="password" placeholder="***********" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Repetir Contraseña</label>
                                                     <input type="password" name="repassword" class="form-control"
-                                                        id="repassword" placeholder="***********">
+                                                        id="repassword" placeholder="***********" required>
                                                 </div>
                                             </div>
                                         </div>

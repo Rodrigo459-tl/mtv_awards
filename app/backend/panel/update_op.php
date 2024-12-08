@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (
         isset($_POST["nombre"]) && isset($_POST["apellido_paterno"]) && isset($_POST["apellido_materno"]) &&
-        isset($_POST["sexo"]) && isset($_POST["rol"])
+        isset($_POST["sexo"])
 
     ) {
         $id_usuario = $_POST["id_usuario"];
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST["email"];
         $pass = (empty($_POST["password"])) ? null : $_POST["password"];
         $repass = (empty($_POST["repassword"])) ? null : $_POST["repassword"];
-        $rol = $_POST["rol"];
+        $rol = 8;
 
         if ($pass != $repass) {
             $_SESSION['message'] = array(
@@ -34,18 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "title" => "¡ERROR!"
             );
 
-            header('Location: ../../views/panel/usuario_detalles.php?id=' . $id_usuario);
-            exit();
-        }
-
-        if (empty($rol)) {
-            $_SESSION['message'] = array(
-                "type" => "error",
-                "description" => "Rol invalido",
-                "title" => "¡ERROR!"
-            );
-
-            header('Location: ../../views/panel/usuario_detalles.php?id=' . $id_usuario);
+            header('Location: ../../views/portal/miPerfil.php?id=' . $id_usuario);
             exit();
         }
 
@@ -79,13 +68,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     "title" => "¡ERROR!"
                 );
 
-                header('Location: ../../views/panel/usuario_detalles.php?id=' . $id_usuario);
+                header('Location: ../../views/portal/miPerfil.php?id=' . $id_usuario);
                 exit();
             }//end 
 
+            $oldImg = $_SERVER['DOCUMENT_ROOT'] . "/mtv_awards/recursos/img/users/" . $_POST["perfil_aterior"];
+
             if ($_POST['perfil_aterior'] != null) {
                 if (file_exists("../../../recursos/img/users/" . $_POST["perfil_aterior"])) {
-                    unlink("../../../recursos/img/users/" . $_POST["perfil_aterior"]);
+                    unlink($oldImg);
                     if (move_uploaded_file($img['tmp_name'], "../../../recursos/img/users/" . $img['name'])) {
                         $file_name = $img['name'];
                         $data['imagen_usuario'] = $file_name;
@@ -96,8 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             "description" => "La foto de perfil no fué actualizada, intentelo más tarde...",
                             "title" => "¡ERROR!"
                         );
-
-                        header('Location: ../../views/panel/usuario_detalles.php?id=' . $id_usuario);
+                        header('Location: ../../views/portal/miPerfil.php?id=' . $id_usuario);
                         exit();
                     }//end else
                 }//end if file_exists
@@ -108,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         "title" => "¡ERROR!"
                     );
 
-                    header('Location: ../../views/panel/usuario_detalles.php?id=' . $id_usuario);
+                    header('Location: ../../views/portal/miPerfil.php?id=' . $id_usuario);
                     exit();
                 }//end else
             }//end if
@@ -127,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "description" => "El usuario ha sido actualizado de manera correcta...",
                 "title" => "¡Edición Éxitosa!"
             );
-            header('Location: ../../views/panel/usuarios.php');
+            header('Location: ../../views/portal/index.php');
             exit();
         }//end if
         else {
@@ -136,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "description" => "Error al intentar actualizar al ususario...",
                 "title" => "¡Ocurrio Error!"
             );
-            header('Location: ../../views/panel/usuario_detalles.php?id=' . $id_usuario);
+            header('Location: ../../views/portal/miPerfil.php?id=' . $id_usuario);
             exit();
         }//end else
     }//end if 
@@ -147,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "title" => "¡ERROR!"
         );
 
-        header('Location: ../../views/panel/usuario_detalles.php?id=' . $id_usuario);
+        header('Location: ../../views/portal/miPerfil.php?id=' . $id_usuario);
         exit();
     }//end else
 }//end REQUEST_METHOD
@@ -158,6 +148,6 @@ else {
         "title" => "¡ERROR!"
     );
 
-    header('Location: ../../views/panel/usuario_detalles.php?id=' . $id_usuario);
+    header('Location: ../../views/portal/miPerfil.php?id=' . $id_usuario);
     exit();
 }//end else 

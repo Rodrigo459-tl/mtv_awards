@@ -3,6 +3,7 @@
 require_once '../../helpers/menu_lateral_artista.php';
 require_once '../../helpers/funciones_globales.php';
 require_once '../../models/Tabla_albumes.php';
+require_once '../../models/Tabla_artista.php';
 
 session_start();
 
@@ -13,7 +14,11 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
 
 // Instancia del Objeto
 $tabla_albumes = new Tabla_albumes();
-$albumes = $tabla_albumes->readAllAlbumsG();
+$tabla_artista = new Tabla_artista();
+
+$id_artista = $tabla_artista->getArtistaByUsuario($_SESSION["id_usuario"])->id_artista;
+
+$albumes = $tabla_albumes->readAllAlbums($id_artista);
 ?>
 
 <!DOCTYPE html>
@@ -175,7 +180,7 @@ $albumes = $tabla_albumes->readAllAlbumsG();
                                                 echo '
                                                     <tr>
                                                         <td>' . ++$count . '</td>
-                                                        <td><img src="' . $img . '" alt="Imagen Álbum" class="img-rounded" width="10%"></td>
+                                                        <td><img src="' . $img . '" alt="Imagen Álbum" class="img-rounded" width="20%"></td>
                                                         <td>' . $album->titulo_album . '</td>';
                                                 echo ($album->estatus_album == 0)
                                                     ? '<td><a href="../../backend/panel/albumes/estatus_album.php?id=' . $album->id_album . '&estatus=1" class="btn btn-block btn-info">Habilitar</a></td>'

@@ -66,21 +66,14 @@ class Tabla_albumes
         }
     }
 
-    // Leer todos los álbumes de un usuario específico
-    public function readAllAlbums($id_usuario)
+    // Leer todos los álbumes de un artista específico
+    public function readAllAlbums($id_artista)
     {
-        $sql = "SELECT " . $this->table . ".id_album, 
-                       " . $this->table . ".titulo_album, 
-                       " . $this->table . ".imagen_album, 
-                       " . $this->table . ".estatus_album
-                FROM " . $this->table . "
-                INNER JOIN artistas ON " . $this->table . ".id_artista = artistas.id_artista
-                INNER JOIN usuarios ON artistas.id_usuario = usuarios.id_usuario
-                WHERE usuarios.id_usuario = :id_usuario AND estatus_album = 1
+        $sql = "SELECT * FROM " . $this->table . " WHERE id_artista = :id_artista 
                 ORDER BY " . $this->table . ".fecha_lanzamiento_album;";
         try {
             $stmt = $this->connect->prepare($sql);
-            $stmt->bindValue(":id_usuario", $id_usuario, PDO::PARAM_INT);
+            $stmt->bindValue(":id_artista", $id_artista, PDO::PARAM_INT);
             $stmt->setFetchMode(PDO::FETCH_OBJ);
             $stmt->execute();
             $albums = $stmt->fetchAll();
@@ -90,6 +83,7 @@ class Tabla_albumes
             return array();
         }
     }
+
 
     public function readAllAlbumsGeneral($id_usuario)
     {

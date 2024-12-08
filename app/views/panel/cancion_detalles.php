@@ -5,9 +5,18 @@ require_once '../../helpers/funciones_globales.php';
 require_once '../../models/Tabla_canciones.php';
 require_once '../../models/Tabla_albumes.php';
 require_once '../../models/Tabla_generos.php';
+require_once '../../models/Tabla_artista.php';
 
 // Iniciar la sesión
 session_start();
+
+$tabla_artista = new Tabla_artista();
+$tabla_albumes = new Tabla_albumes();
+$id_artista = $tabla_artista->getArtistaByUsuario($_SESSION["id_usuario"])->id_artista;
+
+// Leer álbumes y géneros
+$albumes = $tabla_albumes->readAllAlbums($id_artista);
+
 
 if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
     header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
@@ -26,7 +35,6 @@ if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
 
 // Instanciar el modelo
 $tabla_canciones = new Tabla_canciones();
-$id_artista = $tabla_canciones->getIdArtistaByUsuario($_SESSION["id_usuario"]);
 
 if (!$id_artista) {
     $_SESSION['message'] = array(
@@ -54,7 +62,6 @@ if (empty($cancion)) {
 $tabla_albumes = new Tabla_albumes();
 $tabla_generos = new Tabla_generos();
 
-$albumes = $tabla_albumes->readAllAlbumsG();
 $generos = $tabla_generos->readAllGeneros();
 ?>
 

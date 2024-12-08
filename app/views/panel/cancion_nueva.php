@@ -4,6 +4,7 @@ require_once '../../helpers/menu_lateral_artista.php';
 require_once '../../helpers/funciones_globales.php';
 require_once '../../models/Tabla_albumes.php';
 require_once '../../models/Tabla_generos.php';
+require_once '../../models/Tabla_artista.php';
 
 // Reinstancias la variable
 session_start();
@@ -16,9 +17,12 @@ if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
 // Instanciar los modelos
 $tabla_albumes = new Tabla_albumes();
 $tabla_generos = new Tabla_generos();
+$tabla_artista = new Tabla_artista();
+
+$id_artista = $tabla_artista->getArtistaByUsuario($_SESSION["id_usuario"])->id_artista;
 
 // Leer álbumes y géneros
-$albumes = $tabla_albumes->readAllAlbumsG();
+$albumes = $tabla_albumes->readAllAlbums($id_artista);
 $generos = $tabla_generos->readAllGeneros();
 ?>
 

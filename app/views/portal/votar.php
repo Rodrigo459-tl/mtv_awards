@@ -149,31 +149,31 @@ $albums = $tabla_albumes->readAllAlbumsG();
 
                 <div class="row">
                     <?php foreach ($albums as $album): ?>
-                        <div class="col-12 col-sm-6 col-md-3">
-                            <div class="single-album-area">
-                                <div class="album-thumb">
-                                    <img src="<?= '../../../recursos/img/albums/' . $album->imagen_album ?>" alt="">
-                                </div>
-                                <div class="album-info">
-                                    <a href="#">
-                                        <!-- Título del álbum -->
-                                        <h5><?= htmlspecialchars($album->titulo_album) ?></h5>
-                                    </a>
-                                    <center>
-                                        <p><?= htmlspecialchars("Votos: " . $tabla_votaciones->countVotacionesByAlbum($album->id_album)) ?>
-                                    </center>
-                                    </p>
-                                    <div class="row mb-3">
-                                        <div class="col-12">
-                                            <form action=" ../../backend/panel/procesar_votacion.php" method="post"
-                                                class="text-center">
-                                                <input type="hidden" name="id_al" value="<?= $album->id_album ?>">
-                                                <button type="submit" class="btn oneMusic-btn">Votar</button>
-                                            </form>
-                                        </div>
-                                    </div>
 
-                                </div>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="single-album-area" style="margin: 50px;">
+                                <center>
+
+                                    <div class="album-thumb">
+                                        <img src="<?= '../../../recursos/img/albums/' . $album->imagen_album ?>" alt="">
+                                    </div>
+                                    <div class="album-info">
+                                        <h5 text><?= htmlspecialchars($album->titulo_album) ?></h5>
+                                        <center>
+                                            <p><?= htmlspecialchars("Votos: " . $tabla_votaciones->countVotacionesByAlbum($album->id_album)) ?>
+                                            </p>
+                                        </center>
+                                        <div class="row mb-3">
+                                            <div class="col-12">
+                                                <form action=" ../../backend/panel/procesar_votacion.php" method="post">
+                                                    <input type="hidden" name="id_al" value="<?= $album->id_album ?>">
+                                                    <button type="submit" class="btn oneMusic-btn">Votar</button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </center>
                             </div>
                         </div>
                     <?php endforeach; ?>

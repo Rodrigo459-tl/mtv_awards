@@ -3,6 +3,8 @@
 require_once '../../models/Tabla_usuarios.php';
 require_once '../../models/Tabla_artista.php';
 require_once '../../models/Tabla_albumes.php';
+require_once '../../helpers/funciones_globales.php';
+
 
 //instanciar modelo artista
 $tabla_artista = new Tabla_artista();
@@ -103,7 +105,7 @@ $usuarios = $tabla_usuarios->readAllUsers();
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="userDropdown">
                                                     <a class="dropdown-item text-dark"
-                                                        href="../../backend/panel/validate_perfil.php">Mi
+                                                        href="./miPerfil.php?id=<?php echo $_SESSION['id_usuario']; ?>">Mi
                                                         perfil</a>
                                                     <a class="dropdown-item text-dark"
                                                         href="../../backend/panel/liberate_user.php">Cerrar sesión</a>
@@ -359,6 +361,16 @@ $usuarios = $tabla_usuarios->readAllUsers();
     <script src="../../../recursos/recursos_portal/js/plugins/plugins.js"></script>
     <!-- Active js -->
     <script src="../../../recursos/recursos_portal/js/active.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            <?php
+            if (isset($_SESSION['message'])) {
+                echo mostrar_alerta_mensaje($_SESSION['message']["type"], $_SESSION['message']["description"], $_SESSION['message']["title"]);
+                unset($_SESSION['message']);
+            }
+            ?>
+        });
+    </script>
 </body>
 
 </html>

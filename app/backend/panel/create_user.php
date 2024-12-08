@@ -20,7 +20,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sexo = $_POST["sexo"];
         $email = $_POST["email"];
         $pass = $_POST["password"];
+        $repass = $_POST["repassword"];
         $rol = $_POST["rol"];
+
+        if ($pass != $repass) {
+            $_SESSION['message'] = array(
+                "type" => "error",
+                "description" => "Las contraseñas no coinciden",
+                "title" => "¡ERROR!"
+            );
+
+            header('Location: ../../views/panel/usuario_nuevo.php?id=' . $id_usuario);
+            exit();
+        }
+
+        if (empty($rol)) {
+            $_SESSION['message'] = array(
+                "type" => "error",
+                "description" => "Rol invalido",
+                "title" => "¡ERROR!"
+            );
+
+            header('Location: ../../views/panel/usuario_nuevo.php?id=' . $id_usuario);
+            exit();
+        }
 
         //Declarate a vairiable to FILE
         $img = $_FILES["foto_perfil"];

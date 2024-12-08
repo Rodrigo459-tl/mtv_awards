@@ -229,12 +229,12 @@ if (empty($usuario)) {
                                                     <label for="exampleInputEmail1">Sexo</label>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="sexo"
-                                                            value="2" <?= $usuario->sexo_usuario == 2 ? 'checked' : '' ?>>
+                                                            value="1" <?= $usuario->sexo_usuario == 1 ? 'checked' : '' ?>>
                                                         <label class="form-check-label">Femenino</label>
                                                     </div>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="sexo"
-                                                            value="1" <?= $usuario->sexo_usuario == 1 ? 'checked' : '' ?>>
+                                                            value="0" <?= $usuario->sexo_usuario == 0 ? 'checked' : '' ?>>
                                                         <label class="form-check-label">Masculino</label>
                                                     </div>
                                                 </div>
@@ -245,9 +245,9 @@ if (empty($usuario)) {
                                                     <label for="exampleInputEmail1">Rol</label>
                                                     <select class="form-control" name="rol">
                                                         <option value="">Seleccionar un rol</option>
-                                                        <option value="8" <?= $usuario->id_rol == 128 ? 'selected' : '' ?>>
+                                                        <option value="8" <?= $usuario->id_rol == 8 ? 'selected' : '' ?>>
                                                             Operador</option>
-                                                        <option value="85" <?= $usuario->id_rol == 18 ? 'selected' : '' ?>>
+                                                        <option value="85" <?= $usuario->id_rol == 85 ? 'selected' : '' ?>>
                                                             Artista</option>
                                                     </select>
                                                 </div>
@@ -293,7 +293,7 @@ if (empty($usuario)) {
                                     </div>
                                     <!-- /.card-body -->
                                     <div class="card-footer">
-                                        <button type="submit" class="btn btn-info">Registrar</button>
+                                        <button type="submit" class="btn btn-info">Actualizar</button>
                                         <a href="./usuarios.php" class="btn btn-danger">Cancelar</a>
                                     </div>
                                 </form>

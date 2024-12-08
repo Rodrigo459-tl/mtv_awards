@@ -172,14 +172,6 @@ $albums = $tabla_albumes->readAllAlbumsG();
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <form action="r../../backend/panel/procesar_votacion" method="post"
-                                                class="text-center">
-                                                <button type="submit" class="btn oneMusic-btn">Ver Detalles</button>
-                                            </form>
-                                        </div>
-                                    </div>
 
                                 </div>
                             </div>

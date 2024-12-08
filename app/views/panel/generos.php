@@ -66,18 +66,6 @@ $generos = $tabla_generos->readAllGenerosIncluyendoEstatus();
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="../../backend/panel/liberate_user.php" class="nav-link">Cerrar Sesión</a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="../../views/portal/event.php" class="nav-link">Eventos</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="../../views/portal/albums-store.php" class="nav-link">Generos</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="../../views/portal/artistas.php" class="nav-link">Artistas</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="../../views/portal/votar.php" class="nav-link">Votar</a>
-                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <!-- Maximizar -->

@@ -67,6 +67,7 @@ $generos = $tabla_generos->readAllGeneros();
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
+
         <!-- Site wrapper -->
         <div class="wrapper">
             <!-- Navbar -->

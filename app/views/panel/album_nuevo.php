@@ -36,6 +36,7 @@ $generos = $tabla_generos->readAllGeneros();
     <!-- Theme style -->
     <link rel="stylesheet" href="../../../recursos/recursos_panel/css/adminlte.min.css">
 
+
     <!-- Toastr -->
     <link rel="stylesheet" href="../../../recursos/recursos_panel/plugins/toastr/toastr.min.css">
 </head>

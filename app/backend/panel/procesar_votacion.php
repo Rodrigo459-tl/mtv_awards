@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "description" => "La votación ha sido registrada de manera correcta...",
                 "title" => "¡Votación Exitosa!"
             );
-            header('Location: ../../views/portal/votar.php');
+            header('Location: ../../views/portal/index.php');
             exit();
         } else {
             $_SESSION['message'] = array(
@@ -49,8 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "description" => "Error al intentar registrar la votación...",
                 "title" => "¡Ocurrió un Error!"
             );
-            //header('Location: ../../views/portal/votar.php');
             print_r("Error al votar,  datos: " . $data);
+            header('Location: ../../views/portal/votar.php');
             exit();
         }
     } else {
@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "description" => "Ocurrió un error al procesar la información. Por favor, completa todos los campos requeridos.",
             "title" => "¡ERROR!"
         );
-        //header('Location: ../../views/portal/votar.php');
+        header('Location: ../../views/portal/votar.php');
         print_r("Error al obtener album,  datos: ");
         exit();
     }

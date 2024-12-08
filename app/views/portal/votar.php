@@ -11,10 +11,13 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
 // Importar el archivo que contiene la clase Tabla_albumes
 require_once '../../models/Tabla_albumes.php';
 require_once '../../models/Tabla_artista.php';
+require_once '../../models/Tabla_votaciones.php';
 
 // Instanciar la clase
 $tabla_albumes = new Tabla_albumes();
 $tabla_artista = new Tabla_artista();
+$tabla_votaciones = new Tabla_votaciones();
+
 
 // Obtener los álbumes
 $albums = $tabla_albumes->readAllAlbumsG();
@@ -157,11 +160,15 @@ $albums = $tabla_albumes->readAllAlbumsG();
                                         <!-- Título del álbum -->
                                         <h5><?= htmlspecialchars($album->titulo_album) ?></h5>
                                     </a>
-                                    <p><?= htmlspecialchars($album->estatus_album) ?></p>
+                                    <center>
+                                        <p><?= htmlspecialchars("Votos: " . $tabla_votaciones->countVotacionesByAlbum($album->id_album)) ?>
+                                    </center>
+                                    </p>
                                     <div class="row mb-3">
                                         <div class="col-12">
-                                            <form action="r../../backend/panel/procesar_votacion" method="post"
+                                            <form action=" ../../backend/panel/procesar_votacion.php" method="post"
                                                 class="text-center">
+                                                <input type="hidden" name="id_al" value="<?= $album->id_album ?>">
                                                 <button type="submit" class="btn oneMusic-btn">Votar</button>
                                             </form>
                                         </div>

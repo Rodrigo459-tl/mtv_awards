@@ -65,7 +65,7 @@ class Tabla_albumes
             return false;
         }
     }
-    
+
     // Leer todos los álbumes de un usuario específico
     public function readAllAlbums($id_usuario)
     {
@@ -177,5 +177,5 @@ class Tabla_albumes
             return false;
         }
     }
-    
+
 }

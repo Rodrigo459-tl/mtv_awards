@@ -17,7 +17,6 @@ $id_artista = $tabla_artista->getArtistaByUsuario($_SESSION["id_usuario"])->id_a
 // Leer álbumes y géneros
 $albumes = $tabla_albumes->readAllAlbums($id_artista);
 
-
 if (!isset($_SESSION["is_logged"]) || ($_SESSION["is_logged"] == false)) {
     header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
     exit();

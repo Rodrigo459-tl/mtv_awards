@@ -1,3 +1,24 @@
+<?php
+require_once '../../models/Tabla_generos.php';
+require_once '../../models/Tabla_artista.php';
+
+
+//reinstanciar la variable
+session_start();
+
+if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
+    header("location: ../../../index.php?error=No has iniciado sesión&type=warning");
+}
+
+$tabla_generos = new Tabla_generos();
+$tabla_artista = new Tabla_artista();
+
+$generos = $tabla_generos->readAllGeneros();
+$artistas = $tabla_artista->getMostarArtistaMasVotado();
+
+//print ("<pre>" . print_r($_SESSION) . "</pre>")
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,44 +40,6 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <style>
-        .card-container {
-            perspective: 1000px;
-            margin-bottom: 30px;
-        }
-
-        .card-flip {
-            position: relative;
-            width: 100%;
-            height: 250px;
-            transform-style: preserve-3d;
-            transition: transform 0.6s;
-        }
-
-        .card-container:hover .card-flip {
-            transform: rotateY(180deg);
-        }
-
-        .card {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-        }
-
-        .card.front {
-            background-color: #1e1e1e;
-            color: white;
-        }
-
-        .card.back {
-            background-color: #f8f9fa;
-            transform: rotateY(180deg);
-        }
-    </style>
 
 </head>
 
@@ -145,61 +128,65 @@
     <section class="breadcumb-area bg-img bg-overlay"
         style="background-image: url(../../../recursos/recursos_portal/img/bg-img/breadcumb3.jpg);">
         <div class="bradcumbContent">
-            <h2>Canciones</h2>
+            <h2>Artista Mas votado</h2>
         </div>
     </section>
     <!-- ##### Breadcumb Area End ##### -->
 
-    <section class="events-area section-padding-100">
+
+
+
+
+    <!-- Discography Section Begin -->
+    <section class="discography-section section-padding-100">
         <div class="container">
             <div class="row">
-
-                <div class="row">
-                    <?php foreach ($albumes as $index => $album):
-                        $canciones = $tabla_canciones->readCancionesByAlbum($album->id_album);
-                        ?>
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="card-container">
-                                <!-- Tarjeta -->
-                                <div class="card-flip">
-                                    <!-- Lado frontal -->
-                                    <div class="card front">
-                                        <div class="card-body text-center">
-                                            <h4 class="font-bold"><?= htmlspecialchars($album->titulo_album) ?></h4>
-                                            <p class="font-light">Haz clic para ver sus canciones</p>
-                                            <img src="" alt="">
-                                        </div>
-                                    </div>
-                                    <!-- Lado trasero -->
-                                    <div class="card back">
-                                        <div class="card-body">
-                                            <h4 class="font-bold text-center">
-                                                <?= htmlspecialchars($album->titulo_album) ?>
-                                            </h4>
-                                            <?php if (empty($canciones)): ?>
-                                                <p class="text-muted text-center">No existen canciones en este album.</p>
-                                            <?php else: ?>
-                                                <ul class="list-unstyled">
-                                                    <?php foreach ($canciones as $key => $cancion): ?>
-                                                        <li><?= htmlspecialchars(($key + 1) . ". " . $cancion->nombre_cancion) ?>
-                                                        </li>
-                                                    <?php endforeach; ?>
-                                                </ul>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+                <!-- Artista Info -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="artist-info">
+                        <h2 class="artist-name"><?= $artistas->pseudonimo_artista ?></h2>
+                        <ul class="artist-details">
+                            <li>
+                                <span class="label">Fecha de lanzamiento:</span>
+                                <span class="value"><?= $artistas->fecha_lanzamiento_album ?></span>
+                            </li>
+                            <li>
+                                <span class="label">Canción:</span>
+                                <span class="value"><?= $artistas->nombre_cancion ?>
+                                    (<?= $artistas->duracion_cancion ?>)</span>
+                            </li>
+                        </ul>
+                        <div class="album-title primary-btn"><?= $artistas->titulo_album ?></div>
+                        <p class="artist-bio">
+                            <strong>Nacionalidad:</strong> <?= $artistas->nacionalidad_artista ?><br>
+                            <strong>Biografía:</strong> <?= $artistas->biografia_artista ?>
+                        </p>
+                        <a href="#" class="vote-btn primary-btn">Total de votos: <?= $artistas->votos_totales ?></a>
+                    </div>
                 </div>
 
-
-
-
+                <!-- Álbum Info -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="album-info">
+                        <div class="album-cover">
+                            <img src="../../../recursos/img/albums/<?= $artistas->imagen_album ?>"
+                                alt="<?= $artistas->titulo_album ?>" class="img-fluid">
+                        </div>
+                        <p class="album-description">
+                            <strong>Descripción del álbum:</strong> <?= $artistas->descripcion_album ?>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+    <!-- Discography Section End -->
+
+
+
+
+
+
 
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer-area">

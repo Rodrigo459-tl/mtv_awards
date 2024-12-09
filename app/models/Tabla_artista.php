@@ -335,7 +335,58 @@ class Tabla_artista
         }
     } //end getArtistAlbumDetails
 
-
+    public function getMostarArtistaMasVotado()
+    {
+        $sql = "SELECT 
+    artistas.id_artista,
+    artistas.pseudonimo_artista,
+    artistas.nacionalidad_artista,
+    artistas.biografia_artista,
+    albumes.id_album,
+    albumes.titulo_album,
+    albumes.fecha_lanzamiento_album,
+    albumes.descripcion_album,
+    albumes.imagen_album,
+    canciones.id_acancion,
+    canciones.nombre_cancion,
+    canciones.fecha_lanzamiento_cancion,
+    canciones.duracion_cancion,
+    MAX(votaciones_total.total_votos) AS votos_totales
+FROM 
+    artistas
+LEFT JOIN 
+    albumes ON artistas.id_artista = albumes.id_artista
+LEFT JOIN 
+    canciones ON albumes.id_album = canciones.id_album
+LEFT JOIN 
+    (
+        SELECT 
+            id_album, 
+            COUNT(*) AS total_votos
+        FROM 
+            votaciones
+        GROUP BY 
+            id_album
+    ) AS votaciones_total ON albumes.id_album = votaciones_total.id_album
+WHERE 
+    votaciones_total.total_votos IS NOT NULL
+GROUP BY 
+    artistas.id_artista, 
+    albumes.id_album, 
+    canciones.id_acancion
+ORDER BY 
+    votos_totales DESC
+LIMIT 1;";
+        try {
+            $stmt = $this->connect->prepare($sql);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
+            $stmt->execute();
+            return $stmt->fetch();
+        } catch (PDOException $e) {
+            echo "Error en la consulta: " . $e->getMessage();
+            return array();
+        }
+    }
 
 
 

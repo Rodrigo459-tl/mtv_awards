@@ -74,6 +74,23 @@ class Tabla_canciones
         }
     }
 
+    public function readCancionesByAlbum($id_album)
+    {
+        $sql = "SELECT * FROM " . $this->table . " WHERE id_album = :id_album
+                ORDER BY nombre_cancion";
+        try {
+            $stmt = $this->connect->prepare($sql);
+            $stmt->bindValue(":id_album", $id_album, PDO::PARAM_INT);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
+            $stmt->execute();
+            $canciones = $stmt->fetchAll();
+            return (!empty($canciones)) ? $canciones : array();
+        } catch (PDOException $e) {
+            echo "Error in query: " . $e->getMessage();
+            return array();
+        }
+    }
+
 
     public function readGetCancion($id_acancion, $id_artista)
     {

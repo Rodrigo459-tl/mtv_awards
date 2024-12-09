@@ -87,6 +87,7 @@ $usuarios = $tabla_usuarios->readAllUsers();
                             <div class="classynav">
                                 <ul>
                                     <li><a href="./index.php">Inicio</a></li>
+                                    <li><a href="./event.php">Eventos</a></li>
                                     <li><a href="./albums-store.php">Generos</a></li>
                                     <li><a href="./artistas.php">Artistas</a></li>
                                     <li><a href="./votar.php">Votar</a></li>

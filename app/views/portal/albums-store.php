@@ -39,6 +39,44 @@ $generos = $tabla_generos->readAllGeneros();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
+    <style>
+        .card-container {
+            perspective: 1000px;
+            margin-bottom: 30px;
+        }
+
+        .card-flip {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .card-container:hover .card-flip {
+            transform: rotateY(180deg);
+        }
+
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .card.front {
+            background-color: #1e1e1e;
+            color: white;
+        }
+
+        .card.back {
+            background-color: #f8f9fa;
+            transform: rotateY(180deg);
+        }
+    </style>
+
 </head>
 
 <body>
@@ -135,34 +173,46 @@ $generos = $tabla_generos->readAllGeneros();
         <div class="container">
             <div class="row">
 
-                <?php foreach ($generos as $index => $genero):
-                    $artistas = $tabla_artista->readAllArtistsByGenero($genero->id_genero);
-                    ?>
-                    <!-- Single Event Area -->
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <!-- Botón que activa el colapsable -->
-                        <button class="single-event-area mb-30" style="width: 100%;" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseGenero<?= $index ?>" aria-expanded="false"
-                            aria-controls="collapseGenero<?= $index ?>">
-                            <div class="event-text">
-                                <h4 class="event-place"><?= htmlspecialchars($genero->nombre_genero) ?></h4>
-                            </div>
-                        </button>
-                        <!-- Contenido colapsable -->
-                        <div class="collapse" id="collapseGenero<?= $index ?>">
-                            <div class="card card-body mb-5">
-                                <!-- Aquí puedes incluir información adicional sobre el género -->
-                                <p>Artistas del generor <?= htmlspecialchars($genero->nombre_genero) ?>:</p>
-                                <p>
-                                    <?= empty($artistas) ? htmlspecialchars("No existen artistas de este genero") : "" ?>
-                                    <?php foreach ($artistas as $artista): ?>
-                                        <?= htmlspecialchars(($index + 1) . ".- " . $artista->pseudonimo_artista) ?>
-                                    <?php endforeach; ?>
-                                </p>
+                <div class="row">
+                    <?php foreach ($generos as $index => $genero):
+                        $artistas = $tabla_artista->readAllArtistsByGenero($genero->id_genero);
+                        ?>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card-container">
+                                <!-- Tarjeta -->
+                                <div class="card-flip">
+                                    <!-- Lado frontal -->
+                                    <div class="card front">
+                                        <div class="card-body text-center">
+                                            <h4 class="font-bold"><?= htmlspecialchars($genero->nombre_genero) ?></h4>
+                                            <p class="font-light">Haz clic para ver los artistas</p>
+                                        </div>
+                                    </div>
+                                    <!-- Lado trasero -->
+                                    <div class="card back">
+                                        <div class="card-body">
+                                            <h4 class="font-bold text-center">
+                                                <?= htmlspecialchars($genero->nombre_genero) ?>
+                                            </h4>
+                                            <?php if (empty($artistas)): ?>
+                                                <p class="text-muted text-center">No existen artistas de este género.</p>
+                                            <?php else: ?>
+                                                <ul class="list-unstyled">
+                                                    <?php foreach ($artistas as $key => $artista): ?>
+                                                        <li><?= htmlspecialchars(($key + 1) . ". " . $artista->pseudonimo_artista) ?>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
+
+
 
 
             </div>
@@ -182,6 +232,7 @@ $generos = $tabla_generos->readAllGeneros();
                     <div class="footer-nav">
                         <ul>
                             <li><a href="./index.php">Inicio</a></li>
+                            <li><a href="./event.php">Eventos</a></li>
                             <li><a href="./albums-store.php">Generos</a></li>
                             <li><a href="./artistas.php">Artistas</a></li>
                             <li><a href="./votar.php">Votar</a></li>

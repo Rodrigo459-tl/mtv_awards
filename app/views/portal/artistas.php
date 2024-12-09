@@ -1,5 +1,6 @@
 <?php
 require_once '../../models/Tabla_artista.php';
+require_once '../../models/Tabla_usuarios.php';
 
 //reinstanciar la variable
 session_start();
@@ -9,8 +10,10 @@ if (!isset($_SESSION["is_logged"]) || isset($_SESSION["is_logged"]) == false) {
 }
 
 $tabla_artista = new Tabla_artista();
+$tabla_usuarios = new Tabla_usuarios();
 
 $artistas = $tabla_artista->readAllArtists();
+
 //debbugear un array
 //print ("<pre>" . print_r($_SESSION) . "</pre>")
 ?>
@@ -76,6 +79,7 @@ $artistas = $tabla_artista->readAllArtists();
                             <div class="classynav">
                                 <ul>
                                     <li><a href="./index.php">Inicio</a></li>
+                                    <li><a href="./event.php">Eventos</a></li>
                                     <li><a href="./albums-store.php">Generos</a></li>
                                     <li><a href="./artistas.php">Artistas</a></li>
                                     <li><a href="./votar.php">Votar</a></li>
@@ -130,23 +134,29 @@ $artistas = $tabla_artista->readAllArtists();
         <div class="container">
             <div class="row">
 
-                <?php foreach ($artistas as $artista): ?>
-                    <!-- Single Event Area -->
+                <?php foreach ($artistas as $artista):
+                    $usuario = $tabla_usuarios->readGetUser($artista->id_usuario);
+                    ?>
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="single-event-area mb-30">
-                            <div class="event-thumbnail">
-                                <img src="../../../recursos/recursos_portal/img/bg-img/e9.jpg" alt="">
+                            <!-- Imagen del artista -->
+                            <div class="img-container">
+                                <img class="album-img"
+                                    src="<?= htmlspecialchars("../../../recursos/img/users/" . ($usuario->imagen_usuario == null ? "user.png" : $usuario->imagen_usuario)) ?>"
+                                    alt="<?= htmlspecialchars($artista->pseudonimo_artista) ?>">
                             </div>
-                            <div class="event-text">
+                            <!-- Información del artista -->
+                            <div class="event-text text-center mt-15">
                                 <h4><?= htmlspecialchars($artista->pseudonimo_artista) ?></h4>
                                 <div class="event-meta-data">
-                                    <a class="event-place"><?= htmlspecialchars($artista->nombre_genero) ?></a><br>
-                                    <a class="event-place"><?= htmlspecialchars($artista->biografia_artista) ?></a>
+                                    <p class="font-bold"><?= htmlspecialchars($artista->nombre_genero) ?></p>
+                                    <p class="font-light"><?= htmlspecialchars($artista->biografia_artista) ?></p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
+
 
             </div>
         </div>

@@ -86,6 +86,7 @@ $albums = $tabla_albumes->readAllAlbumsG();
                             <div class="classynav">
                                 <ul>
                                     <li><a href="./index.php">Inicio</a></li>
+                                    <li><a href="./event.php">Eventos</a></li>
                                     <li><a href="./albums-store.php">Generos</a></li>
                                     <li><a href="./artistas.php">Artistas</a></li>
                                     <li><a href="./votar.php">Votar</a></li>
@@ -130,7 +131,7 @@ $albums = $tabla_albumes->readAllAlbumsG();
     <section class="breadcumb-area bg-img bg-overlay"
         style="background-image: url(../../../recursos/recursos_portal/img/bg-img/breadcumb.jpg);">
         <div class="bradcumbContent">
-            <h2>Vota por tu Album Favorito</h2>
+            <h2>¡Vota por tus favoritos!</h2>
         </div>
     </section>
     <!-- ##### Breadcumb Area End ##### -->
@@ -149,31 +150,22 @@ $albums = $tabla_albumes->readAllAlbumsG();
 
                 <div class="row">
                     <?php foreach ($albums as $album): ?>
-
                         <div class="col-12 col-sm-6 col-md-3">
-                            <div class="single-album-area" style="margin: 50px;">
-                                <center>
-
-                                    <div class="album-thumb">
-                                        <img src="<?= '../../../recursos/img/albums/' . $album->imagen_album ?>" alt="">
-                                    </div>
-                                    <div class="album-info">
-                                        <h5 text><?= htmlspecialchars($album->titulo_album) ?></h5>
-                                        <center>
-                                            <p><?= htmlspecialchars("Votos: " . $tabla_votaciones->countVotacionesByAlbum($album->id_album)) ?>
-                                            </p>
-                                        </center>
-                                        <div class="row mb-3">
-                                            <div class="col-12">
-                                                <form action=" ../../backend/panel/procesar_votacion.php" method="post">
-                                                    <input type="hidden" name="id_al" value="<?= $album->id_album ?>">
-                                                    <button type="submit" class="btn oneMusic-btn">Votar</button>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </center>
+                            <div class="single-album-area">
+                                <div class="img-container">
+                                    <img class="album-img"
+                                        src="<?= '../../../recursos/img/albums/' . htmlspecialchars($album->imagen_album) ?>"
+                                        alt="<?= htmlspecialchars($album->titulo_album) ?>">
+                                </div>
+                                <div class="album-info text-center mt-15">
+                                    <h5><?= htmlspecialchars($album->titulo_album) ?></h5>
+                                    <p><?= htmlspecialchars("Votos: " . $tabla_votaciones->countVotacionesByAlbum($album->id_album)) ?>
+                                    </p>
+                                    <form action="../../backend/panel/procesar_votacion.php" method="post">
+                                        <input type="hidden" name="id_al" value="<?= htmlspecialchars($album->id_album) ?>">
+                                        <button type="submit" class="btn oneMusic-btn mt-15">Votar</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     <?php endforeach; ?>
